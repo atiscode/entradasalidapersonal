@@ -5,11 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 using System.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml;
-
 //Extensión para Query string dinámico
 using System.Linq.Dynamic;
 using EntradaSalidaRRHH.Repositorios;
@@ -27,8 +25,10 @@ namespace EntradaSalidaRRHH.UI.Controllers
 {
     public class BaseController : Controller
     {
+        //Control de Logs
         public static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
+        //Salida de archivos de reportes
         public const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         public const string PDFContentType = "application/pdf";
         public const string CSVContentType = "text/csv";
@@ -36,6 +36,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
         //Repesitorio en el servidor para guardar y  buscar archivos
         public string basePathRepositorioDocumentos = ConfigurationManager.AppSettings["RepositorioDocumentos"];
 
+        //Parametrización general notificaciones
         public string CanalNotificaciones = ConfigurationManager.AppSettings["CanalNotificaciones"];
         public string TemplateNotificaciones = ConfigurationManager.AppSettings["TemplateNotificaciones"];
         
@@ -125,6 +126,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
             base.OnActionExecuting(filterContext);
         }
+
         #region Funcionalidades Genéricas para Grids
         public string BuildWhereDynamicClause(Dictionary<string, object> queryString)
         {
