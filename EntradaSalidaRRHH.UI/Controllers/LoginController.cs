@@ -45,7 +45,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
                 if (VerificacionCredenciales)
                 {
-                    UsuarioLogeadoSession = UsuarioDAL.ConsultarLogin(usuario, password); // Almacenar Datos Usuario en sesión
+                    UsuarioLogeadoSession = UsuarioDAL.ConsultarLogin(usuario, password); // Almacenar Datos Usuario en sesión - global
 
                     if (!UsuarioLogeadoSession.EstadoUsuario.Value)
                     {
