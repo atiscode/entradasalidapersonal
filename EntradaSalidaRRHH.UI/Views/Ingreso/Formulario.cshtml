@@ -1,0 +1,341 @@
+﻿@model Ingreso
+@{
+    int cargo = ViewBag.Cargo;
+    int empresa = ViewBag.Empresa;
+
+    string cargoSeleccion = cargo.ToString();
+    string empresaSeleccion = empresa.ToString();
+}
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+
+
+<div class="panel">
+
+    <div class="panel-heading-create custom-header-panel">
+        <h4>Datos de Ingreso </h4>
+    </div>
+
+    <div class="panel-body">
+        <form action="#" id="form-ingreso" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+            <div class="col-md-12">
+
+                <div class="col-lg-12 seccion-detalles-caso">
+                    <div class="box box-default">
+                        @Html.Hidden("IDIngreso", Model.IDIngreso)
+                        @Html.Hidden("Estado", true)
+
+                        <div class="box-body">
+                            <div class="row fila-seccion">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-2">Ficha de Ingreso:<span class="requerido"> *</span></label>
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("FichaIngresoID", FichaIngresoDAL.ObtenerListadoFichasIngreso(Model.FichaIngresoID.ToString()), null, new { @class = "form-control campo-requerido", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row fila-seccion">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-4">Tipo Ingreso:<span class="requerido"> *</span></label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownList("TipoIngreso", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-INGRE-01", (Model.TipoIngreso ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-4">Empresa:<span class="requerido"> *</span></label>
+                                        <div class="col-md-8">
+
+                                            @Html.DropDownList("Empresa", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("EMP-01", empresaSeleccion), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row fila-seccion">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-4">Departamento:<span class="requerido"> *</span></label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownList("Departamento", CatalogoDAL.ListadoCatalogosPorCodigoId("DEPARTAMENTO", (Model.Empresa ?? 0), (Model.Departamento ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-4">Area:<span class="requerido"> *</span></label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownList("Area", CatalogoDAL.ListadoCatalogosPorCodigoId("ÁREA", (Model.Empresa ?? 0), (Model.Area ?? 0).ToString()), new { @class = "form-control campo-requerido", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row  fila-seccion">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-2">Tipo de Contrato: <span class="requerido"> *</span></label>
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("TipoContrato", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-CONTR-01", (Model.TipoContrato ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row  fila-seccion">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-2">Cargo: <span class="requerido"> *</span></label>
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("Cargo", CatalogoDAL.ListadoCatalogosPorCodigoId("CARGO", (Model.Empresa ?? 0), (Model.Cargo ?? 0).ToString()), new { @class = "form-control campo-requerido", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row fila-seccion">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-2">Jefe Directo:<span class="requerido"> *</span></label>
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("JefeDirecto", CatalogoDAL.ListadoCatalogosPorCodigoId("JEFE", (Model.Empresa ?? 0), (Model.JefeDirecto ?? 0).ToString()), new { @class = "form-control campo-requerido", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row fila-seccion">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-2">Grupo Correo:<span class="requerido"> *</span></label>
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("GrupoCorreo", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("GRUPOS-CORREO-01", (Model.GrupoCorreo ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row fila-seccion">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-2">Correo Asignado:<span class="requerido"> *</span></label>
+                                        <div class="col-md-10">
+                                            @Html.Editor("CorreoAsignado", new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control campo-requerido",
+                                       maxlength = 200,
+                                       @Value = Model.CorreoAsignado
+                                   }
+                               })
+                                            @*<div class="input-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-at"></i>
+                                                    </div>
+                                                   @Html.Editor("CorreoAsignado", new
+                                              {
+                                                  htmlAttributes = new
+                                                  {
+                                                      @class = "form-control email campo-requerido",
+                                                      maxlength = 200,
+                                                      @Value = Model.CorreoAsignado
+                                                  }
+                                              })
+                                                </div>
+                                            </div>*@
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row fila-seccion">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-4">Sueldo:<span class="requerido"> *</span></label>
+                                        <div class="col-md-8">
+                                            @*<div class="input-group">
+                                                <span class="input-group-addon">US$</span>
+                                                @Html.Editor("Sueldo", new { htmlAttributes = new { @class = "form-control input-bloqueado valores-alineacion mask", @Value = Model.Sueldo } })
+                                            </div>*@
+
+                                            <div class="input-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-usd"></i>
+                                                    </div>
+                                                    <input name="Sueldo" id="Sueldo" class="campo-decimal-manual-1 form-control campo-requerido" value="@Model.Sueldo" type="text"  maxlength="18"/>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-4">Reemplazo:</label>
+                                        <div class="col-md-8"  onkeypress="return soloLetras(event)">
+
+                                            @Html.Editor("PersonaReemplazante", new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control",
+                                       maxlength = 200,
+                                       @Value = Model.PersonaReemplazante
+
+                                   }
+                               })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row fila-seccion">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-2">Credencial de Acceso:</label>
+                                        <div class="col-md-10">
+
+                                            @Html.Editor("CredencialAcceso", new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control",
+                                       maxlength = 200,
+                                       @Value = Model.CredencialAcceso
+                                   }
+                               })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        @*<div class="row fila-seccion">
+            <div class="col-lg-12" style="text-align: center;">
+                <input id="guardar" type="button" value="Guardar" class="btn btn-warning" />
+            </div>
+        </div>*@
+
+        <div class="row fila-seccion">
+            <div class="col-xs-6" style="text-align: right;">
+                <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
+            </div>
+            <div class="col-xs-6" style="text-align: left;">
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+@section ViewSpecificJavascript {
+    <script>
+    var urlAccionListado = '@Url.Action("Index")';
+
+    var urlAccionGuardar = '@Url.Action("Create")';
+    var urlAccionEditar = '@Url.Action("Edit")';
+
+    $(document).ready(function () {
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+    });
+
+    $("#guardar").click(function () {
+        debugger
+        var flag = validarCamposRequeridosFormularioCompleto("form-ingreso");
+        if (flag)
+            guardar();
+        else
+            toastr.error('@Mensajes.MensajeDatosObligatorios')
+    })
+
+    function guardar() {
+        debugger
+        let formulario = $('#form-ingreso').serializeObject()
+        let accion = $("#IDIngreso").val() == 0 ? urlAccionGuardar : urlAccionEditar;
+
+        var data_form = JSON.stringify({ "formulario": formulario })
+        //_GuardarModal(data_form, accion)
+        _Guardar(data_form, accion, urlAccionListado)
+    }
+
+    $("#Empresa").change(function () {
+        debugger;
+            $("#Departamento").empty();
+            $.getJSON('@Url.Action("GetDepartamento", "Usuario")', { id: $('#Empresa').val() }, function (data) {
+            $.each(data, function () {
+                $("#Departamento").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+            });
+      });
+       $("#Area").empty();
+            $.getJSON('@Url.Action("GetArea", "Usuario")', { id: $('#Empresa').val() }, function (data) {
+            $.each(data, function () {
+                $("#Area").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+            });
+        });
+        
+        $("#Cargo").empty();
+        $.getJSON('@Url.Action("GetCargo", "Usuario")', { id: $('#Empresa').val() }, function (data) {
+            $.each(data, function () {
+                $("#Cargo").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+            });
+            });
+        $("#JefeDirecto").empty();
+        $.getJSON('@Url.Action("GetJefe", "Usuario")', { id: $('#Empresa').val() }, function (data) {
+            $.each(data, function () {
+                $("#JefeDirecto").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+            });
+        });
+  });
+
+
+    //Cuando elijo la persona debe cargar la empresa a la que fue ingresado previamente
+    $("#FichaIngresoID").change(function () {
+        debugger;
+        $("#Area").empty();
+
+        if ($('#FichaIngresoID').val() == "") {
+            $("#Empresa").val($("#Empresa option:first").val());
+            $("#Departamento").val($("#Departamento option:first").val());
+        } else {
+        $.getJSON('@Url.Action("GetEmpresaUsuario", "Usuario")', { id: $('#FichaIngresoID').val() }, function (data) {
+            debugger
+            if (data == 0)
+                $("#Empresa").val($("#Empresa option:first").val());
+            else
+                $("#Empresa").val(data).change();
+        });
+        }
+
+    });
+
+</script>    
+    }

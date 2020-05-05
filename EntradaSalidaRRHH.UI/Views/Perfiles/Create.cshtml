@@ -1,0 +1,128 @@
+﻿@model Perfil
+
+@{
+    ViewBag.Title = "Crear Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Formato para el template de datos *@
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+
+
+<link rel="stylesheet" type="text/css" href="~/Content/css/demo.css">
+
+<form action="#" id="form-perfiles" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <div class="panel">
+
+                <div class="panel-heading-create custom-header-panel">
+                    <h4>@Etiquetas.TituloPanelCreacionPerfil</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Nombre: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.NombrePerfil, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150 } })
+                                @Html.ValidationMessageFor(model => model.NombrePerfil, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Descripción: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DescripcionPerfil, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 200 } })
+                                @Html.ValidationMessageFor(model => model.DescripcionPerfil, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Opciones Menú:</label>
+                            <div class="col-md-8">
+
+                                @Html.DropDownList("idsPerfiles_guardar", ViewBag.listadoMenu as SelectList, new { @id = "idsPerfiles_guardar", @class = "form-control selectpicker", @multiple = "multiple", @title = Etiquetas.TituloComboMultipleVacio })
+
+                            </div>
+                        </div>
+
+                        <div style="display: none;" class="form-group">
+                            <label class="control-label col-md-2">Estado: <span class="requerido"> *</span></label>
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.DropDownList("EstadoPerfil", new SelectList(new List<SelectListItem> { new SelectListItem { Text = "Activo", Value = "True" }, new SelectListItem { Text = "Inactivo", Value = "False" },}, "Value", "Text", null), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.EstadoPerfil, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-12">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+
+@section ViewSpecificJavascript {
+    <script>
+        var urlAccionGuardar = '@Url.Action("Create","Perfiles")';
+        var urlAccionListado = '@Url.Action("Index","Perfiles")';
+
+        $("#guardar").click(function () {
+            debugger
+            var flag = true;
+            $('#form-perfiles .campo-requerido').each(function (index, value) {
+                if ($(this).val() == "" && $(this).is(":visible")) {
+                    flag = false;
+                }
+            });
+            if (flag) {
+                guardar();
+            } else {
+                toastr.error('@Mensajes.MensajeDatosObligatorios')
+            }
+        })
+
+        function guardar() {
+            debugger
+            var opcionesMenu = getOpcionesMenu();
+            var data_form = JSON.stringify({ "perfil": $('#form-perfiles').serializeObject(), "opcionesMenu": opcionesMenu })
+            _Guardar(data_form, urlAccionGuardar, urlAccionListado)
+        }
+
+        function getOpcionesMenu() {
+            debugger
+            var idsOpcionesMenu = [];
+            var opciones = $("#idsPerfiles_guardar").val();
+            //opciones = opciones.split(',');
+
+            for (var i = 0; i < opciones.length; i++) {
+                let id = parseInt(opciones[i]);
+                idsOpcionesMenu.push(id);
+            }
+            return idsOpcionesMenu;
+        }
+
+
+    </script>
+}
+

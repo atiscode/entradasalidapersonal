@@ -1,0 +1,258 @@
+﻿@model Usuario
+
+@{
+    ViewBag.Title = "Crear Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@* Formato para el template de datos *@
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+
+
+<form action="#" id="form-usuarios" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8">
+                    <div class="panel">
+
+                        <div class="panel-heading-create custom-header-panel">
+                            <h4>@Etiquetas.TituloPanelCreacionUsuario</h4>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Nombre: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                        @Html.EditorFor(model => model.Nombres, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150 } })
+                                        @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Apellidos: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                        @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 200, } })
+                                        @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Identificación: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                        @Html.EditorFor(model => model.Identificacion, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 20 } })
+                                        @Html.ValidationMessageFor(model => model.Identificacion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Nombre Usuario: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 50 } })
+                                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="departamento">
+                                    <label class="control-label col-md-3">Empresa: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("IdEmpresa", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigo("EMP-01", ""), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", })
+                                    </div>
+                                </div>
+                                <div class="form-group" id="departamento">
+                                    <label class="control-label col-md-3">Departamento: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("Departamento", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("DEPARTAMENTO", 0), new { @class = "form-control campo-requerido", })
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="departamento">
+                                    <label class="control-label col-md-3">Área: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("Area", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("ÁREA", 0),  new { @class = "form-control campo-requerido", })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group" id="cargo_texto">
+                                    <label class="control-label col-md-3">Cargo: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("Cargo", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CARGO", 0), new { @class = "form-control campo-requerido" })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">País: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("pais", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigo("PAI-01", ""), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Ciudad: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("ciudad", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", 0), new { @class = "form-control campo-requerido" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Dirección: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control campo-requerido" }, maxlength = 300 })
+                                        @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Mail: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150 } })
+                                        @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Mail Corporativo:</label>
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.MailCorporativo, new { htmlAttributes = new { @class = "form-control", maxlength = 150 } })
+                                        @Html.ValidationMessageFor(model => model.MailCorporativo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Teléfono: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;">
+                                        @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 15 } })
+                                        @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Celular:</label>
+                                    <div class="col-md-8" onkeypress="if ( isNaN( String.fromCharCode(event.keyCode) )) return false;">
+                                        @Html.EditorFor(model => model.Celular, new { htmlAttributes = new { @class = "form-control", maxlength = 15 } })
+                                        @Html.ValidationMessageFor(model => model.Celular, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Rol: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("IdRol", (List<SelectListItem>)RolDAL.ObtenerListadoRoles(), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido" })
+                                    </div>
+                                </div>
+
+                                <br />
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-5 col-md-12">
+                                        <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    function soloLetras(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key).toLowerCase();
+        letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+        especiales = "8-37-39-46";
+
+        tecla_especial = false
+        for (var i in especiales) {
+            if (key == especiales[i]) {
+                tecla_especial = true;
+                break;
+            }
+        }
+
+        if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+            return false;
+        }
+    }
+    $(document).ready(function () {
+    $("#pais").change(function () {
+        debugger;
+        $("#ciudad").empty();
+        $.getJSON('@Url.Action("GetCiudad", "Usuario")', { id: $('#pais').val() }, function (data) {
+            $.each(data, function () {
+                $("#ciudad").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+            });
+        });
+        });
+        $("#IdEmpresa").change(function () {
+        debugger;
+            $("#Departamento").empty();
+            $.getJSON('@Url.Action("GetDepartamento", "Usuario")', { id: $('#IdEmpresa').val() }, function (data) {
+            $.each(data, function () {
+                $("#Departamento").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+            });
+            });
+            $("#Area").empty();
+            $.getJSON('@Url.Action("GetArea", "Usuario")', { id: $('#IdEmpresa').val() }, function (data) {
+            $.each(data, function () {
+                $("#Area").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+            });
+            });
+            $("#Cargo").empty();
+            $.getJSON('@Url.Action("GetCargo", "Usuario")', { id: $('#IdEmpresa').val() }, function (data) {
+            $.each(data, function () {
+                $("#Cargo").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+            });
+            });
+
+        });
+       
+});
+</script>
+
+@section ViewSpecificJavascript {
+    <script>
+
+    var urlAccionEditar = '@Url.Action("Create","Usuario")';
+            var urlAccionfinal = '@Url.Action("Index","Usuario")';
+
+
+              $("#guardar").click(function () {
+        debugger
+                var flag = true;
+                  $('#form-usuarios .campo-requerido').each(function (index, value) {
+                    if ($(this).val() == "" && $(this).is(":visible")) {
+                        flag = false;
+                    }
+                });
+
+                if (flag) {
+                    guardar();
+                } else {
+                    toastr.error('@Mensajes.MensajeDatosObligatorios')
+                }
+              })
+
+        function guardar() {
+        debugger
+            var data_form = JSON.stringify({ "usuario": $('#form-usuarios').serializeObject() })
+            _Guardar(data_form, urlAccionEditar, urlAccionfinal)
+        }
+
+
+    </script>
+
+}
+
+
+

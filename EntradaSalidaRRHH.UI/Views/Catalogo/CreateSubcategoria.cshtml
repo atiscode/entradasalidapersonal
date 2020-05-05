@@ -1,0 +1,249 @@
+﻿@model Catalogo
+
+@{
+    ViewBag.Title = "Crear Subcatálogo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Formato para el template de datos *@
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+<style>
+    .fila-seccion {
+        margin-bottom: 15px;
+    }
+
+    .etiqueta-seccion {
+        text-align: right;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+
+        //Obtener el tipo de usuario
+        var numero = '@ViewBag.numeroHijos';
+
+        //Los campos que varian la visualizacion
+        var div_catalogo_padre = document.getElementById('catalogoPadre');
+        var div_opcion_padre = document.getElementById('opcionPadre');
+
+        debugger
+
+        if (numero == 0) {
+            div_catalogo_padre.hidden = true;
+            div_opcion_padre.hidden = true;
+        } else {
+            div_catalogo_padre.hidden = false;
+            div_opcion_padre.hidden = true;
+        }
+
+        var resultado = @Html.Raw(Json.Encode(ViewBag.Resultado));
+        var estado = @Html.Raw(Json.Encode(ViewBag.Estado));
+
+        if (estado != "" && estado != null) {
+
+            if (estado == "True") {
+                toastr.success(resultado)
+            } else {
+                toastr.error(resultado)
+            }
+        }
+    });
+
+</script>
+
+
+<div class="panel">
+
+    <div class="panel-heading-create custom-header-panel">
+        <h4>Datos Subcatálogo</h4>
+    </div>
+
+    <div class="panel-body">
+        <form action="#" id="form-subcatalogo" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Subcatálogo</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+                            <div class="row fila-seccion">
+                                <div class="col-md-6" id="catalogoPadre">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Tipo: <span class="requerido"> *</span></label>
+                                        <div class="col-md-9" onchange="ShowSelected();">
+                                            @Html.DropDownList("IdCatalogo", ViewBag.ListadoHijosPadre as List<SelectListItem>, new { @class = "form-control campo-requerido" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6" id="opcionPadre">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Subcatálogo: <span class="requerido"> *</span></label>
+                                        <div class="col-md-9">
+                                            @Html.DropDownList("IdCatalogo", ViewBag.ListadoCatalogoPadre as List<SelectListItem>, new { @class = "form-control campo-requerido" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row fila-seccion">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">Nombre del Subcatálogo: <span class="requerido"> *</span></label>
+                                        <div class="auto-ajustar col-md-10">
+                                            @Html.EditorFor(model => model.NombreCatalogo, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150 } })
+                                            @Html.ValidationMessageFor(model => model.NombreCatalogo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row fila-seccion" hidden="">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">Descripción del Subcatálogo: <span class="requerido"> *</span></label>
+                                        <div class="auto-ajustar col-md-10">
+                                            @Html.EditorFor(model => model.DescripcionCatalogo, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150, id = "descripcion_catalogo" } })
+                                            @Html.ValidationMessageFor(model => model.DescripcionCatalogo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row fila-seccion">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-offset-5 col-md-12">
+                                            <input id="guardar" value="Guardar" type="submit" class="btn btn-default" />
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <table id="tblStudent" class="mvc-grid mvc-grid">
+        <thead>
+            <tr class="mvc-grid-headers">
+                <th style="width:100%">
+                    Nombre Subcatálogo
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        Load();
+
+        $("#IdCatalogo").change(function () {
+
+            var slt = document.getElementById('IdCatalogo');
+            var id = slt.options[slt.selectedIndex].value;
+
+            if (id == 0) {
+                LoadData();
+            } else {
+                Load();
+            }
+        });
+
+        $("#IdCatalogoPadre").change(function () {
+            LoadData();
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+
+    function ShowSelected() {
+        var slt = document.getElementById('IdCatalogo');
+        var id = slt.options[slt.selectedIndex].value;
+        var div_opcion_padre = document.getElementById('opcionPadre');
+
+        if (id == 0) {
+            div_opcion_padre.hidden = false;
+            var valor = slt.options[slt.selectedIndex].text;
+            $("#DescripcionCatalogo").val(valor);
+        } else {
+            div_opcion_padre.hidden = true;
+        }
+    }
+
+    function LoadData() {
+        $("#tblStudent tbody tr").remove();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetSubcatalogos")',
+            dataType: 'json',
+            data: { id: $("#IdCatalogoPadre").val(), tipo: $("#DescripcionCatalogo").val() },
+            success: function (data) {
+                var items = '';
+                $.each(data, function (i, item) {
+                    var rows = "<tr>"
+                        + "<td class='prtoducttd'>" + item.nombre_catalgo + "</td>"
+                    + "</tr>";
+                    $('#tblStudent tbody').append(rows);
+                });
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+        return false;
+    }
+
+    function Load() {
+        $("#tblStudent tbody tr").remove();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetSubcatalogos")',
+            dataType: 'json',
+            data: { id: $("#IdCatalogo").val(), tipo: $("#DescripcionCatalogo").val() },
+            success: function (data) {
+                var items = '';
+                $.each(data, function (i, item) {
+                     var rows = "<tr>"
+                        + "<td>" + item.nombre_catalgo + "</td>"
+                        + "</tr>";
+                    $('#tblStudent tbody').append(rows);
+                });
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+        return false;
+    }
+
+</script>
+
+

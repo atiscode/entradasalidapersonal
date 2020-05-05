@@ -1,0 +1,59 @@
+﻿@model Catalogo
+
+
+@* Formato para el template de datos *@
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+
+        var resultado = @Html.Raw(Json.Encode(ViewBag.Resultado));
+        var estado = @Html.Raw(Json.Encode(ViewBag.Estado));
+
+        if (estado != "" && estado != null) {
+            if (estado == "True") {
+                toastr.success(resultado)
+            } else {
+                toastr.error(resultado)
+            }
+        }
+    });
+
+</script>
+
+@using (Html.BeginForm())
+{
+
+    @Html.HiddenFor(model => model.IdCatalogo)
+    @Html.HiddenFor(model => model.CodigoCatalogo)
+    @Html.HiddenFor(model => model.IdCatalogoPadre)
+    @Html.HiddenFor(model => model.IdEmpresa)
+    @Html.HiddenFor(model => model.Eliminado)
+    @Html.HiddenFor(model => model.EstadoCatalogo)
+
+    <form action="#" id="form-subcatalogo" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Nombre: <span class="requerido"> *</span></label>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.NombreCatalogo, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150 } })
+                            @Html.ValidationMessageFor(model => model.NombreCatalogo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-12">
+                            <input id="actualizar-subcatalogo" type="submit" value="Guardar" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+

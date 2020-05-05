@@ -1,0 +1,24 @@
+﻿@using WebHelpers.Mvc5
+
+<aside class="main-sidebar">
+    <div class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control search-menu-box" placeholder="Búsqueda ...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+    <section class="sidebar">
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header" style="color: #f9f5f2; font-size:13px">
+                <b>MENÚ</b>
+            </li>
+        </ul>
+        <div class="sidebar-nav" style="padding:-4px;">
+            @{Html.RenderAction("Menu", "Home"); }
+        </div>
+    </section>
+</aside>

@@ -1,0 +1,191 @@
+﻿@model IEnumerable<OrdenMenuInfo>
+
+@{
+    var elePadre = Model.Where(t => t.IdMenuPadre == null);
+    elePadre = elePadre.OrderBy(t => t.OrdenMenu).ToList();
+
+
+    var eleHijos = Model.Where(t => t.IdMenuPadre != null);
+    eleHijos = eleHijos.ToList();
+
+    ViewBag.Title = "Orden Menú";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Formato para el template de datos *@
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+
+<style>
+    #sortable tr:hover {
+        background-color: #c8c8c8;
+        color: black;
+    }
+
+    #sortable_hijo tr:hover {
+        background-color: #c8c8c8;
+        color: black;
+    }
+</style>
+<form action="#" id="form-ordenmenu" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+    <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="panel-heading custom-header-panel">
+                        <h3 class="panel-title roboto">Opciones Padre</h3>
+                    </div>
+
+                    <table class="table table-hover mb-0" style="border:double; ">
+                        <thead>
+                            <tr style="border:double; ">
+                                <th width="15%">Código</th>
+                                <th width="55%">Nombre Opción</th>
+                                <th width="30%">Orden a Mostrarse</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sortable" style="cursor:pointer;">
+
+                            @foreach (var item in elePadre)
+                            {
+                                <tr>
+                                    <td>@item.IdMenu </td>
+                                    <td class="taskSingleInLine" id="task@(item.IdMenu)" data-taskid="@(item.IdMenu)">@item.OpcionMenu </td>
+                                    <td>@item.OrdenMenu </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+                    <div class="panel-heading custom-header-panel">
+                        <h3 class="panel-title roboto">Opciones Hijos</h3>
+                    </div>
+
+
+
+                    <table class="table table-hover mb-0" style="border:double; ">
+                        <thead>
+                            <tr style="border:double; ">
+                                <th width="15%">Código</th>
+                                <th width="55%">Nombre Opción</th>
+                                <th width="30%">Orden a Mostrarse</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sortable_hijo" style="cursor:pointer;">
+
+
+
+                            @foreach (var item in eleHijos)
+                            {
+                                <tr>
+                                    <td>@item.IdMenu </td>
+                                    <td class="taskSingleInLine" id="task@(item.IdMenu)" data-taskid="@(item.IdMenu)">@item.OpcionMenu </td>
+                                    <td>@item.OrdenMenu </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+
+
+                    @*<div class="row">
+                        <div class="col-md-offset-2 col-md-8">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-offset-4 col-md-12">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="~/Menu/OrdenMenu/" class="btn btn-default">Guardar</a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="~/Home/Index/" class="btn btn-default">Regresar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <div class="row fila-seccion">
+                        <div class="col-xs-6" style="text-align: right;">
+                            @*<input id="guardar" type="button" value="Guardar" class="btn btn-default" />*@
+                            @Html.ActionLink("Guardar", "OrdenMenu", null, new { @class = "btn btn-default" })
+                        </div>
+                        <div class="col-xs-6" style="text-align: left;">
+                            @*<input id="regresar" type="button" value="Regresar" class="btn btn-default" />*@
+                            @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section ViewSpecificJavascript {
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            debugger
+
+            $('tbody').sortable({
+                placeholder: 'must-have-class',
+                forcePlaceholderSize :true,
+            }).disableSelection();
+
+            $("#sortable").sortable({
+                update: function (event, ui) {
+                    var itemIds = "";
+                    $("#sortable").find(".taskSingleInLine").each(function () {
+                        var itemId = $(this).attr("data-taskid");
+                        itemIds = itemIds + itemId + ",";
+                    });
+
+                    $.ajax({
+                        url: '@Url.Action("ActualizarOrdenPadre", "Menu")',
+                        data: { itemIds: itemIds },
+                        type: 'POST',
+                        success: function (data) {
+
+                        },
+                        error: function (xhr, status, error) {
+
+                        }
+                    });
+                }
+            });
+
+            $("#sortable_hijo").sortable({
+            update: function (event, ui) {
+                var itemIds = "";
+                    $("#sortable_hijo").find(".taskSingleInLine").each(function () {
+                    var itemId = $(this).attr("data-taskid");
+                    itemIds = itemIds + itemId + ",";
+                });
+
+                $.ajax({
+                    url: '@Url.Action("ActualizarOrdenHijo", "Menu")',
+                    data: { itemIds: itemIds },
+                    type: 'POST',
+                    success: function (data) {
+
+                    },
+                    error: function (xhr, status, error) {
+
+                    }
+                });
+            }
+        });
+        });
+
+
+    </script>
+
+}
+
+
+
+

@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Opciones Menú";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@Html.AjaxGrid(Url.Action("_IndexGrid"))
+
+@section ViewSpecificJavascript {
+    <script>
+        debugger
+        var idGrid = "grid-Menu";
+        var urlAccionReporteExcel = '@Url.Action("DescargarReporteFormatoExcel", "Menu")';
+        var urlAccionReportePDF = '@Url.Action("DescargarReporteFormatoPDF", "Menu")';
+        var urlAccionReporteCSV = '@Url.Action("DescargarReporteFormatoCSV", "Menu")';
+        var urlAccionCrear = '@Url.Action("Create")';
+
+    $(document).ready(function () {
+            debugger
+            recargarGridByID(idGrid);
+        })
+
+        function CrearRegistro() {
+            location.href = urlAccionCrear;
+        }
+
+        function ExportarRegistrosFormatoEXCEL() {
+            location.href = urlAccionReporteExcel;
+        }
+        function ExportarRegistrosFormatoPDF() {
+            location.href = urlAccionReportePDF;
+        }
+        function ExportarRegistrosFormatoCSV() {
+            location.href = urlAccionReporteCSV;
+        }
+
+        function RecargarDatosGrid() {
+            recargarGridByID(idGrid);
+        }
+
+        $(document).keydown(callBackBusqueda);
+        $(document).keypress(callBackBusqueda);
+        $(document).keyup(callBackBusqueda);
+
+        function callBackBusqueda(e) {
+            debugger
+            busquedaGrid(idGrid);
+        }
+
+    </script>
+}

@@ -1,0 +1,223 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<link href="~/Content/css/FileUpload.css" rel="stylesheet" />*@
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">
+<link href="~/Content/css/boostrap-fileInput/fileinput.min.css" rel="stylesheet" />
+<link href="~/Content/css/themes-boostrapFileInput/explorer-fas/theme.min.css" rel="stylesheet" />
+
+@*<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>*@
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div style="display: none;">
+            <textarea id="description" rows="8" class="form-control editor-texto-html" style="width: 100%"></textarea>
+            <hr>
+        </div>
+
+        <form enctype="multipart/form-data">
+            <div class="file-loading">
+                <input id="file-es" name="file-es[]" type="file" >
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@*<div class="tab-content">
+        <div class="tab-pane" id="one">
+
+            <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control" name="name" tabindex="1" maxlength="250" value="">
+            </div>
+
+            <div class="form-group">
+                <label>Correo Electronico</label>
+                <input type="text" class="form-control" name="email" tabindex="2" maxlength="250" value="">
+            </div>
+
+            <div class="form-group">
+                <label>Departmento</label>
+                <select name="dept" tabindex="3" onchange="mswDeptLoader()" class="form-control">
+                    <option value="0">- - - -</option>
+                    <option value="1">Soporte Usuario</option>
+                    <option value="4">Soporte ADVERTMIND</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Asunto</label>
+                <input type="text" class="form-control" name="subject" tabindex="4" maxlength="250" value="">
+            </div>
+
+            <div class="form-group">
+                <label>Comentarios (Haga click en el icono <i class="fa fa-arrows-alt fa-fw" style="font-size:12px"></i> para expandir el area de texto)</label>
+                <div class="bbButtons">
+                    <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('bold','comments')"><i class="fa fa-bold fa-fw"></i></button>
+                    <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('italic','comments')"><i class="fa fa-italic fa-fw"></i></button>
+                    <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('underline','comments')"><i class="fa fa-underline fa-fw"></i></button>
+                    <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('url','comments')"><i class="fa fa-link fa-fw"></i></button>
+                    <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('email','comments')"><i class="fa fa-envelope-o fa-fw"></i></button>
+                    <div class="mobilebreakpoint">
+                        <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('img','comments')"><i class="fa fa-picture-o fa-fw"></i></button>
+                        <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('youtube','comments')"><i class="fa fa-youtube fa-fw"></i></button>
+                        <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('vimeo','comments')"><i class="fa fa-vimeo fa-fw"></i></button>
+                        <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('dailymotion','comments')"><i class="fa fa-play fa-fw"></i></button>
+                        <button class="btn btn-success btn-sm" type="button" onclick="window.open('http://172.16.36.36/HelpDeskQPH/?bbcode=show','_blank')"><i class="fa fa-question fa-fw"></i></button>
+                    </div>
+                </div>                  <div class="tx-editor-wrapper"><div class="tx-editor"><a href="#" class="tx-icon"><i class="fa fa-arrows-alt fa-fw"></i></a><textarea rows="12" cols="40" name="comments" id="comments" tabindex="5" class="form-control" style="width: 100%; height: 100%; resize: none;"></textarea></div></div>
+            </div>
+
+            <div class="form-group">
+                <label>Prioridad</label>
+                <select name="priority" tabindex="6" class="form-control">
+                    <option value="0">- - - -</option>
+                    <option value="low">Baja</option>
+                    <option value="medium">Normal</option>
+                    <option value="high">Alta</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="three">
+            <div><i class="fa fa-warning fa-fw"></i> Please select a department to load relevant fields (if applicable). If there are no additional fields, this tab will disappear.</div>
+        </div>
+        <div class="tab-pane fade active in" id="two">
+
+            <div class="ajax-file-upload" style="position: relative; overflow: hidden; cursor: default;">
+                <div class="droparea">
+                    <span class="label label-success"><i class="fa fa-info fa-fw"></i></span> Adjuntos opcionales. Haga clic en el área punteada para seleccionar el archivo(s):<br><br><i class="fa fa-angle-right"></i> <b>Cantidad Maxima de archivos:</b> 1<br><i class="fa fa-angle-right"></i> <b>Tamaño máximo </b>: 1MB por archivo<br><i class="fa fa-angle-right"></i> <b>Tipos de archivo permitidos</b>: <span class="filetypes">xsl,xslx</span>
+                </div>
+                <div class="mswfup-ajax-upload-id-1588278217291" style="margin: 0px; padding: 0px;"><input type="file" id="ajax-upload-id-1588278217291" name="file" style="position: absolute; cursor: pointer; top: 0px; width: 1114px; height: 153px; left: 0px; z-index: 100; opacity: 0;"></div>
+            </div><div id="dropzone" class="dropzone" style="display: none;">
+                <div class="droparea">
+                    <span class="label label-success"><i class="fa fa-info fa-fw"></i></span> Adjuntos opcionales. Haga clic en el área punteada para seleccionar el archivo(s):<br><br><i class="fa fa-angle-right"></i> <b>Cantidad Maxima de archivos:</b> 1<br><i class="fa fa-angle-right"></i> <b>Tamaño máximo </b>: 1MB por archivo<br><i class="fa fa-angle-right"></i> <b>Tipos de archivo permitidos</b>: <span class="filetypes">xsl,xslx</span>
+                </div>
+            </div><div></div>
+
+        </div>
+    </div>*@
+
+
+@section ViewSpecificJavascript {
+    <script src="~/Content/js/plugins/boostrap-fileInput/fileinput.min.js"></script>
+<script src="~/Content/js/plugins/boostrap-fileInput/locales/es.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            debugger
+        })
+
+        $('#file-es').fileinput({
+            //showCaption: false, // The "1 file selected non-editable text field"
+            //showRemove: false, // The "Remove" button
+            //showUpload: false, // The "Upload" button
+            //showBrowse: false, // The "Browse ..." button
+            //browseOnZoneClick: false,
+            theme: 'fas',
+            language: 'es',
+            uploadUrl: '@Url.Action("Create")' ,// your upload server url
+            uploadExtraData: function () {
+                return {
+                    texto: $("#description").val(),
+                };
+            },
+            //maxFileCount: 1,
+            //validateInitialCount: true,
+            allowedFileExtensions: ['xls', 'xlsx']
+        }).on('filepreupload', function (event, data, previewId, index) {
+            debugger
+            //$('.alert').alert('close')
+                //alert('The description entered is:\n\n' + ($('#description').val() || ' NULL'));
+            }).on('fileuploaded', function (event, previewId, index, fileId) {
+                debugger
+                let respuesta = previewId.response.Resultado;
+
+                if (respuesta.Estado)
+                    toastr.success(respuesta.Respuesta);
+                else {
+                    toastr.error(respuesta.Respuesta);
+                    if (respuesta.Adicional.length > 0)
+                        showAlertAditionals(_ALERT.WARNING, 'EMAILS REPETIDOS', respuesta.Adicional, '@Mensajes.MensajeCargaMasivaFallida')
+                }
+                    
+
+                //console.log(respuesta);
+            //console.log('File Uploaded', 'ID: ' + fileId + ', Thumb ID: ' + previewId);
+            }).on('fileuploaderror', function (event, data, msg) {
+                debugger
+            //console.log('File Upload Error', 'ID: ' + data.fileId + ', Thumb ID: ' + data.previewId);
+            }).on('filebatchuploadcomplete', function (event, preview, config, tags, extraData) {
+                debugger
+            //console.log('File Batch Uploaded', preview, config, tags, extraData);
+            });
+
+        //toastr.subscribe(() => {
+        //    console.log("logged something");
+        //});
+        toastr.options.onShown = function () { console.log('hello'); }
+        toastr.options.onHidden = function () { console.log('goodbye'); $('.fileinput-remove-button').trigger('click'); }
+        toastr.options.onclick = function () { console.log('clicked'); $('.fileinput-remove-button').trigger('click');  }
+        toastr.options.onCloseClick = function () { console.log('close button clicked'); $('.fileinput-remove-button').trigger('click'); }
+        //$('#file-es').on('change', function (event) {
+        //    console.log("change");
+        //});
+        //$('#file-es').on('fileselectnone', function (event) {
+        //    console.log("Huh! No files were selected.");
+        //});
+        //$('#file-es').on('fileclear', function (event) {
+        //    console.log("fileclear");
+        //});
+        //$('#file-es').on('filecleared', function (event) {
+        //    console.log("filecleared");
+        //});
+        //$('#file-es').on('filebeforeload', function (event, file, index, reader) {
+        //    // perform your validations based on the 'file' or other parameters
+        //    if (file.name === 'UNAPPROVED_FILE.txt') {
+        //        return false; // will abort the file loading for the selected file
+        //    }
+        //});
+        //$('#file-es').on('fileloaded', function (event, file, previewId, index, reader) {
+        //    console.log("fileloaded");
+        //});
+        //$('#file-es').on('filereset', function (event) {
+        //    console.log("filereset");
+        //});
+
+        //$('#file-es').on('filelock', function (event, filestack, extraData) {
+        //    var fstack = [];
+        //    $.each(filestack, function (fileId, file) {
+        //        if (file) {
+        //            fstack.push(file);
+        //        }
+        //    });
+        //    console.log('Files selected - ' + fstack.length);
+        //});
+        //$('#file-es').on('filelock', function (event, filestack, extraData) {
+        //    var fstack = [];
+        //    $.each(filestack, function (fileId, file) {
+        //        if (file) {
+        //            fstack.push(file);
+        //        }
+        //    });
+        //    console.log('Files selected - ' + fstack.length);
+        //});
+        //$('#file-es').on('fileremoved', function (event, id, index) {
+        //    console.log('id = ' + id + ', index = ' + index);
+        //});
+    </script>
+
+
+    <script src="~/Content/js/plugins/boostrap-fileInput/plugins/piexif.min.js"></script>
+    <script src="~/Content/js/plugins/boostrap-fileInput/plugins/sortable.min.js"></script>
+
+    
+    <script src="~/Content/css/themes-boostrapFileInput/explorer-fas/theme.min.js"></script>
+    <script src="~/Content/css/themes-boostrapFileInput/fas/theme.min.js"></script>
+}

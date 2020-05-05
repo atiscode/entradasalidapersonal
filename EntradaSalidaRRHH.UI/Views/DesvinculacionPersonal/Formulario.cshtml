@@ -1,0 +1,175 @@
+﻿@model DesvinculacionPersonalCompleta
+
+@{
+    ViewBag.Title = "Formulario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    DesvinculacionPersonalInfo cabecera = Model.Desvinculacion;
+
+    var usuario = UsuarioDAL.ConsultarUsuario((int)ViewBag.UsuarioID);
+    var informacionIngreso = IngresoDAL.ConsultarIngresoByUsuarioID((int)ViewBag.UsuarioID);
+}
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<style>
+    /* OCULTAR COLUMNAS ID DE LAS TABLAS DINAMICAS */
+    #tbl-Detalles tr > *:nth-child(1) {
+        display: none;
+    }
+</style>
+
+<div class="panel">
+
+    <div class="panel-heading-create custom-header-panel">
+        <h4>@ViewBag.TituloPanel <div class="pull-right"> @System.DateTime.Now.ToString("yyyy/MM/dd")</div></h4>
+    </div>
+
+    <div class="panel-body">
+
+        <form action="#" id="form-Cabecera" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+            @Html.Partial("_Cabecera", new ViewDataDictionary { { "DatosUsuario", usuario }, { "InformacionIngreso", informacionIngreso } })
+        </form>
+
+        <form action="#" id="form-DesvinculacionPersonal" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+            @Html.Hidden("IDDesvinculacionPersonal", cabecera.IDDesvinculacionPersonal)
+            @Html.Hidden("UsuarioID", cabecera.UsuarioID)
+            @Html.Hidden("UsuarioResponsableID", cabecera.UsuarioResponsableID)
+            @Html.Hidden("FechaSalida", DateTime.Now)
+            @Html.Hidden("Estado", true)
+
+            <div class="row fila-seccion">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="etiqueta-seccion control-label col-md-2">Motivo:<span class="requerido"> *</span></label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("Motivo", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("MOTIVO-DESVINCULACION-01", cabecera.Motivo.ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="etiqueta-seccion control-label col-md-6">Salida Seguro Médico:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" class="form-check-input" id="SalidaSeguroMedico" name="SalidaSeguroMedico" value="@cabecera.SalidaSeguroMedico" @(cabecera.SalidaSeguroMedico ? "checked" : string.Empty)>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="etiqueta-seccion control-label col-md-6">Encuesta de Salida:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" class="form-check-input" id="EncuestaSalida" name="EncuestaSalida" value="@cabecera.EncuestaSalida" @(cabecera.EncuestaSalida ? "checked" : string.Empty)>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        @Html.Partial("_Detalles", new ViewDataDictionary { { "TituloPanelDetalle", "Detalles" }, { "ListadoDetalles", Model.Detalles } })
+
+        <div class="row fila-seccion">
+            <div class="col-xs-6" style="text-align: right;">
+                <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
+            </div>
+            <div class="col-xs-6" style="text-align: left;">
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section ViewSpecificJavascript {
+    <script>
+        var urlAccionGuardar = '@Url.Action("Create")';
+        var urlAccionEditar = '@Url.Action("Edit")';
+        var urlAccionListado = '@Url.Action("Index")';
+        var urlAccionInformacionEquipo = '@Url.Action("_InformacionEquipo")';
+
+        var contador = 0;
+        $(document).ready(function () {
+            $('.agregarFila').click(function (e) {
+                debugger
+                var template = $(this).closest("tr");
+                var idTemplate = $(template).attr('id')
+
+                var  tabla = template.closest("table")
+                var idTabla = $(tabla).attr('id')
+
+                e.preventDefault();
+                var esFilaVacia = filaVacia(idTemplate);
+                if (!esFilaVacia) {
+                    agregarFila(idTemplate, idTabla, contador)
+                    contador++;
+
+                } else {
+                    toastr.error('@Mensajes.MensajeDatosObligatorios');
+                }
+            });
+        })
+
+        function guardar() {
+            debugger
+
+            var cabecera = $('#form-DesvinculacionPersonal').serializeObject()
+
+            var detalles = GetListadoTablaDinamica("tbl-Detalles", false)
+
+            let accion = $("#IDDesvinculacionPersonal").val() == 0 ? urlAccionGuardar : urlAccionEditar;
+
+            var data_form = JSON.stringify({ "formulario": cabecera, "detalles": detalles })
+            _Guardar(data_form, accion, urlAccionListado)
+        }
+
+        $("#guardar").click(function () {
+            debugger
+            var flag = validarCamposRequeridosFormularioCompleto("form-DesvinculacionPersonal");
+            let validacionEstudios = TablaDinamicaVacia("tbl-Detalles");
+
+            if (flag && !validacionEstudios)
+                guardar();
+            else
+                toastr.error('@Mensajes.MensajeDatosObligatorios')
+        })
+
+        $("#SalidaSeguroMedico").on('change', function () {
+            if ($(this).is(':checked')) {
+                $(this).attr('value', 'true');
+            } else {
+                $(this).attr('value', 'false');
+            }
+        });
+
+        $("#EncuestaSalida").on('change', function () {
+            if ($(this).is(':checked')) {
+                $(this).attr('value', 'true');
+            } else {
+                $(this).attr('value', 'false');
+            }
+        });
+
+        $(".informacion-equipo").click(function (e) {
+            debugger
+            let elemento = $(e.currentTarget);
+
+            var fila = elemento.closest("tr"); // fila
+            var ddlPrefactura = fila.find("select"); // dropdownlist
+            var valor = parseInt($(ddlPrefactura).val()); // valor seleccionado
+
+            if (!valor) {
+                toastr.error('@Mensajes.MensajeErrorSeleccionVacia')
+                return;
+            }
+
+            _GetCreate({ id: valor, usuarioID: $("#UsuarioID").val() }, urlAccionInformacionEquipo);
+            $('#contenido-modal').modal({
+                'show': 'true',
+                'backdrop': 'static',
+                'keyboard': false
+            });
+            return;
+        })
+    </script>
+    <script src="~/Content/js/TablaDinamica.js"></script>
+}

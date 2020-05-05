@@ -1,0 +1,106 @@
+﻿@model Menu
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Formato para el template de datos *@
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+
+<form action="#" id="form-menu" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <div class="panel">
+
+                <div class="panel-heading-create custom-header-panel">
+                    <h4>@Etiquetas.TituloPanelCreacionMenu</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Nombre: <span class="requerido"> *</span></label>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.NombreMenu, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150 } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Ruta de acceso: @*<span class="requerido"> *</span>*@</label>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.NombrePaginaMenu, new { htmlAttributes = new { @class = "form-control", maxlength = 150 } })
+                            </div>
+                        </div>
+
+                        <div style="display: none;" class="form-group">
+                            <label class="control-label col-md-2">Estado: <span class="requerido"> *</span></label>
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.EstadoMenu)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Menú Principal:</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("IdMenuPadre", (IEnumerable<SelectListItem>)ViewBag.listadoMenu, "Seleccionar", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-12">
+                                <input id="guardar" value="Guardar" type="button" class="btn btn-default" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@section ViewSpecificJavascript {
+    <script>
+        var urlAccionGuardar = '@Url.Action("Create","Menu")';
+         var urlAccionListado = '@Url.Action("Index","Menu")';
+
+       $("#guardar").click(function () {
+                var flag = true;
+                $('#form-menu .campo-requerido').each(function (index, value) {
+                    //debugger
+                    if ($(this).val() == "" && $(this).is(":visible")) {
+                        flag = false;
+                    }
+                });
+
+                if (flag) {
+                    guardar(); // continue the submit unbind preventDefault
+                } else {
+                    toastr.error('@Mensajes.MensajeDatosObligatorios')
+                }
+    })
+
+
+    function guardar() {
+        debugger
+
+        var data_form = JSON.stringify({"menu": $('#form-menu').serializeObject() })
+
+        _Guardar(data_form, urlAccionGuardar,urlAccionListado)
+    }
+    </script>
+}
+

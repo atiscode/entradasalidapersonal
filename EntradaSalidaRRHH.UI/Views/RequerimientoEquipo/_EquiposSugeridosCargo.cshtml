@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SugerenciaEquiposCargoInfo>
+
+<script>
+    $(document).ready(function () {
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+    });
+</script>
+
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+                Equipo
+            </th>
+            <th>
+                Características
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.NombreEquipo
+                </td>
+                <td>
+                    @item.Caracteristicas
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+

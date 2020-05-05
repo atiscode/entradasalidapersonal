@@ -1,0 +1,172 @@
+﻿@model UsuarioInfo
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+
+<script>
+    var urlAccionListado = '@Url.Action("Index")';
+
+    var urlAccionGuardar = '@Url.Action("Create")';
+
+    $(document).ready(function () {
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+    });
+
+    $("#guardar").click(function () {
+        debugger
+        var flag = validarCamposRequeridosFormularioCompleto("form-bienvenida");
+        if (flag)
+            guardar();
+        else
+            toastr.error('@Mensajes.MensajeDatosObligatorios')
+    })
+
+    function guardar() {
+        debugger
+        let formulario = $('#form-bienvenida').serializeObject()
+
+        var data_form = JSON.stringify({ "formulario": formulario })
+        _Guardar(data_form, urlAccionGuardar, urlAccionListado)
+    }
+
+
+</script>
+
+<form action="#" id="form-bienvenida" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+    <div style="text-align: center;margin-bottom: 10px;">
+        <img src="~/Content/img/qph.png" />
+    </div>
+
+    <div class="col-md-12">
+
+        <div class="col-lg-12 seccion-detalles-caso">
+            <div class="box box-default">
+                <div class="box-header with-border">
+             
+                  
+                </div>
+                <div class="box-body">
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Nombres:<span class="requerido"> *</span></label>
+                                <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                    @Html.Editor("Nombres", new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control campo-requerido",
+                                       maxlength = 150,
+                                       value = Model.Nombres
+                                   }
+                               })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Apellidos:<span class="requerido"> *</span></label>
+                                <div class="col-md-8" onkeypress="return soloLetras(event)">
+
+                                    @Html.Editor("Apellidos", new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control campo-requerido",
+                                       maxlength = 200,
+                                       value = Model.Apellidos
+                                   }
+                               })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Identificación:<span class="requerido"> *</span></label>
+                                <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                    @Html.Editor("Identificacion", new   {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control campo-requerido",
+                                       maxlength = 20,
+                                       value = Model.Identificacion
+                                   }
+                               })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Empresa:<span class="requerido"> *</span></label>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("IdEmpresa", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("EMP-01", (Model.IdEmpresa ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Ciudad Empresa:<span class="requerido"> *</span></label>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("CiudadUbicacionEmpresa", CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", 47, (Model.CiudadUbicacionEmpresa ?? 0).ToString())@*CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CIUDAD-01", (Usuario.Ciudad ?? 0).ToString())*@, null, new { @class = "form-control campo-requerido", required = "" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Celular:<span class="requerido"> *</span></label>
+                                <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+
+                                    @Html.Editor("Celular", new
+                                 {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control campo-requerido",
+                                       maxlength = 15,
+                                       value = Model.Celular
+                                   }
+                               })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-2">Correo:<span class="requerido"> *</span></label>
+                                <div class="col-md-10">
+                                    @Html.Editor("Mail", new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control campo-requerido",
+                                       maxlength = 150,
+                                       Model.Mail
+                                   }
+                               })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div class="row fila-seccion">
+    <div class="col-lg-12" style="text-align: center;">
+        <input id="guardar" type="button" value="Guardar" class="btn btn-warning"/>
+    </div>
+</div>
+

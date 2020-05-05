@@ -1,0 +1,102 @@
+﻿@model IEnumerable<ComentariosRequerimientoEquipoInfo>
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<script src="~/Content/js/init.js"></script>
+
+<script>
+    var urlAccionListado = '@Url.Action("Index")';
+    //Guarda Comentario
+    var urlAccionGuardar = '@Url.Action("GuardarComentario")';
+
+    //Aprobacion definitiva
+    var urlAccionAprobar = '@Url.Action("AprobarRequerimiento")';
+
+    $(document).ready(function () {
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+    });
+
+    $("#comentar").click(function () {
+        debugger
+        var flag = validarCamposRequeridosFormularioCompleto("form-ComentarioRequerimientoEquipo");
+        if (flag)
+            comentar();
+        else
+            toastr.error('@Mensajes.MensajeDatosObligatorios')
+    })
+
+    function comentar() {
+        debugger
+        let formulario = $('#form-ComentarioRequerimientoEquipo').serializeObject()
+        let accion = urlAccionGuardar;
+
+        var data_form = JSON.stringify({ "formulario": formulario })
+        _GuardarModal(data_form, accion)
+    }
+
+</script>
+
+<form action="#" id="form-ComentarioRequerimientoEquipo" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+    <div class="row fila-seccion">
+        <div class="col-md-12">
+            <!-- Chat box -->
+            <div class="col-lg-12">
+
+                @Html.Hidden("RequerimientoEquipoID", (int)ViewBag.RequerimientoEquipoID)
+                @Html.Hidden("Estado", true)
+
+                <div class="box box-success">
+                    <div class="box-header">
+                        <i class="fa fa-comments-o"></i>
+                        <h3 class="box-title">Comentarios</h3>
+                        <div class="box-tools pull-right" data-toggle="tooltip" title="Recargar">
+                            <a href="#" class="text-muted"><i class="fa fa-refresh"></i></a>
+                            @*<div class="btn-group" data-toggle="btn-toggle">
+                                    <button type="button" class="btn btn-default btn-sm active">
+                                        <i class="fa fa-square text-green"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="box-body chat" id="chat-box">
+                        <div id="comentarios-completos" style="height: 250px;overflow: auto;">
+                            @if (Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                <!-- chat item -->
+                                    <div class="item">
+                                        <img alt="user image" src="~/Content/img/coments-default.png" />
+                                        <p class="message">
+                                            <a href="#" class="name">
+                                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> @item.Hora</small>
+                                                @item.Usuario
+                                            </a>
+                                            @item.Comentario
+                                        </p>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <small>@Mensajes.MensajeNoDataListado</small>
+                            }
+                        </div>
+                    </div>
+                    <!-- /.chat -->
+                    <div class="box-footer">
+                        <div class="input-group">
+                            <input title="@((bool)ViewBag.RequerimientoAprobado ? "El requerimiento ya fue aprobado." : string.Empty )" type="text"  class="form-control campo-requerido" name="Comentario" id="Comentario" placeholder="Comentar ..." maxlength="300" @((bool)ViewBag.RequerimientoAprobado ? "disabled" : string.Empty )>
+                            <div class="input-group-btn">
+                                <button title="Agregar comentario." id="comentar" type="button" class="btn btn-success" @((bool)ViewBag.RequerimientoAprobado ? "disabled" : string.Empty )><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box (chat box) -->
+
+
+        </div>
+    </div>
+</form>

@@ -1,0 +1,125 @@
+﻿@model Catalogo
+
+@{
+    ViewBag.Title = "Editar Catálogo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@* Formato para el template de datos *@
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        var resultado = @Html.Raw(Json.Encode(ViewBag.Resultado));
+        var estado = @Html.Raw(Json.Encode(ViewBag.Estado));
+
+        if (estado != "" && estado != null) {
+            if (estado == "True") {
+                toastr.success(resultado)
+            } else {
+                toastr.error(resultado)
+            }
+        }
+    });
+
+</script>
+
+@using (Html.BeginForm())
+{
+
+    @Html.HiddenFor(model => model.IdCatalogo)
+    @Html.HiddenFor(model => model.IdEmpresa)
+    @Html.HiddenFor(model => model.Eliminado)
+    <div class="row">
+        <div class="col-md-12">
+            <form id="rol" class="form-horizontal" method="POST" role="form" action="/Candidate/editprofileex/">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-8">
+                        <div class="panel">
+
+                            <div class="panel-heading-create custom-header-panel">
+                                <h4>Datos del Catálogo</h4>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Nombre: <span class="requerido"> *</span></label>
+                                        <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                            @Html.EditorFor(model => model.NombreCatalogo, new { htmlAttributes = new { @class = "form-control", maxlength = 150 } })
+                                            @Html.ValidationMessageFor(model => model.NombreCatalogo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Descripción: <span class="requerido"> *</span></label>
+                                        <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                            @Html.EditorFor(model => model.DescripcionCatalogo, new { htmlAttributes = new { @class = "form-control", maxlength = 150 } })
+                                            @Html.ValidationMessageFor(model => model.DescripcionCatalogo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="cargo_texto">
+                                        <label class="control-label col-md-3">Código Catálogo: <span class="requerido"> *</span></label>
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.CodigoCatalogo, new { htmlAttributes = new { @class = "form-control", maxlength = 50 } })
+                                            @Html.ValidationMessageFor(model => model.CodigoCatalogo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div style="display:none" class="form-group">
+                                        <label class="control-label col-md-3">Estado<span class="requerido"> *</span></label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownList("EstadoCatalogo", new SelectList(new List<SelectListItem> { new SelectListItem { Text = "Activo", Value = "True" },
+                                            new SelectListItem { Text = "Inactivo", Value = "False" },}, "Value", "Text", Model.EstadoCatalogo), new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.EstadoCatalogo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-4 col-md-12">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="submit" value="Guardar" class="btn btn-default" />
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+<script>
+    function soloLetras(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key).toLowerCase();
+        letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+        especiales = "8-37-39-46";
+
+        tecla_especial = false
+        for (var i in especiales) {
+            if (key == especiales[i]) {
+                tecla_especial = true;
+                break;
+            }
+        }
+
+        if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+            return false;
+        }
+    }
+</script>
+
+
+

@@ -1,0 +1,80 @@
+﻿@{
+    List<DetalleExperiencias> detalles = (List<DetalleExperiencias>)ViewBag.ListadoDetalleExperiencias;
+}
+<div class="col-lg-12">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 id="texto-informacion-principal" class="box-title">@ViewBag.TituloPanelDetalle </h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="row fila-seccion">
+                <div class="col-md-12">
+                    <table class="table table-responsive" id="tbl-Experiencia">
+                        <thead>
+                            <tr>
+                                <th data-override="IDDetalleExperiencias">ID</th>
+                                <th data-override="Empresa">Empresa</th>
+                                <th data-override="FechaInicio">Fecha Inicio</th>
+                                <th data-override="FechaFin">Fecha Fin</th>
+                                <th data-override="Cargo">
+                                    Cargo
+                                    <a title="Agregar nueva experiencia al listado." style="cursor: pointer" onclick="AgregarSubCatalogo('CRG-01')"><i class="fa fa-plus"></i></a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="templateExperiencias">
+                                <td><input type="text" class="form-control idObjeto" value="0" name="IDDetalleExperiencias[]" /></td>
+
+                                <td><input type="text" class="form-control" placeholder="Empresa" name="Empresa[]" maxlength="200"/></td>
+
+                                <td>
+                                    <input type="text" name="FechaInicio" id="FechaInicio" class="form-control pull-right datepicker" value="@System.DateTime.Now.ToString("dd/MM/yyyy")" required>
+                                </td>
+
+                                <td>
+                                    <input type="text" name="FechaFin" id="FechaFin" class="form-control pull-right datepicker" value="@System.DateTime.Now.ToString("dd/MM/yyyy")" required>
+                                </td>
+
+                                <td>
+                                    @Html.DropDownList("Cargo", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CRG-01"), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion" })
+                                </td>
+
+                                <td id="accion">
+                                    <button type="button" class="agregarFila btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                            @foreach (var item in detalles)
+                            {
+                                <tr id="templateExperiencias-@item.IDDetalleExperiencias">
+                                    <td>
+                                        <input type="text" class="form-control" value="@item.IDDetalleExperiencias" name="IDDetalleActaCondicionesGenerales[]" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value="@item.Empresa" name="Empresa[]" maxlength="200" />
+                                    </td>
+                                    <td>
+                                        <input type="text" name="FechaInicio[]" class="form-control pull-right datepicker campo-requerido" value="@((item.FechaInicio ?? DateTime.Now).ToString("dd/MM/yyyy"))">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="FechaFin[]" class="form-control pull-right datepicker campo-requerido" value="@((item.FechaFin ?? DateTime.Now).ToString("dd/MM/yyyy"))">
+                                    </td>
+                                    <td >
+                                        @Html.DropDownList("Cargo[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CRG-01", (item.Cargo ?? 0).ToString()), new { @class = "form-control" })
+                                    </td>
+
+                                    <td id="accion"><button type="button" onclick="eliminarFila(this)" id="eliminar-@item.IDDetalleExperiencias" class="eliminarFila btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

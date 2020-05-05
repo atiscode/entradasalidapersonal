@@ -1,0 +1,116 @@
+﻿@model ParametrosSistema
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Formato para el template de datos *@
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+
+<style>
+    .alinear-derecha {
+        text-align: left;
+    }
+</style>
+
+<form action="#" id="form-parametros" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <div class="panel">
+
+                <div class="panel-heading-create custom-header-panel">
+                    <h4>@Etiquetas.TituloPanelParametros</h4>
+                </div>
+
+                <div class="panel-body">
+
+
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Nombre Parámetro:<span class="requerido">*</span></label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 50, required = "" } })
+                                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Descripción Parámetro:<span class="requerido">*</span></label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 200, required = "" } })
+                                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Valor<span class="requerido">*</span></label>
+                            <div class="input-group" style="padding-left:15px">
+                                @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 5, required = "" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Tipo<span class="requerido">*</span></label>
+                            <div class="input-group" style="padding-left:15px">
+                                @Html.DropDownList("Tipo", ViewBag.ListadoTipo as List<SelectListItem>, new { @class = "form-control campo-requerido" })
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-12">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+@section ViewSpecificJavascript {
+    <script>
+            var urlAccionGuardar = '@Url.Action("Create","Parametros")';
+        var urlAccionListado = '@Url.Action("Index", "Parametros")';
+
+
+        $("#guardar").click(function () {
+            debugger
+            var flag = true;
+            $('#form-parametros .campo-requerido').each(function (index, value) {
+              
+                if ((($(this).val() == "" || $(this).val() === null) && $(this).is(":visible"))) {
+                    flag = false;
+                }
+            });
+
+            if (flag)
+            {
+                guardar();
+
+            } else {
+                toastr.error('@Mensajes.MensajeDatosObligatorios')
+            }
+        })
+
+        function guardar() {
+            debugger
+            var data_form = JSON.stringify({ "parametros": $('#form-parametros').serializeObject() })
+            _Guardar(data_form, urlAccionGuardar, urlAccionListado)
+        }
+    </script>
+}

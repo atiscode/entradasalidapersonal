@@ -1,0 +1,224 @@
+﻿@model CodificacionEquipoCompleta
+
+@{
+    ViewBag.Title = "Formulario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    CodificacionEquipoInfo cabecera = Model.Codificacion;
+
+    List<string> listadoEquipos = ViewBag.EquiposRequeridos;
+
+    int requerimientoEquipoID = (int)ViewBag.requerimientoID;
+
+    var usuario = UsuarioDAL.ConsultarUsuario((int)ViewBag.UsuarioID);
+    var informacionIngreso = IngresoDAL.ConsultarIngresoByUsuarioID((int)ViewBag.UsuarioID);
+}
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<style>
+    /* OCULTAR COLUMNAS ID DE LAS TABLAS DINAMICAS */
+    #tbl-Detalles tr > *:nth-child(1) {
+        display: none;
+    }
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .btn-adjuntos {
+        border: 2px solid gray;
+        color: #f4901f;
+        background-color: white;
+        /*padding: 8px 20px;*/
+        border-radius: 8px;
+        /*font-size: 20px;*/
+        font-weight: bold;
+    }
+
+    .upload-btn-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+    }
+</style>
+
+<div class="panel">
+
+    <div class="panel-heading-create custom-header-panel">
+        <h4>@ViewBag.TituloPanel <div class="pull-right"> @System.DateTime.Now.ToString("yyyy/MM/dd")</div></h4>
+    </div>
+
+    <div class="panel-body">
+
+        <form action="#" id="form-CodificacionEquipo" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+            @Html.Hidden("IDCodificacionEquipo", cabecera.IDCodificacionEquipo)
+            @Html.Hidden("RequerimientoEquipoID", requerimientoEquipoID)
+            @Html.Hidden("UsuarioCodificadorID", cabecera.UsuarioCodificadorID)
+            @Html.Hidden("FechaCodificacionEquipo", DateTime.Now)
+            @Html.Hidden("Estado", true)
+
+        </form>
+
+        <form action="#" id="form-Cabecera" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+            @Html.Partial("_Cabecera", new ViewDataDictionary { { "DatosUsuario", usuario }, { "InformacionIngreso", informacionIngreso } })
+        </form>
+
+        @Html.Partial("_Detalles", new ViewDataDictionary { { "TituloPanelDetalle", "Detalles" }, { "ListadoDetalles", Model.Detalles }, { "EquiposRequeridos", listadoEquipos } })
+
+        <div class="row fila-seccion">
+            <div class="col-xs-6" style="text-align: right;">
+                <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
+            </div>
+            <div class="col-xs-6" style="text-align: left;">
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section ViewSpecificJavascript {
+    <script>
+        var urlAccionGuardar = '@Url.Action("CreateCodificacion")';
+        var urlAccionEditar = '@Url.Action("Edit")';
+        var urlAccionListado = '@Url.Action("Index")';
+        var urlAccionInformacionEquipo = '@Url.Action("_InformacionEquipo")';
+
+        var archivosAdjuntos = [];
+
+        var contador = 0;
+
+        $(window).on('load', function () {
+            let inputsFile = $("#tbl-Detalles").find('input[type="file"]');
+            inputsFile.each(function (index, value) {
+                archivosAdjuntos.push('')
+            })
+        })
+
+        $(document).ready(function () {
+            $('.agregarFila').click(function (e) {
+                debugger
+                var template = $(this).closest("tr");
+                var idTemplate = $(template).attr('id')
+
+                var  tabla = template.closest("table")
+                var idTabla = $(tabla).attr('id')
+
+                e.preventDefault();
+                var esFilaVacia = filaVacia(idTemplate);
+                if (!esFilaVacia) {
+                    agregarFila(idTemplate, idTabla, contador)
+                    contador++;
+
+                } else {
+                    toastr.error('@Mensajes.MensajeDatosObligatorios');
+                }
+            });
+        })
+
+        function guardar() {
+            debugger
+
+            var cabecera = $('#form-CodificacionEquipo').serializeObject()
+
+            var detalles = GetListadoTablaDinamica("tbl-Detalles", false)
+
+            let accion = $("#IDCodificacionEquipo").val() == 0 ? urlAccionGuardar : urlAccionEditar;
+
+            var data_form = JSON.stringify({ "formulario": cabecera, "detalles": detalles, "archivos": archivosAdjuntos })
+            _Guardar(data_form, accion, urlAccionListado)
+        }
+
+        function convertToBase64CodificacionCompleta(element) {
+            //Read File
+            debugger
+            var id = parseInt($(element).attr('id'));
+
+            var selectedFile = document.getElementById(id).files;
+            //Check File is not Empty
+            if (selectedFile.length > 0) {
+                // Select the very first file from list
+                var fileToLoad = selectedFile[0];
+                // FileReader function for read the file.
+                var fileReader = new FileReader();
+                var base64;
+                // Onload of file read the file content
+                fileReader.onload = function (fileLoadedEvent) {
+                    base64 = fileLoadedEvent.target.result;
+                    // Print data in console
+                    //console.log(base64);
+                    archivosAdjuntos[id] = base64
+                };
+                // Convert data to base64
+                fileReader.readAsDataURL(fileToLoad);
+            }
+        }
+
+        function convertToBase64(element) {
+            debugger
+            var id = parseInt($(element).attr('id'));
+            var f = $(element)[0].files[0]; // FileList object
+
+            if (f.size > 2097152) {
+                toastr.warning('@Mensajes.MensajeErrorLimiteMaximoArchivo')
+                $(element).val("");
+                return;
+            };
+
+            var reader = new FileReader();
+            // Closure to capture the file information.
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    var binaryData = e.target.result;
+                    //Converting Binary Data to base 64
+                    var base64String = window.btoa(binaryData);
+                    //showing file converted to base64
+                    //document.getElementById('base64').value = base64String;
+                    archivosAdjuntos[id] = base64String
+                    //alert('File converted to base64 successfuly!\nCheck in Textarea');
+                };
+            })(f);
+            // Read in the image file as a data URL.
+            reader.readAsBinaryString(f);
+        }
+
+        $("#guardar").click(function () {
+            debugger
+            var flag = validarCamposRequeridosFormularioCompleto("form-CodificacionEquipo");
+            let validacion = TablaDinamicaVacia("tbl-Detalles");
+
+            if (flag && !validacion)
+                guardar();
+            else
+                toastr.error('@Mensajes.MensajeDatosObligatorios')
+        })
+
+        $(".informacion-equipo").click(function (e) {
+            debugger
+            let elemento = $(e.currentTarget);
+
+            var fila = elemento.closest("tr"); // fila
+            var ddlPrefactura = fila.find("select"); // dropdownlist
+            var valor = parseInt($(ddlPrefactura).val()); // valor seleccionado
+
+            if (!valor) {
+                toastr.error('@Mensajes.MensajeErrorSeleccionVacia')
+                return;
+            }
+
+            _GetCreate({ id: valor }, urlAccionInformacionEquipo);
+            $('#contenido-modal').modal({
+                'show': 'true',
+                'backdrop': 'static',
+                'keyboard': false
+            });
+            return;
+        })
+
+    </script>
+    <script src="~/Content/js/TablaDinamica.js"></script>
+}

@@ -1,0 +1,82 @@
+﻿<!-- Modal para renderizar contenido ajax -->
+
+<style>
+    .modal-dialog {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%) !important;
+    }
+</style>
+
+<style>
+    .close1 {
+        float: right;
+        font-size: 21px;
+        font-weight: bold;
+        line-height: 1;
+        color: white;
+        -webkit-appearance: none;
+        padding: 0;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+    }
+
+        .close1:hover,
+        .close1:focus {
+            color: white;/*#F4901F;*/
+            text-decoration: none;
+            cursor: pointer;
+            filter: alpha(opacity=50);
+            opacity: .5;
+        }
+</style>
+
+
+<div class="modal fade" id="contenido-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #595959 !important;border-color: #595959 !important;color: white;">
+                <span style="font-size: 17px;" class="modal-title" id="seccion-titulo-modal"></span>
+
+                <button id="btn-cerrar-modal" type="button" class="close1" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div id="zonaCargandoContenido" align="center">
+                </div>
+                <img id="loading-contenido" src="@Url.Content("~/Content/img/loader-grid.gif")" style="display: none;  width: 20%;" />
+                <div id="main-Modal">
+                    <img src="@Url.Content(" ~/Content/img/loader-grid.gif")" style="  width: 20%;" />
+                </div>
+            </div>
+            @*<div class="modal-footer" style="background-color: #3c4252 !important;border-color: #3c4252 !important;color: white;">
+                    <button style="color: black;" id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+@section ViewSpecificJavascript {
+    <script>
+        $(document).ready(function () {
+            //$('.datatable-jquery').on("preXhr.dt", function (e, settings, data) {
+            //    //$("#loadpage").show();
+            //    console.log("Precargando")
+            //}).on('error.dt', function (e, settings, techNote, message) {
+            //    debugger
+            //    //$("#loadpage").hide();
+            //    console.log("Error - " + message)
+            //}).on('draw.dt', function () {
+            //    //$("#loadpage").hide();
+            //    console.log("Completado")
+            //});
+        })
+
+        //$(window).on('load', function () {
+        //})
+    </script>
+}

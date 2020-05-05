@@ -1,0 +1,174 @@
+﻿/*
+ * Skin: ASERTEC
+ * ---------- #4A8059
+ */
+.skin-asertec .main-header .navbar {
+    background-color: #4A8059;
+}
+
+    .skin-asertec .main-header .navbar .nav > li > a {
+        color: #ffffff;
+    }
+
+        .skin-asertec .main-header .navbar .nav > li > a:hover,
+        .skin-asertec .main-header .navbar .nav > li > a:active,
+        .skin-asertec .main-header .navbar .nav > li > a:focus,
+        .skin-asertec .main-header .navbar .nav .open > a,
+        .skin-asertec .main-header .navbar .nav .open > a:hover,
+        .skin-asertec .main-header .navbar .nav .open > a:focus,
+        .skin-asertec .main-header .navbar .nav > .active > a {
+            background: rgba(0, 0, 0, 0.1);
+            color: #f6f6f6;
+        }
+
+    .skin-asertec .main-header .navbar .sidebar-toggle {
+        color: #ffffff;
+    }
+
+        .skin-asertec .main-header .navbar .sidebar-toggle:hover {
+            color: #f6f6f6;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+    .skin-asertec .main-header .navbar .sidebar-toggle {
+        color: #fff;
+    }
+
+        .skin-asertec .main-header .navbar .sidebar-toggle:hover {
+            background-color: #4a7556;
+        }
+
+@media (max-width: 767px) {
+    .skin-asertec .main-header .navbar .dropdown-menu li.divider {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .skin-asertec .main-header .navbar .dropdown-menu li a {
+        color: #fff;
+    }
+
+        .skin-asertec .main-header .navbar .dropdown-menu li a:hover {
+            background: #367fa9;
+        }
+}
+
+.skin-asertec .main-header .logo {
+    background-color: #4A8059;
+    color: #ffffff;
+    border-bottom: 0 solid transparent;
+}
+
+    .skin-asertec .main-header .logo:hover {
+        background-color: #4a7556;
+    }
+
+.skin-asertec .main-header li.user-header {
+    background-color: #4A8059;
+}
+
+.skin-asertec .content-header {
+    background: transparent;
+}
+
+.skin-asertec .wrapper,
+.skin-asertec .main-sidebar,
+.skin-asertec .left-side {
+    background-color: #595959;
+}
+
+.skin-asertec .user-panel > .info,
+.skin-asertec .user-panel > .info > a {
+    color: #fff;
+}
+
+.skin-asertec .sidebar-menu > li.header {
+    color: white;
+    background: #2c3b41;
+}
+
+.skin-asertec .sidebar-menu > li > a {
+    border-left: 3px solid transparent;
+}
+
+.skin-asertec .sidebar-menu > li:hover > a,
+.skin-asertec .sidebar-menu > li.active > a,
+.skin-asertec .sidebar-menu > li.menu-open > a {
+    color: #ffffff;
+    background: #D0753B;
+}
+
+.skin-asertec .sidebar-menu > li.active > a {
+    border-left-color: #4A8059;
+}
+
+.skin-asertec .sidebar-menu > li > .treeview-menu {
+    margin: 0 1px;
+    background: #2c3b41;
+}
+
+.skin-asertec .sidebar a {
+    color: white;
+}
+
+    .skin-asertec .sidebar a:hover {
+        text-decoration: none;
+    }
+
+.skin-asertec .sidebar-menu .treeview-menu > li > a {
+    color: #8aa4af;
+}
+
+    .skin-asertec .sidebar-menu .treeview-menu > li.active > a,
+    .skin-asertec .sidebar-menu .treeview-menu > li > a:hover {
+        color: #ffffff;
+    }
+
+.skin-asertec .sidebar-form {
+    border-radius: 3px;
+    border: 1px solid #374850;
+    margin: 10px 10px;
+}
+
+    .skin-asertec .sidebar-form input[type="text"],
+    .skin-asertec .sidebar-form .btn {
+        box-shadow: none;
+        background-color: #374850;
+        border: 1px solid transparent;
+        height: 35px;
+    }
+
+    .skin-asertec .sidebar-form input[type="text"] {
+        color: #666;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 2px;
+    }
+
+        .skin-asertec .sidebar-form input[type="text"]:focus,
+        .skin-asertec .sidebar-form input[type="text"]:focus + .input-group-btn .btn {
+            background-color: #fff;
+            color: #666;
+        }
+
+            .skin-asertec .sidebar-form input[type="text"]:focus + .input-group-btn .btn {
+                border-left-color: #fff;
+            }
+
+    .skin-asertec .sidebar-form .btn {
+        color: #999;
+        border-top-left-radius: 0;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 0;
+    }
+
+.skin-asertec.layout-top-nav .main-header > .logo {
+    background-color: #4A8059;
+    color: #ffffff;
+    border-bottom: 0 solid transparent;
+}
+
+    .skin-asertec.layout-top-nav .main-header > .logo:hover {
+        background-color: #3b8ab8;
+    }

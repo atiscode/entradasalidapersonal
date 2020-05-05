@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "Ingreso";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div id="logreg-forms">
+    <div style="text-align: center; margin-bottom: 5px;">
+        <img style="margin-top: 5px;" src="~/Content/img/logoheader-qoh.png" width="50%" />
+    </div>
+
+    <form action="#" id="form-Ingreso" class="form-signin" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+        <input type="email" id="Login" name="Login" class="form-control campo-requerido" placeholder="Nombre de usuario o Email" required="" autofocus="" maxlength="150">
+        <div class="fila-seccion"></div>
+        <input type="password" id="Password" name="Password" class="form-control campo-requerido" placeholder="Contraseña" required="" maxlength="150">
+        <div class="fila-seccion"></div>
+        <button id="btn-Login" class="btn btn-warning btn-block" ><i class="fa fa-share-square-o"></i> Ingresar</button>
+        <a href="#" id="forgot_pswd">¿Olvidaste tu contraseña?</a>
+        <hr>
+        <!-- <p>Don't have an account!</p>  -->
+        <button class="btn btn-primary btn-block" style='background-color:#002333;border-color: #002333;' type="button" id="btn-signup"><i class="fa fa-user-plus"></i> Registrarse</button>
+    </form>
+    <form action="#" id="form-RecuperarPassword" class="form-reset" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+        <input type="email" id="Login" name="Login" class="form-control campo-requerido" placeholder="Email" required="" autofocus="" maxlength="150">
+        <div class="fila-seccion"></div>
+        <button id="btn-RecoveryPassword" style='background-color:#002333;border-color: #002333;' class="btn btn-success btn-block">Recuperar contraseña</button>
+        <a href="#" id="cancel_reset"><i class="fa fa-angle-left"></i> Atras</a>
+    </form>
+
+    <form action="#" id="form-Registro" class="form-signup" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+        <input type="text" id="Nombre" name="Nombre" class="form-control campo-requerido" placeholder="Nombres" required="" maxlength="150" onkeypress="return soloLetras(event)">
+        <div class="fila-seccion"></div>
+        <input type="text" id="Apellidos" name="Apellidos" class="form-control campo-requerido" placeholder="Apellidos" required="" maxlength="200" onkeypress="return soloLetras(event)">
+        <div class="fila-seccion"></div>
+        <input type="text" id="UserName" name="UserName" class="form-control campo-requerido" placeholder="Nombre Usuario" required="" maxlength="100">
+        <div class="fila-seccion"></div>
+        <input type="text" id="Identificacion" name="Identificacion" class="form-control campo-requerido" placeholder="Cédula o Ruc" required="" maxlength="20" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+        <div class="fila-seccion"></div>
+        <input type="email" id="Email" name="Email" class="form-control campo-requerido" placeholder="Email Corporativo" required maxlength="150">
+        <div class="fila-seccion"></div>
+        <input type="password" id="Password" name="Password" class="form-control campo-requerido" placeholder="Contraseña" required maxlength="150">
+        <div class="fila-seccion"></div>
+        <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control campo-requerido" placeholder="Repetir contraseña" required maxlength="150">
+        <div class="fila-seccion"></div>
+        <button id="btn-Register" class="btn btn-success btn-block" style='background-color:#F7941D;border-color: #F7941D;'><i class="fa fa-user-plus"></i> Registrarse</button>
+        <a href="#" id="cancel_signup"><i class="fa fa-angle-left"></i> Atrás</a>
+    </form>
+    <br>
+</div>
+<!-- end loading -->
+
+@section ViewSpecificJavascript {
+    <script>
+        var urlAccionIngresar = '@Url.Action("Login")';
+        var urlAccionRegistrarse = '@Url.Action("Register")';
+        var urlAccionRecuperarPassword = '@Url.Action("RecoveryPassword")';
+
+        function Ingreso() {
+            debugger
+            var data_form = JSON.stringify({ "formulario": $('#form-Ingreso').serializeObject() })
+            console.log(data_form)
+
+            $("#seccion-cargando-loading").show();
+            $.when(_GuardarGenerico(data_form, urlAccionIngresar)).done(function (result) {
+                debugger
+                result = result.Resultado;
+
+                if (result.Estado) {
+                    setTimeout(function () {
+                        window.location.href = '@Url.Action("Index","Home")';
+                    }, 1000);
+                }
+                $("#seccion-cargando-loading").hide();
+            });
+        }
+
+        function Registro() {
+            debugger
+            var data_form = JSON.stringify({ "formulario": $('#form-Registro').serializeObject() })
+            $("#seccion-cargando-loading").show();
+            $.when(_SaveData(data_form, urlAccionRegistrarse)).done(function (result) {
+                debugger
+                result = result.Resultado;
+                if (result.Estado) {
+                    setTimeout(function () {
+                        $('#form-Registro')[0].reset();
+                        $("#cancel_signup").trigger("click");
+                    }, 1000);
+                }
+                $("#seccion-cargando-loading").hide();
+                return;
+            });
+        }
+
+        function RecuperarPassword() {
+            debugger
+            var data_form = JSON.stringify({ "formulario": $('#form-RecuperarPassword').serializeObject() })
+            console.log(data_form)
+            _GuardarGenerico(data_form, urlAccionRecuperarPassword);
+
+        }
+
+        function toggleResetPswd(e) {
+            e.preventDefault();
+            $('#logreg-forms .form-signin').toggle() // display:block or none
+            $('#logreg-forms .form-reset').toggle() // display:block or none
+        }
+
+        function toggleSignUp(e) {
+            e.preventDefault();
+            $('#logreg-forms .form-signin').toggle(); // display:block or none
+            $('#logreg-forms .form-signup').toggle(); // display:block or none
+        }
+
+        $(() => {
+            // Login Register Form
+            $('#logreg-forms #forgot_pswd').click(toggleResetPswd);
+            $('#logreg-forms #cancel_reset').click(toggleResetPswd);
+            $('#logreg-forms #btn-signup').click(toggleSignUp);
+            $('#logreg-forms #cancel_signup').click(toggleSignUp);
+
+            $("#btn-Login").click(function (e) {
+                debugger
+                e.preventDefault();
+                var flag = validarCamposRequeridosFormularioCompleto("form-Ingreso");
+                if (flag)
+                    Ingreso();
+                else
+                    toastr.error('@Mensajes.MensajeDatosObligatorios')
+            })
+
+            $("#btn-Register").click(function (e) {
+                debugger
+                e.preventDefault();
+                var flag = validarCamposRequeridosFormularioCompleto("form-Registro");
+                if (flag)
+                    Registro();
+                else
+                    toastr.error('@Mensajes.MensajeDatosObligatorios')
+            })
+
+            $("#btn-RecoveryPassword").click(function (e) {
+                debugger
+                e.preventDefault();
+                var flag = validarCamposRequeridosFormularioCompleto("form-RecuperarPassword");
+                if (flag)
+                    RecuperarPassword();
+                else
+                    toastr.error('@Mensajes.MensajeDatosObligatorios')
+            })
+
+        })
+
+        function soloLetras(e) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toLowerCase();
+            letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+            especiales = "8-37-39-46";
+
+            tecla_especial = false
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+                }
+            }
+
+            if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                return false;
+            }
+        }
+    </script>
+}

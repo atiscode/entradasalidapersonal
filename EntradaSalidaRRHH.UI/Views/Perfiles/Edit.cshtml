@@ -1,0 +1,138 @@
+﻿@model Perfil
+
+@{
+    ViewBag.Title = "Editar Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Formato para el template de datos *@
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+
+<link rel="stylesheet" type="text/css" href="~/Content/css/demo.css">
+
+
+<form action="#" id="form-perfiles" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <div class="panel">
+
+                <div class="panel-heading-create custom-header-panel">
+                    <h4>@Etiquetas.TituloPanelEdicionPerfil</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.IdPerfil)
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Nombre: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.NombrePerfil, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150 } })
+                                @Html.ValidationMessageFor(model => model.NombrePerfil, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Descripción: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.DescripcionPerfil, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 200 } })
+                                @Html.ValidationMessageFor(model => model.DescripcionPerfil, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Opciones Menú: </label>
+                            <div class="col-md-8">
+                                @{
+                                    List<SelectListItem> listaMenu = (List<SelectListItem>)ViewBag.idsPerfilesOpcionesMenu;
+                                    List<string> checkValues = new List<string>();
+                                    foreach (SelectListItem item in listaMenu)
+                                    {
+                                        checkValues.Add(item.Value);
+                                    }
+                                    @Html.DropDownList("idsOpcionesMenu_editar", new MultiSelectList(ViewBag.listadoMenu as SelectList, "Value", "Text", checkValues), new { @class = "form-control selectpicker", multiple = "multiple", id = "idsOpcionesMenu_editar", @title = Etiquetas.TituloComboMultipleVacio })
+                                }
+                              
+                            </div>
+                            </div>
+
+                        <div style="display: none;" class="form-group">
+                            <label class="control-label col-md-2">Estado:</label>
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.DropDownList("EstadoPerfil", new SelectList(new List<SelectListItem> { new SelectListItem { Text = "Activo", Value = "True" }, new SelectListItem { Text = "Inactivo", Value = "False" },}, "Value", "Text", Model.EstadoPerfil), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.EstadoPerfil, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-12">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input id="editar" value="Guardar" type="button" class="btn btn-default" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+
+@section ViewSpecificJavascript {
+    <script>
+            var urlAccionEditar = '@Url.Action("Edit","Perfiles")';
+            var urlAccionListado = '@Url.Action("Index","Perfiles")';
+
+             $("#editar").click(function () {
+        debugger
+                var flag = true;
+                // your code here (But not asynchronous code such as Ajax because it does not wait for response and move to next line.)
+                $('#form-perfiles .campo-requerido').each(function (index, value) {
+                    //debugger
+                    if ($(this).val() == "" && $(this).is(":visible")) {
+                        //console.log('Please fill all the fields');
+                        flag = false;
+                    }
+                });
+
+                if (flag) {
+                    guardar(); // continue the submit unbind preventDefault
+                } else {
+                    toastr.error('@Mensajes.MensajeDatosObligatorios')
+                }
+         })
+         function guardar() {
+             debugger
+             var opcionesMenu = getOpcionesMenu();
+        var data_form = JSON.stringify({ "perfil": $('#form-perfiles').serializeObject(), "opcionesMenu": opcionesMenu  })
+             _Guardar(data_form, urlAccionEditar,urlAccionListado)
+            }
+
+
+        function getOpcionesMenu() {
+            debugger
+            var idsOpcionesMenu = [];
+            var opciones = $("#idsOpcionesMenu_editar").val();
+            //opciones = opciones.split(',');
+
+            for (var i = 0; i < opciones.length; i++) {
+                let id = parseInt(opciones[i]);
+                idsOpcionesMenu.push(id);
+            }
+            return idsOpcionesMenu;
+        }  
+
+    </script>
+}
+

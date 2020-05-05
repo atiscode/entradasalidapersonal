@@ -1,0 +1,52 @@
+﻿@model CambiarClave
+@{
+    ViewBag.Title = "Ingreso";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div id="logreg-forms">
+    <div style="text-align: center; margin-bottom: 5px;">
+        <img style="margin-top: 5px;" src="~/Content/img/logoheader-qoh.png" width="50%" />
+    </div>
+
+    <form action="#" id="form-CambioClave" class="form-signin" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+        <input type="hidden" id="UsuaCodi" value="@Model.UsuaCodi" name="UsuaCodi" />
+        <input type="password" id="ContraseniaNueva" name="ContraseniaNueva" class="form-control campo-requerido" placeholder="Nueva Contraseña" required="" maxlength="200">
+        <div class="fila-seccion"></div>
+        <input type="password" id="ConfirmarContrasenia" name="ConfirmarContrasenia" class="form-control campo-requerido" placeholder="Repetir Contraseña" required="" maxlength="200">
+        <div class="fila-seccion"></div>
+        <button id="btn-Reset" class="btn btn-warning btn-block"><i class="fa fa-share-square-o"></i> Cambiar Clave</button>
+
+    </form>
+    <br>
+</div>
+<!-- end loading -->
+
+@section ViewSpecificJavascript {
+    <script>
+        var urlAccionIngresar = '@Url.Action("Index")';
+        var urlAccionCambiarClave = '@Url.Action("CambiarClave")';
+
+        function ResetClave() {
+            var data_form = JSON.stringify({ "formulario": $('#form-CambioClave').serializeObject() })
+           // console.log(data_form)
+            _GuardarGenericoLoading(data_form, urlAccionCambiarClave,urlAccionIngresar);
+        }
+
+        $(() => {
+          
+
+            $("#btn-Reset").click(function (e) {
+                debugger
+                e.preventDefault();
+                var flag = validarCamposRequeridosFormularioCompleto("form-CambioClave");
+                if (flag)
+                    ResetClave();
+                else
+                    toastr.error('@Mensajes.MensajeDatosObligatorios')
+            })
+
+
+        })
+    </script>
+}

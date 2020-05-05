@@ -1,0 +1,222 @@
+﻿@model Equipo
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+
+<script src="~/Content/js/init.js"></script>
+
+<script>
+    var urlAccionListado = '@Url.Action("Index")';
+
+    var caracteristicas = @Html.Raw(Json.Encode(ViewBag.Caracteristicas));
+
+    var urlAccionGuardar = '@Url.Action("Create")';
+    var urlAccionEditar = '@Url.Action("Edit")';
+
+    $(document).ready(function () {
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+        CargarValoresSelect2(caracteristicas, "Caracteristicas")
+    });
+
+    $("#guardar").click(function () {
+        debugger
+        var flag = validarCamposRequeridosFormularioCompleto("form-equipo");
+        if (flag)
+            guardar();
+        else
+            toastr.error('@Mensajes.MensajeDatosObligatorios')
+    })
+
+    function guardar() {
+        debugger
+        let formulario = $('#form-equipo').serializeObject()
+        let accion = $("#IDEquipo").val() == 0 ? urlAccionGuardar : urlAccionEditar;
+
+        var data_form = JSON.stringify({ "formulario": formulario, "caracteristicas": $("#Caracteristicas").val() })
+        _GuardarModal(data_form, accion)
+    }
+
+    $("#Caracteristicas").select2({
+        //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)
+        minimumInputLength: 0, //for listing all records > set 0
+        maximumInputLength: 50, //only allow terms up to 20 characters long
+        multiple: true,
+        placeholder: "Seleccionar.",
+        allowClear: true,
+        tags: false, //prevent free text entry
+        //width: "100%",
+        ajax: {
+            url: '@Url.Action("GetCaracteristicas")',
+            dataType: 'json',
+            delay: 100,
+            data: function (params) {
+                return {
+                    query: params.term, //search term
+                    page: params.page,
+                    tipo: $("#Tipo").val(), // Parámetro adicional para filtrar características
+                };
+            },
+            processResults: function (data, page) {
+                var newData = [];
+                $.each(data, function (index, item) {
+                    newData.push({
+                        //id part present in data
+                        id: item.Value,
+                        //string to be displayed
+                        text: item.Text
+                    });
+                });
+                return { results: newData };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }
+    });
+
+    //You can simply listen to the select2:select event to get the selected item
+    $("#Caracteristicas").on('select2:select', onSelect)
+    function onSelect(evt) {
+        console.log($(this).val());
+    }
+
+    //Event example for close event
+    $("#Caracteristicas").on('select2:close', onClose)
+    function onClose(evt) {
+        console.log('Closed…');
+    }
+
+</script>
+
+<form action="#" id="form-equipo" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+    <div class="col-md-12">
+
+        <div class="col-lg-12 seccion-detalles-caso">
+            <div class="box box-default">
+                @Html.Hidden("IDEquipo", Model.IDEquipo)
+                @Html.Hidden("Estado", true)
+
+                <div class="box-body">
+
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Nombre:<span class="requerido"> *</span></label>
+                                <div class="col-md-8">
+                                    @Html.Editor("Nombre", new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control campo-requerido",
+                                       maxlength = 200,
+                                       @Value = Model.Nombre,
+                                       required = ""
+                                   }
+                               })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Descripción:<span class="requerido"> *</span></label>
+                                <div class="col-md-8" >
+                                    @Html.Editor("Descripcion", new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control campo-requerido",
+                                       maxlength = 300,
+                                       @Value = Model.Descripcion
+                                       ,required = ""
+                                   }
+                               })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Tipo:<span class="requerido"> *</span></label>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("Tipo", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-EQUIPO-01", Model.Tipo.ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Características:<span class="requerido"> *</span></label>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("Caracteristicas", Enumerable.Empty<SelectListItem>(), new { @class = "js-example-basic-multiple", style = "width: 100%;", required = "" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Proveedor:<span class="requerido"> *</span></label>
+                                <div class="col-md-8">
+                                    @Html.DropDownList("Proveedor", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PROVEEDOR-01", Model.Tipo.ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Costo:<span class="requerido"> *</span></label>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-usd"></i>
+                                        </div>
+                                        <input name="Costo" id="Costo" class="campo-decimal-manual-1 form-control campo-requerido" value="@Model.Costo" type="text" required maxlength="18"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-4">Observaciones:<span class="requerido"> *</span></label>
+                                <div class="col-md-8">
+                                    @Html.TextArea("Observaciones", Model.Observaciones, new { @class = "form-control", rows = 3, @style = "resize: none;", maxlength = 500 })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div class="row fila-seccion">
+    <div class="col-lg-12" style="text-align: center;">
+        <input id="guardar" type="button" value="Guardar" class="btn btn-warning" />
+    </div>
+</div>
+
+

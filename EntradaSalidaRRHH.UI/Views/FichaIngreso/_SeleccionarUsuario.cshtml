@@ -1,0 +1,95 @@
+﻿<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Content/js/init.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+    });
+
+    $("#seleccion-usuario").click(function () {
+        debugger
+        var flag = validarCamposRequeridos("form-seleccionUsuario");
+        if (flag)
+            seleccionarUsuario();
+        else
+            toastr.error('@Mensajes.MensajeDatosObligatorios')
+    })
+
+    function seleccionarUsuario() {
+        debugger
+        var usuario = $("#UsuarioID").val();
+        location.href = '@Url.Action("Formulario", "FichaIngreso")?usuarioID=' + usuario + '&interno=' + true;
+    }
+    $("#UsuarioID").select2({
+        //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)
+        minimumInputLength: 0, //for listing all records > set 0
+        maximumInputLength: 50, //only allow terms up to 20 characters long
+        multiple: false,
+        placeholder: "Seleccionar.",
+        allowClear: true,
+        dropdownParent: $("#contenido-modal"),
+        //tags: false, //prevent free text entry
+        //width: "100%",
+        ajax: {
+            url: '@Url.Action("GetUsuariosFichasIngreso")',
+            dataType: 'json',
+            delay: 100,
+            data: function (params) {
+                return {
+                    query: params.term, //search term
+                    page: params.page,
+                };
+            },
+            processResults: function (data, page) {
+                var newData = [];
+                $.each(data, function (index, item) {
+                    newData.push({
+                        //id part present in data
+                        id: item.Value,
+                        //string to be displayed
+                        text: item.Text
+                    });
+                });
+                return { results: newData };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }
+    });
+
+    //You can simply listen to the select2:select event to get the selected item
+    $("#UsuarioID").on('select2:select', onSelect)
+    function onSelect(evt) {
+        console.log($(this).val());
+    }
+
+    //Event example for close event
+    $("#UsuarioID").on('select2:close', onClose)
+    function onClose(evt) {
+        console.log('Closed…');
+    }
+</script>
+
+<form action="#" id="form-seleccionUsuario" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="etiqueta-seccion control-label col-md-3">Usuario: <span class="requerido"> *</span></label>
+                    <div class="col-md-7">
+                        @Html.DropDownList("UsuarioID", FichaIngresoDAL.ObtenerListadoUsuariosFichasIngreso(), null, new { @class = "form-control campo-requerido" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-12">
+                        <input id="seleccion-usuario" type="button" value="Seleccionar" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

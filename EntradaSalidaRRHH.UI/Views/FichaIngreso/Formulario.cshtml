@@ -1,0 +1,351 @@
+﻿@model FichaIngresoDetallada
+@{
+    ViewBag.Title = "Formulario";
+    Layout = (bool)ViewBag.interno ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutSecundario.cshtml";
+
+    FichaIngreso cabecera = Model.FichaIngreso;
+    var usuario = UsuarioDAL.ConsultarUsuario(ViewBag.UsuarioID);
+}
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<style>
+    /* OCULTAR COLUMNAS ID DE LAS TABLAS DINAMICAS */
+    #tbl-Estudios tr > *:nth-child(1) {
+        display: none;
+    }
+
+    #tbl-Experiencia tr > *:nth-child(1) {
+        display: none;
+    }
+
+    #tbl-CargasFamiliares tr > *:nth-child(1) {
+        display: none;
+    }
+</style>
+
+<div class="panel">
+
+    <div class="panel-heading-create custom-header-panel">
+        <h4>@ViewBag.TituloPanel <div class="pull-right"> @System.DateTime.Now.ToString("yyyy/MM/dd")</div></h4>
+    </div>
+
+    <div class="panel-body">
+        <form action="#" id="form-FichaIngreso" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+            @*PARA LA ENTIDAD USUARIO*@
+            @Html.Hidden("IdUsuario", cabecera.UsuarioID)
+            @*PARA LA ENTIDAD FICHA INGRESO*@
+            @Html.Hidden("IDFichaIngreso", cabecera.IDFichaIngreso)
+            @Html.Hidden("UsuarioID", cabecera.UsuarioID)
+            @Html.Hidden("FechaIngresoFicha", cabecera.FechaIngresoFicha.ToString("dd/MM/yyyy"))
+            @Html.Hidden("Estado", true)
+
+
+            @Html.Partial("_Cabecera", new ViewDataDictionary { { "Cabecera", cabecera }, { "DatosUsuario", usuario } })
+        </form>
+
+            @Html.Partial("_DetalleEstudios", new ViewDataDictionary { { "TituloPanelDetalle", "Estudios" }, { "ListadoDetalleEstudios", Model.Estudios } })
+            @Html.Partial("_DetalleExperiencias", new ViewDataDictionary { { "TituloPanelDetalle", "Experiencias" }, { "ListadoDetalleExperiencias", Model.Experiencias } })
+            @Html.Partial("_DetalleCargasFamiliares", new ViewDataDictionary { { "TituloPanelDetalle", "Cargas Familiares" }, { "ListadoDetalleCargasFamiliares", Model.CargasFamiliares } })
+
+        <div class="row fila-seccion">
+            <div class="col-xs-6" style="text-align: right;">
+                <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
+            </div>
+            <div class="col-xs-6" style="text-align: left;">
+                @*<input id="regresar" type="button" value="Regresar" class="btn btn-default" />*@
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+@section ViewSpecificJavascript {
+    <script>
+        var urlAccionGuardar = '@Url.Action("Create")';
+        var urlAccionEditar = '@Url.Action("Edit")';
+        var urlAccionListado = '@Url.Action("Index")';
+
+        var urlAccionAgregarSubcatalogo = '@Url.Action("_AgregarSubCatalogo", "Catalogo")';
+
+        var contador = 0;
+        $(document).ready(function () {
+            $('.agregarFila').click(function (e) {
+                debugger
+                var template = $(this).closest("tr");
+                var idTemplate = $(template).attr('id')
+
+                var  tabla = template.closest("table")
+                var idTabla = $(tabla).attr('id')
+
+                e.preventDefault();
+                var esFilaVacia = filaVacia(idTemplate);
+                if (!esFilaVacia) {
+                    agregarFila(idTemplate, idTabla, contador)
+                    contador++;
+
+                } else {
+                    toastr.error('@Mensajes.MensajeDatosObligatorios');
+                }
+            });
+        })
+
+        function guardar() {
+            debugger
+
+            var cabecera = $('#form-FichaIngreso').serializeObject()
+
+            var estudios = GetListadoTablaDinamica("tbl-Estudios")
+            var experiencia = GetListadoTablaDinamica("tbl-Experiencia")
+            var cargasFamiliares = GetListadoTablaDinamica("tbl-CargasFamiliares")
+
+            let accion = $("#IDFichaIngreso").val() == 0 ? urlAccionGuardar : urlAccionEditar;
+
+            var data_form = { "formulario": cabecera, "estudios": estudios, "experiencias": experiencia, "cargasFamiliares": cargasFamiliares, "usuario": cabecera };
+
+            var archivo = $("#Foto").get(0);
+
+            $.when(AdjuntarArchivo(archivo, accion, data_form)).done(function (result) {
+                result = result.Resultado;
+                debugger
+                if (result.Estado) {
+                    toastr.success(result.Respuesta);
+
+                    setTimeout(function () {
+                        window.location.replace(urlAccionListado);
+                    }, 500);
+                }
+                else
+                    toastr.error(result.Respuesta)
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                toastr.error(jqXHR.statusText);
+                toastr.error(textStatus);
+                //toastr.error(jqXHR.status)
+            }).always(function (jqXHROrData, textStatus, jqXHROrErrorThrown) {
+                console.log("complete");
+            });
+
+            //_Guardar(data_form, accion, urlAccionListado)
+           // _GuardarGenericoLoading(data_form, urlAccionGuardarActa, urlAccionListado);
+        }
+
+        $("#guardar").click(function () {
+            debugger
+            var flag = validarCamposRequeridosFormularioCompleto("form-FichaIngreso");
+            let validacionEstudios = TablaDinamicaVacia("tbl-Estudios");
+
+            if (flag && !validacionEstudios)
+                guardar();
+            else
+                toastr.error('@Mensajes.MensajeDatosObligatorios')
+        })
+
+        $("#Pais").change(function () {
+            debugger;
+            $("#Ciudad").empty();
+            $("#CiudadResidencia").empty();
+            $("#LugarNacimiento").empty();
+
+            LugarNacimiento
+            $.getJSON('@Url.Action("GetCiudad")', { id: $('#Pais').val() }, function (data) {
+                $.each(data, function () {
+                    $("#Ciudad").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+                    $("#CiudadResidencia").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+                    $("#LugarNacimiento").append("<option value=" + this.Value + ">" + this.Text + "</option>");
+                });
+            });
+        });
+
+
+
+        $("#Foto").change(function (event) {
+            RecurFadeIn();
+            readURL(this);
+        });
+        $("#Foto").on('click', function (event) {
+            RecurFadeIn();
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var filename = $("#Foto").val();
+                filename = filename.substring(filename.lastIndexOf('\\') + 1);
+                reader.onload = function (e) {
+                    debugger;
+                    $('#blah').attr('src', e.target.result);
+                    $('#blah').hide();
+                    $('#blah').fadeIn(500);
+                    $('.custom-file-label').text(filename);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            $(".alert").removeClass("loading").hide();
+        }
+        function RecurFadeIn() {
+            //console.log('ran');
+            FadeInAlert("Esperando ...");
+        }
+        function FadeInAlert(text) {
+            $(".alert").show();
+            $(".alert").text(text).addClass("loading");
+        }
+
+        function AgregarSubCatalogo(codigo) {
+            _GetCreate({ codigoCatalogo: codigo }, urlAccionAgregarSubcatalogo);
+            $('#contenido-modal').modal({
+                'show': 'true',
+                'backdrop': 'static',
+                'keyboard': false
+            });
+            return;
+        }
+
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $("#Institucion").select2({
+                //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)
+                minimumInputLength: 0, //for listing all records > set 0
+                maximumInputLength: 20, //only allow terms up to 20 characters long
+                multiple: false,
+                placeholder: '@Etiquetas.TituloComboVacio',
+                allowClear: true,
+                tags: false, //prevent free text entry
+                "language": {
+                    "noResults": function () {
+                        return '@Mensajes.MensajeNoDataListado';
+                    },
+                    "searching": function () {
+                        return '@Mensajes.MensajeBuscandoListado';
+                    }
+                },
+                //width: "100%",
+                ajax: {
+                    url: '@Url.Action("GetCatalogos", "Catalogo")',
+                    dataType: 'json',
+                    delay: 100,
+                    data: function (params) {
+                        return {
+                            query: params.term, //search term
+                            codigo: 'INSTITUCION-ESTUDIO-01',
+                            page: params.page,
+                        };
+                    },
+                    processResults: function (data, page) {
+                        var newData = [];
+                        $.each(data, function (index, item) {
+                            newData.push({
+                                //id part present in data
+                                id: item.Value,
+                                //string to be displayed
+                                text: item.Text
+                            });
+                        });
+                        return { results: newData };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function (markup) { return markup; }
+            });
+
+
+            $("#Titulo").select2({
+                //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)
+                minimumInputLength: 0, //for listing all records > set 0
+                maximumInputLength: 20, //only allow terms up to 20 characters long
+                multiple: false,
+                placeholder: '@Etiquetas.TituloComboVacio',
+                allowClear: true,
+                tags: false, //prevent free text entry
+                "language": {
+                    "noResults": function () {
+                        return '@Mensajes.MensajeNoDataListado';
+                    },
+                    "searching": function () {
+                        return '@Mensajes.MensajeBuscandoListado';
+                    }
+                },
+                //width: "100%",
+                ajax: {
+                    url: '@Url.Action("GetCatalogos", "Catalogo")',
+                    dataType: 'json',
+                    delay: 100,
+                    data: function (params) {
+                        return {
+                            query: params.term, //search term
+                            codigo: 'TITULO-ESTUDIO-01',
+                            page: params.page,
+                        };
+                    },
+                    processResults: function (data, page) {
+                        var newData = [];
+                        $.each(data, function (index, item) {
+                            newData.push({
+                                //id part present in data
+                                id: item.Value,
+                                //string to be displayed
+                                text: item.Text
+                            });
+                        });
+                        return { results: newData };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function (markup) { return markup; }
+            });
+
+
+            $("#Cargo").select2({
+                //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)
+                minimumInputLength: 0, //for listing all records > set 0
+                maximumInputLength: 20, //only allow terms up to 20 characters long
+                multiple: false,
+                placeholder: '@Etiquetas.TituloComboVacio',
+                allowClear: true,
+                tags: false, //prevent free text entry
+                "language": {
+                    "noResults": function () {
+                        return '@Mensajes.MensajeNoDataListado';
+                    },
+                    "searching": function () {
+                        return '@Mensajes.MensajeBuscandoListado';
+                    }
+                },
+                //width: "100%",
+                ajax: {
+                    url: '@Url.Action("GetCatalogos", "Catalogo")',
+                    dataType: 'json',
+                    delay: 100,
+                    data: function (params) {
+                        return {
+                            query: params.term, //search term
+                            codigo: 'CRG-01',
+                            page: params.page,
+                        };
+                    },
+                    processResults: function (data, page) {
+                        var newData = [];
+                        $.each(data, function (index, item) {
+                            newData.push({
+                                //id part present in data
+                                id: item.Value,
+                                //string to be displayed
+                                text: item.Text
+                            });
+                        });
+                        return { results: newData };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function (markup) { return markup; }
+            });
+
+        })
+    </script>
+    <script src="~/Content/js/plugins/select2/select2.min.js"></script>
+    <script src="~/Content/js/TablaDinamica.js"></script>
+}

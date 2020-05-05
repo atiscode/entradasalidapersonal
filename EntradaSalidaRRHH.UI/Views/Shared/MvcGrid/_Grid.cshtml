@@ -1,0 +1,262 @@
+﻿@using System.Web.Mvc;
+@using System.Data;
+
+@model IGrid
+
+@{
+    string gridID = Model.Id;
+    string claseHeaderEstatico = gridID == "grid-Permisos" ? "header-estatico" : string.Empty;
+    string claseColumEstatico = gridID == "grid-Permisos" ? "tableFixHead" : string.Empty;
+    string grid = "grid-RequerimientoEquipo";
+}
+
+<div id="@Model.Id" class="mvc-grid mvc-grid-@(Model.FilterMode.ToString().ToLower())-mode" data-name="@Model.Name" data-filter-mode="@Model.FilterMode" data-source-url="@Model.SourceUrl">
+
+    <div>
+        <div class="panel panel-default" style="background-color: white !important;">
+            <div id="cabecera-panel-rrhh" class="panel-heading clearfix" style="    color: #fff !important;  background-color: #595959 !important; border-color: #595959 !important;">
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div id="Seccion-TituloGrid" style="text-align: left;">
+                            <h4>
+                                <i class="fa fa-list-alt" aria-hidden="true"></i>
+                                @ViewBag.NombreListado
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-9" style="text-align: right;">
+                        <div class="form-inline">
+                            @*<div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <input type="text" maxlength="50" name="name" id="GridSearchGeneral" placeholder="Búsqueda General" class="busqueda-general">
+                </div>
+            </div>
+
+            <button title="Agregar nuevo registro." style="background-color:#f59324;border-color: #f59324;" class="btn btn-primary" id="nuevo" onclick="CrearRegistro();">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+            <button title="Descargar información." style="background-color:#808080 ;border-color: #808080;" data-toggle="modal" data-target="#export-modal" class="btn btn-primary" id="reporte">
+                <i style="color: black;" class="fa fa-download" aria-hidden="true"></i>
+            </button>
+            <button title="Recargar información." class="btn btn-success" id="recargar" onclick="RecargarDatosGrid();">
+                <span class="glyphicon glyphicon-refresh"></span>
+            </button>*@
+                            @ControlPermisos.GetBotones(SessionHelper.ObtenerRolMenuPermisos(@ViewBag.NombreControlador), @ViewBag.AccionesControlador, @ViewBag.NombreControlador, gridID)
+                        </div>
+                    </div>
+                            
+                   
+            </div>
+            </div>
+            <div class="panel-body" style="@(gridID == "grid-Permisos" ? "padding: 0px;" : string.Empty) overflow: auto; height: calc(89vh - 200px);">
+
+                <table @(Model.Attributes)>
+                    <thead>
+                        <tr class="mvc-grid-headers@(Model.FilterMode == GridFilterMode.Header ? " mvc-grid-row-filters" : "")">
+                            @foreach (IGridColumn column in Model.Columns)
+                            {
+                                String hidden = column.IsHidden ? "mvc-grid-hidden" : null;
+                                String sortable = column.Sort.IsEnabled == true ? "sortable" : null;
+                                Boolean filterApplied = (column.Filter.First ?? column.Filter.Second) != null;
+                                String filterable = column.Filter.IsEnabled == true && !String.IsNullOrEmpty(column.Filter.Name) ? "filterable" : null;
+
+                                //string clase = Model.Id == "grid-Permisos" ? "header-estatico" : string.Empty; // Para saber que se trata del grid de Permisos
+
+                                <th class="@column.CssClasses @filterable @sortable @column.Sort.Order.ToString().ToLower() @hidden @claseHeaderEstatico" data-name="@column.Name" data-filter="@column.Filter.IsEnabled" data-filter-applied="@filterApplied" data-filter-name="@column.Filter.Name" data-filter-type="@column.Filter.Type" data-filter-default-method="@column.Filter.DefaultMethod" data-sort="@column.Sort.IsEnabled" data-sort-order="@column.Sort.Order" data-sort-first="@column.Sort.FirstOrder">
+                                    @if (column.Filter.IsEnabled == true && !String.IsNullOrEmpty(column.Filter.Name) && Model.FilterMode != GridFilterMode.Row)
+                                    {
+                                        if (Model.FilterMode == GridFilterMode.Header)
+                                        {
+                                            String title = column.Title as String ?? "";
+                                            Int32 size = title.Length > 0 ? title.Length : 20;
+                                            String[] values = column.Filter.First != null ? column.Filter.First.Values ?? new String[0] : new String[0];
+                                            values = column.Filter.Options.Any() ? column.Filter.Options.Where(option => values.Contains(option.Value)).Select(option => option.Text).ToArray() : values;
+
+                                            <div>
+                                                @if (column.Filter.Options.Any())
+                                                {
+                                                    values = column.Filter.Options.Where(option => values.Contains(option.Value)).Select(option => option.Text).ToArray();
+
+                                                    <input class="mvc-grid-value" value="@String.Join(", ", values)" size="@size" placeholder="@column.Title" tabindex="-1" readonly />
+                                                }
+                                                else
+                                                {
+                                                    <input class="mvc-grid-value" value="@String.Join(", ", values)" size="@size" placeholder="@column.Title" />
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="mvc-grid-title">@column.Title</span>
+                                        }
+
+                                        <select class="mvc-grid-options">
+                                            @foreach (SelectListItem option in column.Filter.Options)
+                                            {
+                                                <option value="@option.Value">@option.Text</option>
+                                            }
+                                        </select>
+
+                                        if (column.Sort.IsEnabled == true)
+                                        {
+                                            <button type="button" class="mvc-grid-sort"></button>
+                                        }
+
+                                        <button type="button" class="mvc-grid-filter @(filterApplied ? "applied" : "")"></button>
+                                    }
+                                    else
+                                    {
+                                        <span class="mvc-grid-title">@column.Title</span>
+
+                                        if (column.Sort.IsEnabled == true)
+                                        {
+                                            <button type="button" class="mvc-grid-sort"></button>
+                                        }
+                                    }
+                                </th>
+                            }
+                        </tr>
+                        @if (Model.FilterMode == GridFilterMode.Row)
+                        {
+                            <tr class="mvc-grid-row-filters">
+                                @foreach (IGridColumn column in Model.Columns)
+                                {
+                                    String hidden = column.IsHidden ? "mvc-grid-hidden" : null;
+
+                                    if (column.Filter.IsEnabled == true && !String.IsNullOrEmpty(column.Filter.Name))
+                                    {
+                                        String filterApplied = (column.Filter.First ?? column.Filter.Second) != null ? "applied" : "";
+
+                                        <th class="filterable @column.CssClasses @hidden">
+                                            <div>
+                                                @if (column.Filter.Options.Any())
+                                                {
+                                                    if (column.Filter.Type == GridFilterType.Multi)
+                                                    {
+                                                        String[] values = column.Filter.First != null ? column.Filter.First.Values ?? new String[0] : new String[0];
+                                                        values = column.Filter.Options.Where(option => values.Contains(option.Value)).Select(option => option.Text).ToArray();
+
+                                                        <input class="mvc-grid-value" value="@String.Join(", ", values)" tabindex="-1" readonly />
+
+                                                        <select class="mvc-grid-options">
+                                                            @foreach (SelectListItem option in column.Filter.Options)
+                                                            {
+                                                                <option value="@option.Value">@option.Text</option>
+                                                            }
+                                                        </select>
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="mvc-grid-value">
+                                                            @foreach (SelectListItem option in column.Filter.Options)
+                                                            {
+                                                                if (column.Filter.First != null && column.Filter.First.Values.Contains(option.Value))
+                                                                {
+                                                                    <option value="@option.Value" selected>@option.Text</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="@option.Value">@option.Text</option>
+                                                                }
+                                                            }
+                                                        </select>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <input class="mvc-grid-value" value="@(column.Filter.First != null ? column.Filter.First.Values[0] : "")" />
+                                                }
+                                                <button type="button" class="mvc-grid-filter @filterApplied"></button>
+                                            </div>
+                                        </th>
+                                    }
+                                    else
+                                    {
+                                        <th class="@column.CssClasses @hidden"></th>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </thead>
+                    <tbody>
+                        @foreach (IGridRow<Object> row in Model.Rows)
+                        {
+                            string nombreGrid = Model.Id; // Para saber que se trata del grid de Permisos
+                            bool esGridPermisos = nombreGrid.Equals("grid-Permisos");
+
+                            DataRow fila = esGridPermisos ? (DataRow)row.Model : new DataTable().NewRow();
+
+                            int columna = 0;
+                            <tr class="@row.CssClasses" @row.Attributes>
+                                @foreach (IGridColumn column in Model.Columns)
+                                {
+                                    String classes = column.IsHidden ? column.CssClasses + " mvc-grid-hidden" : column.CssClasses;
+                                    var elementoHTML = column.ValueFor(row);
+
+                                    if (esGridPermisos)
+                                    {
+                                        string nombreMenu = (fila["NOMBREMENU"] ?? "").ToString();
+
+                                        bool permitido = ControlPermisos.AccionPermitidaControlador(fila, columna, ViewBag.ListadoMenusSistema, ViewBag.ListadoCatalogo);
+
+                                        string conversionFinalElemento = string.Empty;
+                                        if (!permitido)
+                                        {
+
+                                            var elementoTemp = elementoHTML.ToHtmlString();
+
+                                            int posicionInicial = elementoTemp.IndexOf("/>");
+
+                                            if (posicionInicial != -1 && !permitido)
+                                            {
+                                                conversionFinalElemento = elementoTemp.Insert(posicionInicial, "disabled");
+                                            }
+                                        }
+
+                                        var elementoFinalHtml = new HtmlString(conversionFinalElemento);
+
+                                        string tooltipTexto = !permitido ? string.Format("La acción no se encuentra disponible para el acceso a {0}.", nombreMenu) : string.Empty;
+
+                                        IHtmlString value = !string.IsNullOrEmpty(elementoFinalHtml.ToHtmlString()) ? elementoFinalHtml : elementoHTML;
+
+                                        string bloqueado = permitido ? "Centrar" : "Centrar AccionBloqueada";
+                                        <td title="@tooltipTexto" class="@classes @bloqueado">@value</td>
+                                        columna++;
+                                    }
+                                    else
+                                    {
+                                        <td class="@classes">@elementoHTML</td>
+                                    }
+
+                                }
+                            </tr>
+                        }
+                        @if (!Model.Rows.Any() && Model.EmptyText != null)
+                        {
+                            <tr class="mvc-grid-empty-row">
+                                <td colspan="@Model.Columns.Count()">
+                                    @Model.EmptyText
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    @*@if (Model.FooterPartialViewName != null)
+                        {
+                            <tfoot>
+                                @Html.Partial(Model.FooterPartialViewName, Model)
+                            </tfoot>
+                        }*@
+                </table>
+
+            </div>
+            @if (Model.Pager != null)
+            {
+                @Html.Partial(Model.Pager.PartialViewName, Model.Pager)
+            }
+        </div>
+    </div>
+</div>
+
+

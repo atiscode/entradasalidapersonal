@@ -1,0 +1,59 @@
+﻿
+
+@{
+    ViewBag.Title = "Parámetros";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .alinear-derecha {
+        text-align: right;
+    }
+</style>
+
+@Html.AjaxGrid(Url.Action("_IndexGrid"))
+
+@section ViewSpecificJavascript {
+    <script>
+        debugger
+        var idGrid = "grid-Parametros";
+        var urlAccionCrear = '@Url.Action("Create")';
+        var urlAccionReporteExcel = '@Url.Action("DescargarReporteFormatoExcel", "Parametros")';
+        var urlAccionReportePDF = '@Url.Action("DescargarReporteFormatoPDF", "Parametros")';
+        var urlAccionReporteCSV = '@Url.Action("DescargarReporteFormatoCSV", "Parametros")';
+
+        $(document).ready(function () {
+            debugger
+            recargarGridByID(idGrid);
+        })
+
+        function CrearRegistro() {
+            location.href = urlAccionCrear;
+        }
+
+        function ExportarRegistrosFormatoEXCEL() {
+            location.href = urlAccionReporteExcel;
+        }
+        function ExportarRegistrosFormatoPDF() {
+            location.href = urlAccionReportePDF;
+        }
+        function ExportarRegistrosFormatoCSV() {
+            location.href = urlAccionReporteCSV;
+        }
+
+        function RecargarDatosGrid() {
+            recargarGridByID(idGrid);
+        }
+        
+        $(document).keydown(callBackBusqueda);
+        $(document).keypress(callBackBusqueda);
+        $(document).keyup(callBackBusqueda);
+
+        function callBackBusqueda(e) {
+            debugger
+            busquedaGrid(idGrid);
+        }
+
+
+    </script>
+}
+

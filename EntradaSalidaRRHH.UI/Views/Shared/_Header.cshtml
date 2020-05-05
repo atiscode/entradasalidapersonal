@@ -1,0 +1,67 @@
+﻿<header class="main-header">
+    @* BEGIN Logo *@
+    <a href="@Url.Action("Index", "Home")" class="logo">
+        @* Mini logo for sidebar 50x50 pixels *@
+        <span class="logo-mini"><img src="~/Content/img/qph logo.png" width="80%" /></span>
+
+        @* Logo for regular state and mobile devices *@
+       <span class="logo-lg"><img id="logo-pricipal-aplicacion" src="~/Content/img/qph logo.png" /></span>
+    </a>
+    @* END Logo *@
+    @* BEGIN Header *@
+    <nav class="navbar navbar-static-top" role="navigation">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              
+                @* END Tasks *@
+                @* BEGIN User Account Menu *@
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        @*<img src="~/Content/img/user.jpg" class="user-image" alt="User Image">*@
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        <span class="hidden-xs">@SessionHelper.GetDatosUsuariosSession().NombresApellidos</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header" style="">
+                            @*<img src="~/Content/img/user.jpg" class="img-circle" alt="User Image">*@
+                            <p>
+                                <small>@(string.IsNullOrEmpty(SessionHelper.GetDatosUsuariosSession().MailCorporativo) ? SessionHelper.GetDatosUsuariosSession().Mail : SessionHelper.GetDatosUsuariosSession().MailCorporativo) </small>
+                                <small>@System.DateTime.Now</small>
+                            </p>
+                        </li>
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="col-xs-6 text-center">
+                                    <a href="@Url.Action("CambiarClave", "Usuario")" style="color:#2C2C2C;">Cambiar Clave</a>
+                                </div>
+                                @*<div class="col-xs-4 text-center">
+                                        <a href="#">Sales</a>
+                                    </div>*@
+                                <div class="col-xs-6 text-center">
+                                        <a href="@Url.Action("EditUsuario", "Usuario")" style="color:#F4901F;">Actualizar Datos</a>
+                                    </div>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            @*<div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                </div>*@
+                            <div align="center" @*class="pull-right"*@>
+                                <a href="@Url.Action("Logout","Login")" class="btn btn-default btn-flat">Cerrar Sesión</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                @* END User Account Menu *@
+                @* BEGIN Control Sidebar Toggle Button *@
+                @*<li>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                    </li>*@
+                @* END Control Sidebar Toggle Button *@
+            </ul>
+        </div>
+    </nav>
+</header>

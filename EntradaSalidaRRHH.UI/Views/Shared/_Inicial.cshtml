@@ -1,0 +1,32 @@
+﻿@using System.Web.Optimization
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Iniciar Sesión</title>
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="~/Content/css/toastr.min.css" rel="stylesheet" />
+
+    @Styles.Render("~/Bundles/css")
+
+</head>
+<body>
+    <header></header>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        <section>
+            @RenderBody()
+        </section>
+    </div>
+
+
+    <script src="~/Content/js/toastr.min.js"></script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+

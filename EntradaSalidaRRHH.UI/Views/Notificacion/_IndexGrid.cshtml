@@ -1,0 +1,33 @@
+﻿@model IEnumerable<NotificacionesInfo>
+@{
+    var acciones = (List<string>)ViewBag.AccionesUsuario;
+}
+@(Html
+                         .Grid(Model)
+                        .Build(columns =>
+                        {
+                            columns.Add(model => model.NombreTarea).Titled("Nombre").AppendCss("celda-mediana");
+                            columns.Add(model => model.DescripcionTarea).Titled("Descripción").AppendCss("celda-grande");
+                            columns.Add(model => model.NombreEmisor).Titled("Emisor").AppendCss("celda-mediana").Css("celda-centrada");
+                            columns.Add(model => model.CorreoEmisor).Titled("Correo Emisor").AppendCss("celda-mediana");
+                            columns.Add(model => model.CorreosDestinarios).Titled("Correos Destinatarios").AppendCss("celda-mediana");
+                            columns.Add(model => model.AsuntoCorreo).Titled("Asunto Correo").AppendCss("celda-mediana").Css("celda-centrada");
+                            columns.Add(model => model.NombreArchivoPlantillaCorreo).Titled("Html Plantilla").AppendCss("celda-mediana");
+                            columns.Add(model => model.AdjuntosCorreo).Titled("Adjuntos Correo").AppendCss("celda-mediana");
+                            columns.Add(model => model.FechaEnvioCorreo).Titled("Fecha de Envío").AppendCss("celda-mediana").Css("celda-centrada");
+                            columns.Add(model => model.EstadoActivacionNotificacion).Titled("Estado Activación").Encoded(false).RenderedAs(model => model.EstadoNotificacion ? "<b style='color: green'>" + model.EstadoActivacionNotificacion + "</b>" : "<b style='color: red'>" + model.EstadoActivacionNotificacion + "</b>").Css("celda-centrada");
+                            columns.Add(model => model.EstadoEnColaNotificacion).Titled("Estado En Cola").AppendCss("celda-mediana").Css("celda-centrada");
+                            columns.Add(model => model.EstadoEnvioNotificacion).Titled("Estado Envío").AppendCss("celda-mediana").Css("celda-centrada");
+                            columns.Add(model => model.DetalleEstadoEjecucionNotificacion).Titled("Detalle").AppendCss("celda-mediana");
+                            columns.Add(model => "<button title='Cancelar Notificación.' onclick='ConfirmarEliminacion_(" + model.IDNotificaciones + ",\"" + @Url.Action("Cancelar", "Notificacion") + "\");' style='cursor: pointer; display:" + (model.EstadoNotificacion && !model.EstadoEnviadoNotificacion.Value && ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-CANCE-NOTI").Equals("ocultar-accion-catalogo") ? "inline-block" : "none") + ";  background-color:#FF5E00;border-color:#FF5E00;' class='btn btn-danger "+ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-CANCE-NOTI")+" ' id='cancelar' data-id=\"" + model.IDNotificaciones + "\"><span class='glyphicon glyphicon-random' aria-hidden='true'></span></button>").AppendCss("celda-pequenia").Encoded(false);
+                        })
+
+                        .Empty(Mensajes.MensajeNoDataListado)
+                        .Id("grid-Notificacion")
+                        .Pageable(pager =>
+                        {
+                            pager.PagesToDisplay = 5;
+                            pager.RowsPerPage = 10;
+                        })
+                        .Filterable()
+                        .Sortable())

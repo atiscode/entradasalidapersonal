@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NotificadorAtiscodeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Notificaciones">
+          <Key>
+            <PropertyRef Name="IDNotificaciones" />
+          </Key>
+          <Property Name="IDNotificaciones" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreTarea" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="DescripcionTarea" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="NombreEmisor" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="CorreoEmisor" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ClaveCorreo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CorreosDestinarios" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AsuntoCorreo" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="NombreArchivoPlantillaCorreo" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="CuerpoCorreo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AdjuntosCorreo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FechaEnvioCorreo" Type="datetime" Nullable="false" />
+          <Property Name="EstadoNotificacion" Type="bit" Nullable="false" />
+          <Property Name="EstadoEnviadoNotificacion" Type="bit" />
+          <Property Name="EstadoEjecucionNotificacion" Type="bit" Nullable="false" />
+          <Property Name="DetalleEstadoEjecucionNotificacion" Type="nvarchar(max)" />
+          <Property Name="Empresa" Type="varchar" MaxLength="500" />
+          <Property Name="Canal" Type="varchar" MaxLength="500" />
+          <Property Name="Tipo" Type="varchar" MaxLength="500" />
+          <Property Name="IDTareaGestionNotificador" Type="varchar(max)" />
+        </EntityType>
+        <Function Name="InsertarNotificacionAtiscode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NombreTarea" Type="varchar" Mode="In" />
+          <Parameter Name="DescripcionTarea" Type="varchar" Mode="In" />
+          <Parameter Name="NombreEmisor" Type="varchar" Mode="In" />
+          <Parameter Name="CorreoEmisor" Type="nvarchar" Mode="In" />
+          <Parameter Name="ClaveCorreo" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CorreosDestinatarios" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="AsuntoCorreo" Type="varchar" Mode="In" />
+          <Parameter Name="NombreArchivoPlantillaCorreo" Type="nvarchar" Mode="In" />
+          <Parameter Name="CuerpoCorreo" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="AdjuntosCorreo" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="FechaEnvioCorreo" Type="datetime" Mode="In" />
+          <Parameter Name="DetalleEstadoEjecucionNotificacion" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Empresa" Type="varchar" Mode="In" />
+          <Parameter Name="Canal" Type="varchar" Mode="In" />
+          <Parameter Name="Tipo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="InsertarNotificacionAtiscodeCatchingResults" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NombreTarea" Type="varchar" Mode="In" />
+          <Parameter Name="DescripcionTarea" Type="varchar" Mode="In" />
+          <Parameter Name="NombreEmisor" Type="varchar" Mode="In" />
+          <Parameter Name="CorreoEmisor" Type="nvarchar" Mode="In" />
+          <Parameter Name="ClaveCorreo" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CorreosDestinatarios" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="AsuntoCorreo" Type="varchar" Mode="In" />
+          <Parameter Name="NombreArchivoPlantillaCorreo" Type="nvarchar" Mode="In" />
+          <Parameter Name="CuerpoCorreo" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="AdjuntosCorreo" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="FechaEnvioCorreo" Type="datetime" Mode="In" />
+          <Parameter Name="DetalleEstadoEjecucionNotificacion" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Empresa" Type="varchar" Mode="In" />
+          <Parameter Name="Canal" Type="varchar" Mode="In" />
+          <Parameter Name="Tipo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ListadoNotificaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ListadoNotificacionesRRHH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="NotificadorAtiscodeModelStoreContainer">
+          <EntitySet Name="Notificaciones" EntityType="Self.Notificaciones" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NotificadorAtiscodeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="NotificadorAtiscodeEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="ListadoNotificaciones" ReturnType="Collection(NotificadorAtiscodeModel.NotificacionesInfo)" />
+          <EntitySet Name="Notificaciones" EntityType="NotificadorAtiscodeModel.Notificaciones" />
+          <FunctionImport Name="InsertarNotificacionAtiscode">
+            <Parameter Name="NombreTarea" Mode="In" Type="String" />
+            <Parameter Name="DescripcionTarea" Mode="In" Type="String" />
+            <Parameter Name="NombreEmisor" Mode="In" Type="String" />
+            <Parameter Name="CorreoEmisor" Mode="In" Type="String" />
+            <Parameter Name="ClaveCorreo" Mode="In" Type="String" />
+            <Parameter Name="CorreosDestinatarios" Mode="In" Type="String" />
+            <Parameter Name="AsuntoCorreo" Mode="In" Type="String" />
+            <Parameter Name="NombreArchivoPlantillaCorreo" Mode="In" Type="String" />
+            <Parameter Name="CuerpoCorreo" Mode="In" Type="String" />
+            <Parameter Name="AdjuntosCorreo" Mode="In" Type="String" />
+            <Parameter Name="FechaEnvioCorreo" Mode="In" Type="DateTime" />
+            <Parameter Name="DetalleEstadoEjecucionNotificacion" Mode="In" Type="String" />
+            <Parameter Name="Empresa" Mode="In" Type="String" />
+            <Parameter Name="Canal" Mode="In" Type="String" />
+            <Parameter Name="Tipo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ListadoNotificacionesRRHH" ReturnType="Collection(NotificadorAtiscodeModel.NotificacionesInfo)" />
+          <FunctionImport Name="InsertarNotificacionAtiscodeCatchingResults" ReturnType="Collection(NotificadorAtiscodeModel.OperationResultDB)">
+            <Parameter Name="NombreTarea" Mode="In" Type="String" />
+            <Parameter Name="DescripcionTarea" Mode="In" Type="String" />
+            <Parameter Name="NombreEmisor" Mode="In" Type="String" />
+            <Parameter Name="CorreoEmisor" Mode="In" Type="String" />
+            <Parameter Name="ClaveCorreo" Mode="In" Type="String" />
+            <Parameter Name="CorreosDestinatarios" Mode="In" Type="String" />
+            <Parameter Name="AsuntoCorreo" Mode="In" Type="String" />
+            <Parameter Name="NombreArchivoPlantillaCorreo" Mode="In" Type="String" />
+            <Parameter Name="CuerpoCorreo" Mode="In" Type="String" />
+            <Parameter Name="AdjuntosCorreo" Mode="In" Type="String" />
+            <Parameter Name="FechaEnvioCorreo" Mode="In" Type="DateTime" />
+            <Parameter Name="DetalleEstadoEjecucionNotificacion" Mode="In" Type="String" />
+            <Parameter Name="Empresa" Mode="In" Type="String" />
+            <Parameter Name="Canal" Mode="In" Type="String" />
+            <Parameter Name="Tipo" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="NotificacionesInfo">
+          <Property Type="Int64" Name="IDNotificaciones" Nullable="false" />
+          <Property Type="String" Name="NombreTarea" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="DescripcionTarea" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="NombreEmisor" Nullable="false" MaxLength="300" />
+          <Property Type="String" Name="CorreoEmisor" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="ClaveCorreo" Nullable="false" />
+          <Property Type="String" Name="CorreosDestinarios" Nullable="false" />
+          <Property Type="String" Name="AsuntoCorreo" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="NombreArchivoPlantillaCorreo" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="CuerpoCorreo" Nullable="false" />
+          <Property Type="String" Name="AdjuntosCorreo" Nullable="false" />
+          <Property Type="DateTime" Name="FechaEnvioCorreo" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="EstadoNotificacion" Nullable="false" />
+          <Property Type="Boolean" Name="EstadoEnviadoNotificacion" Nullable="true" />
+          <Property Type="Boolean" Name="EstadoEjecucionNotificacion" Nullable="false" />
+          <Property Type="String" Name="DetalleEstadoEjecucionNotificacion" Nullable="true" />
+          <Property Type="String" Name="Empresa" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Canal" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="EstadoActivacionNotificacion" Nullable="false" MaxLength="11" />
+          <Property Type="String" Name="EstadoEnColaNotificacion" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="EstadoEnvioNotificacion" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <EntityType Name="Notificaciones">
+          <Key>
+            <PropertyRef Name="IDNotificaciones" />
+          </Key>
+          <Property Name="IDNotificaciones" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreTarea" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionTarea" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="NombreEmisor" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="CorreoEmisor" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveCorreo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CorreosDestinarios" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AsuntoCorreo" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="NombreArchivoPlantillaCorreo" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CuerpoCorreo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AdjuntosCorreo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaEnvioCorreo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EstadoNotificacion" Type="Boolean" Nullable="false" />
+          <Property Name="EstadoEnviadoNotificacion" Type="Boolean" />
+          <Property Name="EstadoEjecucionNotificacion" Type="Boolean" Nullable="false" />
+          <Property Name="DetalleEstadoEjecucionNotificacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Empresa" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Canal" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IDTareaGestionNotificador" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="OperationResultDB">
+          <Property Type="String" Name="Respuesta" Nullable="true" />
+          <Property Type="Decimal" Name="IdentityEntidad" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="Boolean" Name="Estado" Nullable="true" />
+          <Property Type="Int32" Name="ErrorNumber" Nullable="true" />
+          <Property Type="Int32" Name="Error" Nullable="true" />
+          <Property Type="Int32" Name="ErrorState" Nullable="true" />
+          <Property Type="Int32" Name="ErrorLine" Nullable="true" />
+          <Property Type="String" Name="ErrorProcedure" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NotificadorAtiscodeModelStoreContainer" CdmEntityContainer="NotificadorAtiscodeEntities" >
+          <FunctionImportMapping FunctionImportName="ListadoNotificaciones" FunctionName="NotificadorAtiscodeModel.Store.ListadoNotificaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NotificadorAtiscodeModel.NotificacionesInfo">
+                <ScalarProperty Name="IDNotificaciones" ColumnName="IDNotificaciones" />
+                <ScalarProperty Name="NombreTarea" ColumnName="NombreTarea" />
+                <ScalarProperty Name="DescripcionTarea" ColumnName="DescripcionTarea" />
+                <ScalarProperty Name="NombreEmisor" ColumnName="NombreEmisor" />
+                <ScalarProperty Name="CorreoEmisor" ColumnName="CorreoEmisor" />
+                <ScalarProperty Name="ClaveCorreo" ColumnName="ClaveCorreo" />
+                <ScalarProperty Name="CorreosDestinarios" ColumnName="CorreosDestinarios" />
+                <ScalarProperty Name="AsuntoCorreo" ColumnName="AsuntoCorreo" />
+                <ScalarProperty Name="NombreArchivoPlantillaCorreo" ColumnName="NombreArchivoPlantillaCorreo" />
+                <ScalarProperty Name="CuerpoCorreo" ColumnName="CuerpoCorreo" />
+                <ScalarProperty Name="AdjuntosCorreo" ColumnName="AdjuntosCorreo" />
+                <ScalarProperty Name="FechaEnvioCorreo" ColumnName="FechaEnvioCorreo" />
+                <ScalarProperty Name="EstadoNotificacion" ColumnName="EstadoNotificacion" />
+                <ScalarProperty Name="EstadoEnviadoNotificacion" ColumnName="EstadoEnviadoNotificacion" />
+                <ScalarProperty Name="EstadoEjecucionNotificacion" ColumnName="EstadoEjecucionNotificacion" />
+                <ScalarProperty Name="DetalleEstadoEjecucionNotificacion" ColumnName="DetalleEstadoEjecucionNotificacion" />
+                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
+                <ScalarProperty Name="Canal" ColumnName="Canal" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="EstadoActivacionNotificacion" ColumnName="EstadoActivacionNotificacion" />
+                <ScalarProperty Name="EstadoEnColaNotificacion" ColumnName="EstadoEnColaNotificacion" />
+                <ScalarProperty Name="EstadoEnvioNotificacion" ColumnName="EstadoEnvioNotificacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Notificaciones">
+            <EntityTypeMapping TypeName="NotificadorAtiscodeModel.Notificaciones">
+              <MappingFragment StoreEntitySet="Notificaciones">
+                <ScalarProperty Name="IDTareaGestionNotificador" ColumnName="IDTareaGestionNotificador" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Canal" ColumnName="Canal" />
+                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
+                <ScalarProperty Name="DetalleEstadoEjecucionNotificacion" ColumnName="DetalleEstadoEjecucionNotificacion" />
+                <ScalarProperty Name="EstadoEjecucionNotificacion" ColumnName="EstadoEjecucionNotificacion" />
+                <ScalarProperty Name="EstadoEnviadoNotificacion" ColumnName="EstadoEnviadoNotificacion" />
+                <ScalarProperty Name="EstadoNotificacion" ColumnName="EstadoNotificacion" />
+                <ScalarProperty Name="FechaEnvioCorreo" ColumnName="FechaEnvioCorreo" />
+                <ScalarProperty Name="AdjuntosCorreo" ColumnName="AdjuntosCorreo" />
+                <ScalarProperty Name="CuerpoCorreo" ColumnName="CuerpoCorreo" />
+                <ScalarProperty Name="NombreArchivoPlantillaCorreo" ColumnName="NombreArchivoPlantillaCorreo" />
+                <ScalarProperty Name="AsuntoCorreo" ColumnName="AsuntoCorreo" />
+                <ScalarProperty Name="CorreosDestinarios" ColumnName="CorreosDestinarios" />
+                <ScalarProperty Name="ClaveCorreo" ColumnName="ClaveCorreo" />
+                <ScalarProperty Name="CorreoEmisor" ColumnName="CorreoEmisor" />
+                <ScalarProperty Name="NombreEmisor" ColumnName="NombreEmisor" />
+                <ScalarProperty Name="DescripcionTarea" ColumnName="DescripcionTarea" />
+                <ScalarProperty Name="NombreTarea" ColumnName="NombreTarea" />
+                <ScalarProperty Name="IDNotificaciones" ColumnName="IDNotificaciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InsertarNotificacionAtiscode" FunctionName="NotificadorAtiscodeModel.Store.InsertarNotificacionAtiscode" />
+          <FunctionImportMapping FunctionImportName="ListadoNotificacionesRRHH" FunctionName="NotificadorAtiscodeModel.Store.ListadoNotificacionesRRHH">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NotificadorAtiscodeModel.NotificacionesInfo">
+                <ScalarProperty Name="IDNotificaciones" ColumnName="IDNotificaciones" />
+                <ScalarProperty Name="NombreTarea" ColumnName="NombreTarea" />
+                <ScalarProperty Name="DescripcionTarea" ColumnName="DescripcionTarea" />
+                <ScalarProperty Name="NombreEmisor" ColumnName="NombreEmisor" />
+                <ScalarProperty Name="CorreoEmisor" ColumnName="CorreoEmisor" />
+                <ScalarProperty Name="ClaveCorreo" ColumnName="ClaveCorreo" />
+                <ScalarProperty Name="CorreosDestinarios" ColumnName="CorreosDestinarios" />
+                <ScalarProperty Name="AsuntoCorreo" ColumnName="AsuntoCorreo" />
+                <ScalarProperty Name="NombreArchivoPlantillaCorreo" ColumnName="NombreArchivoPlantillaCorreo" />
+                <ScalarProperty Name="CuerpoCorreo" ColumnName="CuerpoCorreo" />
+                <ScalarProperty Name="AdjuntosCorreo" ColumnName="AdjuntosCorreo" />
+                <ScalarProperty Name="FechaEnvioCorreo" ColumnName="FechaEnvioCorreo" />
+                <ScalarProperty Name="EstadoNotificacion" ColumnName="EstadoNotificacion" />
+                <ScalarProperty Name="EstadoEnviadoNotificacion" ColumnName="EstadoEnviadoNotificacion" />
+                <ScalarProperty Name="EstadoEjecucionNotificacion" ColumnName="EstadoEjecucionNotificacion" />
+                <ScalarProperty Name="DetalleEstadoEjecucionNotificacion" ColumnName="DetalleEstadoEjecucionNotificacion" />
+                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
+                <ScalarProperty Name="Canal" ColumnName="Canal" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="EstadoActivacionNotificacion" ColumnName="EstadoActivacionNotificacion" />
+                <ScalarProperty Name="EstadoEnColaNotificacion" ColumnName="EstadoEnColaNotificacion" />
+                <ScalarProperty Name="EstadoEnvioNotificacion" ColumnName="EstadoEnvioNotificacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertarNotificacionAtiscodeCatchingResults" FunctionName="NotificadorAtiscodeModel.Store.InsertarNotificacionAtiscodeCatchingResults">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NotificadorAtiscodeModel.OperationResultDB">
+                <ScalarProperty Name="Respuesta" ColumnName="Respuesta" />
+                <ScalarProperty Name="IdentityEntidad" ColumnName="IdentityEntidad" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="ErrorNumber" ColumnName="ErrorNumber" />
+                <ScalarProperty Name="Error" ColumnName="Error" />
+                <ScalarProperty Name="ErrorState" ColumnName="ErrorState" />
+                <ScalarProperty Name="ErrorLine" ColumnName="ErrorLine" />
+                <ScalarProperty Name="ErrorProcedure" ColumnName="ErrorProcedure" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

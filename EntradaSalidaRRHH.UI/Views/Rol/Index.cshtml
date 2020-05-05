@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@Html.AjaxGrid(Url.Action("_IndexGrid"))
+
+@section ViewSpecificJavascript {
+    <script>
+        debugger
+        var idGrid = "grid-Roles";
+        var urlAccionCrear = '@Url.Action("Create")';
+        var urlAccionReporteExcel = '@Url.Action("DescargarReporteFormatoExcel", "Rol")';
+        var urlAccionReportePDF = '@Url.Action("DescargarReporteFormatoPDF", "Rol")';
+        var urlAccionReporteCSV = '@Url.Action("DescargarReporteFormatoCSV", "Rol")';
+
+
+    $(document).ready(function () {
+            debugger
+            recargarGridByID(idGrid);
+        })
+
+        function CrearRegistro() {
+            location.href = urlAccionCrear;
+        }
+
+        function ExportarRegistrosFormatoEXCEL() {
+            location.href = urlAccionReporteExcel;
+        }
+        function ExportarRegistrosFormatoPDF() {
+            location.href = urlAccionReportePDF;
+        }
+        function ExportarRegistrosFormatoCSV() {
+            location.href = urlAccionReporteCSV;
+        }
+
+        function RecargarDatosGrid() {
+            recargarGridByID(idGrid);
+        }
+
+        $(document).keydown(callBackBusqueda);
+        $(document).keypress(callBackBusqueda);
+        $(document).keyup(callBackBusqueda);
+
+        function callBackBusqueda(e) {
+            debugger
+            busquedaGrid(idGrid);
+        }
+
+    </script>
+} 

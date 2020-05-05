@@ -1,0 +1,273 @@
+﻿@model RequerimientoEquipo
+@{
+    ViewBag.Title = "Formulario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var usuario = UsuarioDAL.ConsultarUsuario((int)ViewBag.UsuarioID);
+    var informacionIngreso = IngresoDAL.ConsultarIngresoByUsuarioID((int)ViewBag.UsuarioID);
+}
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+
+<div class="panel">
+
+    <div class="panel-heading-create custom-header-panel">
+        <h4>@ViewBag.TituloPanel <div class="pull-right"> @System.DateTime.Now.ToString("yyyy/MM/dd")</div></h4>
+    </div>
+
+    <div class="panel-body">
+
+        @*@Html.Partial("_Cabecera", new ViewDataDictionary { { "DatosUsuario", usuario } })*@
+
+        <form action="#" id="form-RequerimientoEquipo" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+            @Html.Hidden("IDRequerimientoEquipo", Model.IDRequerimientoEquipo)
+            @Html.Hidden("UsuarioSolicitanteID", Model.UsuarioSolicitanteID)
+            @Html.Hidden("Estado", true)
+            @Html.Hidden("Asignado", (bool)ViewBag.Asignado)
+            @Html.Hidden("FechaAsignacion", Model.FechaAsignacion)
+
+            @Html.Hidden("FechaAprobacion", Model.FechaAprobacion)
+            @Html.Hidden("Aprobado", Model.Aprobado)
+
+            @Html.Hidden("UsuarioID", Model.UsuarioID)
+
+            @Html.Hidden("FechaSolicitud", Model.FechaSolicitud)
+            @Html.Hidden("CredencialAcceso", Model.CredencialAcceso)
+
+
+
+            @if ((int)ViewBag.UsuarioID != 0 && informacionIngreso != null && usuario != null)
+            {
+                @Html.Partial("_InformacionUsuario", new ViewDataDictionary { { "DatosUsuario", usuario }, { "InformacionIngreso", informacionIngreso } })
+            }
+
+            <div class="row fila-seccion">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="etiqueta-seccion control-label col-md-4">Fecha Estimada de Entrega de Equipo/s: <span class="requerido"> *</span></label>
+                        <div class="col-md-8">
+                            <div class="input-group date">
+                                <div class="input-group-addon" title="Seleccionar o digitar la fecha.">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" name="FechaEstimadaEntregaEquipos" id="FechaEstimadaEntregaEquipos" class="form-control pull-right datepicker campo-requerido" value="@(Model.FechaEstimadaEntregaEquipos == null ? System.DateTime.Now.ToString("dd/MM/yyyy") : Model.FechaEstimadaEntregaEquipos.Value.ToString("dd/MM/yyyy"))" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row fila-seccion">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="etiqueta-seccion control-label col-md-2">Equipo:<span class="requerido"> *</span></label>
+                        <div class="col-md-9">
+                            @Html.DropDownList("Equipo", Enumerable.Empty<SelectListItem>(), new { @class = "js-example-basic-multiple", style = "width: 100%;" })
+                        </div>
+                        <div class="col-md-1" style="margin-top: 6px;">
+                            <span>
+                                <a style="cursor: pointer" title="Listado de Equipos sugeridos de acuerdo al cargo del usuario." id="get-visulizacion-usuario" data-backdrop="static" @*data-keyboard="false"*@ data-toggle="modal" data-target="#contenido-modal" onclick="_GetCreate({id: $('#UsuarioID').val()}, '@Url.Action("_EquiposSugeridosCargo", "RequerimientoEquipo")');"> <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row fila-seccion">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="etiqueta-seccion control-label col-md-2">Herramientas Adicionales:</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("HerramientasAdicionales", Enumerable.Empty<SelectListItem>(), new { @class = "js-example-basic-multiple", style = "width: 100%;" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row fila-seccion">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="etiqueta-seccion control-label col-md-2">Credenciales de Acceso: <span class="requerido"> *</span></label>
+                        <div class="col-md-10">
+                            @Html.Editor("CredencialAcceso", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = Model.CredencialAcceso, required = "", disabled = "disabled", maxlength = "200" } })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+
+        <div class="row fila-seccion">
+            <div class="col-xs-6" style="text-align: right;">
+                <input id="guardar" type="button" value="Guardar" class="btn btn-default" @(Model.Asignado ? "disabled" : string.Empty) />
+            </div>
+            <div class="col-xs-6" style="text-align: left;">
+                @*<input id="regresar" type="button" value="Regresar" class="btn btn-default" />*@
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+@section ViewSpecificJavascript {
+    <script>
+        var urlAccionGuardar = '@Url.Action("Create","RequerimientoEquipo")';
+        var urlAccionEditar = '@Url.Action("Edit", "RequerimientoEquipo")';
+        var urlAccionListado = '@Url.Action("Index")';
+
+        var equipos = @Html.Raw(Json.Encode(ViewBag.Equipos));
+        var sugerenciasEquipos = @Html.Raw(Json.Encode(ViewBag.EquiposSugeridos));
+        var herramientasAdicionales = @Html.Raw(Json.Encode(ViewBag.HerramientasAdicionales));
+
+        $(window).on('load',function () {
+            debugger
+            //Cargar Sugerencias de Equipos por defecto
+            if ($("#IDRequerimientoEquipo").val() == 0) {
+                setTimeout(function () {
+                    CargarValoresSelect2(sugerenciasEquipos, "Equipo");
+                }, 1500);
+            }
+            setTimeout(function () {
+                CargarValoresSelect2(equipos, "Equipo")
+                CargarValoresSelect2(herramientasAdicionales, "HerramientasAdicionales")
+            }, 500);
+        })
+
+        function guardar() {
+            debugger
+
+            var formulario = $('#form-RequerimientoEquipo').serializeObject()
+
+            let accion = $("#IDRequerimientoEquipo").val() == 0 ? urlAccionGuardar : urlAccionEditar;
+
+            var data_form = JSON.stringify({ "formulario": formulario, "equipos": $("#Equipo").val(), "herramientasAdicionales": $("#HerramientasAdicionales").val() })
+            _Guardar(data_form, accion, urlAccionListado)
+           // _GuardarGenericoLoading(data_form, urlAccionGuardarActa, urlAccionListado);
+        }
+
+        $("#guardar").click(function () {
+            debugger
+            var flag = validarCamposRequeridosFormularioCompleto("form-RequerimientoEquipo");
+            if (flag)
+                guardar();
+            else
+                toastr.error('@Mensajes.MensajeDatosObligatorios')
+        })
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#Equipo").select2({
+                //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)
+                minimumInputLength: 0, //for listing all records > set 0
+                maximumInputLength: 20, //only allow terms up to 20 characters long
+                multiple: true,
+                placeholder: '@Etiquetas.TituloComboMultipleVacio',
+                allowClear: true,
+                tags: false, //prevent free text entry
+                "language": {
+                    "noResults": function () {
+                        return '@Mensajes.MensajeNoDataListado';
+                    },
+                    "searching": function () {
+                        return '@Mensajes.MensajeBuscandoListado';
+                    }
+                },
+                //width: "100%",
+                ajax: {
+                    url: '@Url.Action("GetEquipos", "RequerimientoEquipo")',
+                    dataType: 'json',
+                    delay: 100,
+                    data: function (params) {
+                        return {
+                            query: params.term, //search term
+                            page: params.page,
+                        };
+                    },
+                    processResults: function (data, page) {
+                        var newData = [];
+                        $.each(data, function (index, item) {
+                            newData.push({
+                                //id part present in data
+                                id: item.Value,
+                                //string to be displayed
+                                text: item.Text
+                            });
+                        });
+                        return { results: newData };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function (markup) { return markup; }
+            });
+
+            //You can simply listen to the select2:select event to get the selected item
+            $("#Equipo").on('select2:select', onSelect)
+            function onSelect(evt) {
+                console.log($(this).val());
+            }
+
+            //Event example for close event
+            $("#Equipo").on('select2:close', onClose)
+
+            function onClose(evt) {
+                console.log('Closed…');
+            }
+
+            $("#HerramientasAdicionales").select2({
+                //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)
+                minimumInputLength: 0, //for listing all records > set 0
+                maximumInputLength: 50, //only allow terms up to 20 characters long
+                multiple: true,
+                placeholder: "Seleccionar.",
+                allowClear: true,
+                tags: false, //prevent free text entry
+                //width: "100%",
+                ajax: {
+                    url: '@Url.Action("GetHerramientasAdicionales", "RequerimientoEquipo")',
+                    dataType: 'json',
+                    delay: 100,
+                    data: function (params) {
+                        return {
+                            query: params.term, //search term
+                            page: params.page,
+                        };
+                    },
+                    processResults: function (data, page) {
+                        var newData = [];
+                        $.each(data, function (index, item) {
+                            newData.push({
+                                //id part present in data
+                                id: item.Value,
+                                //string to be displayed
+                                text: item.Text
+                            });
+                        });
+                        return { results: newData };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function (markup) { return markup; }
+            });
+
+            //You can simply listen to the select2:select event to get the selected item
+            $("#HerramientasAdicionales").on('select2:select', onSelect)
+            function onSelect(evt) {
+                console.log($(this).val());
+            }
+
+            //Event example for close event
+            $("#HerramientasAdicionales").on('select2:close', onClose)
+
+        })
+    </script>
+    <script src="~/Content/js/plugins/select2/select2.min.js"></script>
+}

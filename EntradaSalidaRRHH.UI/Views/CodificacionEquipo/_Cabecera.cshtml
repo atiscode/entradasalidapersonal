@@ -1,0 +1,157 @@
+﻿@{
+    UsuarioInfo Usuario = (UsuarioInfo)ViewBag.DatosUsuario;
+    IngresosInfo Ingreso = (IngresosInfo)ViewBag.InformacionIngreso;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 id="texto-informacion-principal" class="box-title">Información Principal </h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+
+                <div class="row fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Nombres: </label>
+                            <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                @Html.Editor("nombre_usuario", new { htmlAttributes = new { @class = "form-control", @Value = Usuario.Nombres, @disabled = "disabled", maxlength = 150 } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Apellidos: </label>
+                            <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                @Html.Editor("apellido_usuario", new { htmlAttributes = new { @class = "form-control", @Value = Usuario.Apellidos, @disabled = "disabled", maxlength = 200 } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Fecha Ingreso:</label>
+                            <div class="col-md-8">
+                                @Html.Editor("FechaIngreso", new { htmlAttributes = new { @class = "form-control", @Value =  Ingreso.FechaIngreso, @disabled = "disabled" } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Identificación: </label>
+                            <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                @Html.Editor("Identificacion", new { htmlAttributes = new { @class = "form-control", @Value = Usuario.Identificacion, @disabled = "disabled", maxlength = 20 } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row  fila-seccion">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-2">Jefe Directo:</label>
+                            <div class="col-md-10">
+                                @Html.Editor("JefeDirecto", new { htmlAttributes = new { @class = "form-control", @Value = Ingreso.TextoCatalogoJefeDirecto, @disabled = "disabled" } })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>*@
+
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Teléfono: </label>
+                            <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                @Html.Editor("telefono_usuario", new { htmlAttributes = new { @class = "form-control", @Value = Usuario.Telefono, @disabled = "disabled", maxlength = 15 } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Celular: <span class="requerido"> *</span></label>
+                            <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                @Html.Editor("celular_usuario", new { htmlAttributes = new { @class = "form-control", @Value = Usuario.Celular, @disabled = "disabled", maxlength = 15 } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Tipo Ingreso:</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("TipoIngreso", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-INGRE-01", (Ingreso.TipoIngreso ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Empresa:</label>
+                            <div class="col-md-8">
+
+                                @Html.DropDownList("Empresa", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("EMP-01", (Ingreso.Empresa ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Departamento:</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("Departamento", CatalogoDAL.ListadoCatalogosPorCodigoId("DEPARTAMENTO", (Ingreso.Empresa ?? 0), (Ingreso.Departamento ?? 0).ToString()), new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Area:</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("Area", CatalogoDAL.ListadoCatalogosPorCodigoId("ÁREA", (Ingreso.Empresa ?? 0), (Ingreso.Area ?? 0).ToString()), new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Cargo: </label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("Cargo", CatalogoDAL.ListadoCatalogosPorCodigoId("CARGO", (Ingreso.Empresa ?? 0), (Ingreso.Cargo ?? 0).ToString()), new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Jefe Directo: </label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("JefeDirecto", CatalogoDAL.ListadoCatalogosPorCodigoId("JEFE", (Ingreso.Empresa ?? 0), (Ingreso.JefeDirecto ?? 0).ToString()), new { @class = "form-control", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

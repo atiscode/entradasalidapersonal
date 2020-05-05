@@ -1,0 +1,46 @@
+﻿@model InformacionEquipoCodificacionInfo
+
+<script>
+    $(document).ready(function () {
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+    });
+</script>
+
+<div class="table-responsive">
+    <table class="table table-hover table-responsive table-bordered">
+        <tbody>
+            <tr>
+                <th>Nombre</th>
+                <td>@Model.NombreEquipo</td>
+            </tr>
+            <tr>
+                <th>Serie Equipo</th>
+                <td>@Model.SerieEquipo</td>
+            </tr>
+            <tr>
+                <th>Factura</th>
+                <td>
+                    <a title="Click para acceder al enlace o link." href="@Url.Action("DescargarArchivo", "DesvinculacionPersonal", new { path = @Model.Adjunto })" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> @Model.Factura</a>
+                </td>
+            </tr>
+            <tr>
+                <th>Descripción</th>
+                <td>@Model.DescripcionEquipo</td>
+            </tr>
+            <tr>
+                <th>Tipo</th>
+                <td>@Model.TextoCatalogoTipo</td>
+            </tr>
+            <tr>
+                <th>Proveedor</th>
+                <td>@Model.TextoCatalogoProveedor</td>
+            </tr>
+            <tr>
+                <th>Precio</th>
+                <td>@Model.Costo</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+

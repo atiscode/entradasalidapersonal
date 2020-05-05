@@ -1,0 +1,123 @@
+﻿@{
+    UsuarioInfo Usuario = (UsuarioInfo)ViewBag.DatosUsuario;
+    IngresosInfo Ingreso = (IngresosInfo)ViewBag.InformacionIngreso;
+}
+<script>
+    $(document).ready(function () {
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+    });
+</script>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-body">
+
+                <div class="row fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Nombres: </label>
+                            <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                @Html.Editor("Nombres", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = Usuario.Nombres, required = "", @disabled = "disabled", maxlength = "150" } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Apellidos: </label>
+                            <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                @Html.Editor("Apellidos", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = Usuario.Apellidos, required = "", @disabled = "disabled", maxlength = "200" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Correo Asignado: </label>
+                            <div class="col-md-8">
+                                @Html.Editor("MailCorporativo", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = Ingreso.CorreoAsignado, required = "", @disabled = "disabled", maxlength = "150" } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Correo Personal: </label>
+                            <div class="col-md-8">
+                                @Html.Editor("Mail", new { htmlAttributes = new { @class = "form-control", @Value = Usuario.Mail, required = "", @disabled = "disabled", maxlength = "150" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Fecha Ingreso: </label>
+                            <div class="col-md-8">
+                                @Html.Editor("FechaIngreso", new { htmlAttributes = new { @class = "form-control", @Value = (Ingreso.FechaIngreso ?? new DateTime()).ToString("yyyy/MM//dd"), required = "", @disabled = "disabled" } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Identificación: </label>
+                            <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                @Html.Editor("Identificacion", new { htmlAttributes = new { @class = "form-control", @Value = Ingreso.IdentificacionUsuario, required = "", @disabled = "disabled" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Cargo: </label>
+                            <div class="col-md-8">
+                                @Html.Editor("Cargo", new { htmlAttributes = new { @class = "form-control", @Value = Usuario.TextoCatalogoCargo, required = "", @disabled = "disabled" } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Jefe Directo: </label>
+                            <div class="col-md-8">
+                                @Html.Editor("JefeDirecto", new { htmlAttributes = new { @class = "form-control", @Value = Ingreso.TextoCatalogoJefeDirecto, required = "", @disabled = "disabled" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Tipo de Ingreso: </label>
+                            <div class="col-md-8">
+                                @Html.Editor("TipoIngreso", new { htmlAttributes = new { @class = "form-control", @Value = Ingreso.TextoCatalogoTipoIngreso, required = "", @disabled = "disabled" } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Reemplazo: </label>
+                            <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                @Html.Editor("Reemplazo", new { htmlAttributes = new { @class = "form-control", @Value = Ingreso.PersonaReemplazante, required = "", @disabled = "disabled", maxlength = "200" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

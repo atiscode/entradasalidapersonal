@@ -1,0 +1,43 @@
+﻿@model IEnumerable<EquiposInfo>
+@{
+    var acciones = (List<string>)ViewBag.AccionesUsuario;
+}
+@(Html
+        .Grid(Model)
+        .Build(columns =>
+        {
+            columns.Add(model => model.NombreEquipo).Titled("Nombre").RawNamed("NombreEquipo").AppendCss("celda-grande");
+            columns.Add(model => model.DescripcionEquipo).Titled("Descripción").RawNamed("DescripcionEquipo").AppendCss("celda-grande");
+
+            columns.Add(model => model.TextoCatalogoTipo).Titled("Tipo").RawNamed("TextoCatalogoTipo").AppendCss("celda-grande");
+            columns.Add(model => model.Caracteristicas).Titled("Características").RawNamed("Caracteristicas").AppendCss("celda-grande");
+            columns.Add(model => model.Observaciones).Titled("Observaciones").RawNamed("Observaciones").AppendCss("celda-grande");
+
+            columns.Add(model => model.Costo).Titled("Costo").RawNamed("Costo").AppendCss("celda-grande");
+            columns.Add(model => model.TextoCatalogoProveedor).Titled("Proveedor").RawNamed("TextoCatalogoProveedor").AppendCss("celda-grande");
+
+            //columns.Add(model =>
+            //"<a title='Editar.' data-backdrop='static' data-toggle='modal' data-target='#contenido-modal' onclick='_GetCreate({id:" + model.IDEquipo + "},\"" + @Url.Action("_Formulario", "Equipo") + "\");'  class='btn btn-success' id='editar' data-id=\"" + model.IDEquipo + "\"><i class='glyphicon glyphicon-pencil' aria-hidden='true'></i></a>" +
+            //"<button title='Eliminar.' onclick='ConfirmarEliminacion_(" + model.IDEquipo + ",\"" + @Url.Action("Eliminar", "Equipo") + "\");' background-color:#FF5E00;border-color:#FF5E00;' class='btn btn-danger' id='eliminar' data-id=\"" + model.IDEquipo + "\"><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>").AppendCss("celda-pequenia").Encoded(false);
+
+            columns.Add(model =>
+            "<a title='Editar.' data-backdrop='static' data-toggle='modal' data-target='#contenido-modal' onclick='_GetCreate({id:" + model.IDEquipo + "},\"" + @Url.Action("_Formulario", "Equipo") + "\");'  class='btn btn-success " + ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-ACTUALIZAR") + "' id='editar' data-id=\"" + model.IDEquipo + "\"><i class='glyphicon glyphicon-pencil' aria-hidden='true'></i></a>" +
+            "<button title='Eliminar.' onclick='ConfirmarEliminacion_(" + model.IDEquipo + ",\"" + @Url.Action("Eliminar", "Equipo") + "\");' background-color:#FF5E00;border-color:#FF5E00;' class='btn btn-danger " + ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-ELIMINAR") + "' id='eliminar' data-id=\"" + model.IDEquipo + "\"><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>").AppendCss("celda-pequenia").Encoded(false);
+        })
+        .RowAttributed(model => new { data_id = model.IDEquipo })
+        .Empty(Mensajes.MensajeNoDataListado)
+        .Id("grid-Equipo")
+        .UsingProcessingMode(GridProcessingMode.Manual)
+        .Pageable(pager =>
+        {
+            pager.TotalRows = ViewBag.TotalPaginas;
+            pager.RowsPerPage = 10;
+        })
+        .Filterable()
+        .Sortable())
+
+
+
+
+
+

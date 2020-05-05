@@ -1,0 +1,387 @@
+﻿@{
+    FichaIngreso cabecera = (FichaIngreso)ViewBag.Cabecera;
+    UsuarioInfo Usuario = (UsuarioInfo)ViewBag.DatosUsuario;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 id="texto-informacion-principal" class="box-title">Información Principal </h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+
+                <div class="row fila-seccion contain animated bounce">
+                    <div class="alert"></div>
+
+                    <div id='img_contain'>
+                        <img style="width: 150px; height: 150px;" id="blah" align='middle' src="@(cabecera.Foto != null ? string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(cabecera.Foto) ) : "http://www.clker.com/cliparts/c/W/h/n/P/W/generic-image-file-icon-hi.png" )" alt="your image" title='' />
+                    </div>
+
+                        <div class="custom-file">
+                            @*<input type="file" id="Foto" name="Foto" class="imgInp custom-file-input" aria-describedby="inputGroupFileAddon01">*@
+                            <input type="file" class="imgInp custom-file-input" id="Foto" name="Foto" aria-describedby="inputGroupFileAddon01" accept="image/x-png,image/gif,image/jpeg" >
+
+                            <label class="custom-file-label" for="Foto">Seleccionar foto.</label>
+                        </div>
+                    @*<div class="credit">Foto <a target="_blank" href="#"> Ficha </a> de Ingreso.</div>*@
+                </div>
+
+
+                <div class="row fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Nombres: <span class="requerido"> *</span></label>
+                            <div class="col-md-8"  onkeypress="return soloLetras(event)">
+                                @Html.Editor("Nombres", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = Usuario.Nombres, required = "", maxlength="150" } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Apellidos: <span class="requerido"> *</span></label>
+                            <div class="col-md-8"  onkeypress="return soloLetras(event)">
+                                @Html.Editor("Apellidos", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = Usuario.Apellidos, required = "", maxlength = "200" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Cédula de Identidad: <span class="requerido"> *</span></label>
+                            <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                @Html.Editor("Identificacion", new { htmlAttributes = new { @class = "form-control  campo-requerido", @Value = Usuario.Identificacion, required = "", maxlength = "20" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Email: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.Editor("Mail", new { htmlAttributes = new { @class = "form-control  campo-requerido", @Value = Usuario.Mail, required = "", maxlength = "150" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Teléfono: <span class="requerido"> *</span></label>
+                            <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                @Html.Editor("Telefono", new { htmlAttributes = new { @class = "form-control  campo-requerido", @Value = Usuario.Telefono, required = "", maxlength = "15"} })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Celular: <span class="requerido"> *</span></label>
+                            <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                @Html.Editor("Celular", new { htmlAttributes = new { @class = "form-control  campo-requerido", @Value = Usuario.Celular, required = "" , maxlength = "15" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">País: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("Pais", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PAI-01", (Usuario.Pais ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Ciudad: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("Ciudad", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (Usuario.Ciudad ?? 0).ToString()) @*CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CIUDAD-01", (Usuario.Ciudad ?? 0).ToString())*@, Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row  fila-seccion">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-2">Área o Departamento: <span class="requerido"> *</span></label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("Departamento", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("DTO-01", (Usuario.Departamento ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+                <div class="row fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Género: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("Genero", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("GENERO-01", (cabecera.Genero ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Tipo de Sangre: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("TipoSangre", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-SANGRE-01", (cabecera.TipoSangre ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Fecha de Nacimiento: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                <div class="input-group date">
+                                    <div class="input-group-addon" title="Seleccionar o digitar la fecha.">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" name="FechaNacimiento" id="FechaNacimiento" class="form-control pull-right datepicker campo-requerido" value="@(cabecera.FechaNacimiento != null ? cabecera.FechaNacimiento.Value.ToString("dd/MM/yyyy") : System.DateTime.Now.ToString("dd/MM/yyyy") )" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Ciudad de Residencia: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("CiudadResidencia", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (cabecera.CiudadResidencia ?? 0).ToString()) @*CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CIUDAD-01", (cabecera.CiudadResidencia ?? 0).ToString())*@, Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Banco: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                               @Html.DropDownList("Banco", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("BANCO-01", (cabecera.Banco ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Número de Cuenta Bancaria: <span class="requerido"> *</span></label>
+                            <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                @Html.Editor("NumeroCuentaBancaria", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = cabecera.NumeroCuentaBancaria, required = "", maxlength = "20" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-2">Lugar de Nacimiento: <span class="requerido"> *</span></label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("LugarNacimiento", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (cabecera.LugarNacimiento ?? 0).ToString())  @*CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CIUDAD-01", (cabecera.LugarNacimiento ?? 0).ToString())*@, Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Tipo Cuenta: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("TipoCuenta", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-CUENTA-BAN", (cabecera.TipoCuenta ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Estado Civil: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("EstadoCivil", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("ESTADO-CIVIL-01", (cabecera.EstadoCivil ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Fecha de Ingreso a la Empresa: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                <div class="input-group date">
+                                    <div class="input-group-addon" title="Seleccionar o digitar la fecha.">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" name="FechaIngreso" id="FechaIngreso" class="form-control pull-right datepicker campo-requerido" value="@(cabecera.FechaIngreso != null ? cabecera.FechaIngreso.Value.ToString("dd/MM/yyyy") : System.DateTime.Now.ToString("dd/MM/yyyy") )" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Nacionalidad: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("Nacionalidad", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("NACIONALIDAD-01", (cabecera.Nacionalidad ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 id="texto-informacion-principal" class="box-title">Dirección</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row fila-seccion">
+                    <div class="col-md-12">
+
+                        <div class="row  fila-seccion">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-2">Calle Principal: <span class="requerido"> *</span></label>
+                                    <div class="col-md-10">
+                                        @Html.Editor("DireccionCallePrincipal", new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 100, @Value = cabecera.DireccionCallePrincipal, required = "" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row  fila-seccion">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-2">Calle Secundaria: <span class="requerido"> *</span></label>
+                                    <div class="col-md-10">
+                                        @Html.Editor("DireccionCalleSecundaria", new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 100, @Value = cabecera.DireccionCalleSecundaria, required = "" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row  fila-seccion">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-3">Conjunto Residencial: <span class="requerido"> *</span></label>
+                                    <div class="col-md-9">
+                                        @Html.Editor("DireccionConjuntoResidencial", new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150, @Value = cabecera.DireccionConjuntoResidencial, required = "" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-4">Número de Casa: </label>
+                                    <div class="col-md-8">
+                                        @Html.Editor("DireccionNumeroCasa", new { htmlAttributes = new { @class = "form-control", @Value = cabecera.DireccionNumeroCasa, maxlength = 50 } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 id="texto-informacion-principal" class="box-title">Contacto</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row fila-seccion">
+                    <div class="col-md-12">
+
+
+                        <div class="row  fila-seccion">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-4">Nombres: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                        @Html.Editor("NombresContactoEmergencia", new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150, @Value = cabecera.NombresContactoEmergencia, required = "" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-4">Apellidos: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                        @Html.Editor("ApellidosContactoEmergencia", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = cabecera.ApellidosContactoEmergencia, required = "", maxlength = 150 } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row  fila-seccion">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-4">Teléfono: <span class="requerido"> *</span> </label>
+                                    <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                        @Html.Editor("TelefonoContactoEmergencia", new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 15, @Value = cabecera.TelefonoContactoEmergencia, required = "" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-4">Celular: <span class="requerido"> *</span></label>
+                                    <div class="col-md-8" onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;">
+                                        @Html.Editor("CelularContactoEmergencia", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = cabecera.CelularContactoEmergencia, required = "", maxlength = 15 } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row  fila-seccion">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-2">Parentesco: <span class="requerido"> *</span></label>
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("ParentescoContactoEmergencia", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PARENTESCO-01", (cabecera.ParentescoContactoEmergencia ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+

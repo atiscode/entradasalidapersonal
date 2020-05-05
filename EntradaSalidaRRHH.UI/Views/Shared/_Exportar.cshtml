@@ -1,0 +1,19 @@
+﻿<!-- Export grid Modal -->
+<div class="row">
+    <div class="modal fade" id="export-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                    <h4 class="modal-title">Opciones de Exportación</h4>
+                </div>
+                <div class="modal-body">
+                    <p>¿En qué formato te gustaría exportar?</p>
+                    <button id="ExportarGridExcel" onclick="ExportarRegistrosFormatoEXCEL();" style="background-color:#00AD8E;border-color: #00AD8E; " type="button" class="btn btn-primary"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel</button>
+                    <button id="ExportarGridPDF" onclick="ExportarRegistrosFormatoPDF();" type="button" class="btn btn-danger"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</button>
+                    <button id="ExportarGridCSV" onclick="ExportarRegistrosFormatoCSV();" style="background-color:#002A9A;border-color: #002A9A;" type="button" class="btn btn-danger"><i class="fa fa-file-text-o" aria-hidden="true"></i> CSV</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>

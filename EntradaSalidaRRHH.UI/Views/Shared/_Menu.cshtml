@@ -1,0 +1,40 @@
+﻿
+@model IEnumerable<OpcionMenuUsuarioInfo>
+@{
+    var elePadre = Model.Where(t => t.IdMenuPadre == null);
+    elePadre = elePadre.OrderBy(t => t.OrdenMenu).ToList();
+}
+<!-- /.search form -->
+<!-- sidebar menu: : style can be found in sidebar.less -->
+<ul class="sidebar-menu" data-widget="tree">
+    @*<li class="header">MENÚ</li>*@
+
+    @foreach (var ele in elePadre)
+    {
+        if (ele.hijos == 0)
+        {
+            <li id="@ele.opcion"><a href="@Url.Action(ele.opcion, ele.carpeta, new { opcion = ele.NombreMenu })"><i class="fa fa-book"></i> <span>@ele.NombreMenu</span></a></li>
+        }
+        else
+        {
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder"></i> <span>@ele.NombreMenu</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    @{
+                        var eleHijos = Model.Where(t => t.IdMenuPadre != null && t.IdMenuPadre == ele.IdMenu);
+                        eleHijos = eleHijos.ToList();
+                        foreach (var hijo in eleHijos)
+                        {
+                            <li><a title="@(hijo.NombreMenu.Length > 25 ? hijo.NombreMenu : string.Empty )"  href="@Url.Action(hijo.opcion, hijo.carpeta, new { opcion = hijo.NombreMenu })"><i class="fa fa-circle-o"></i> @(hijo.NombreMenu.Length > 27 ? hijo.NombreMenu.Substring(0,25) : hijo.NombreMenu )</a></li>
+                        }
+                    }
+                </ul>
+            </li>
+          }
+    }
+</ul>

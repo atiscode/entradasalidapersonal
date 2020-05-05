@@ -1,0 +1,102 @@
+﻿@model CambiarClave
+
+@{
+    ViewBag.Title = "Crear Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+
+@{
+    var Usuario = ViewBag.idUsuario;
+}
+
+<form action="#" id="form-usuarios" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8">
+                    <div style="color:crimson">
+                        @ViewBag.Mensaje
+                    </div>
+                    <br />
+                    <div class="panel">
+                        <div class="panel-heading custom-header-panel">
+                            <h3 class="panel-title roboto">Cambiar Clave</h3>
+                        </div>
+                        @Html.Hidden("idUsuario", (int)Usuario)
+
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                <br />
+                                <div class="form-group">
+
+                                    <label class="control-label col-md-3">Contraseña Actual: <span class="requerido"> *</span></label>
+                                    <div class="col-md-7">
+                                        @Html.EditorFor(model => model.ContraseniaActual, new { htmlAttributes = new { @class = "form-control campo-requerido", type = "password", maxlength = 25, required = "" } })
+                                    </div>
+                                </div>
+
+                                <hr />
+
+                                <br />
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Contraseña Nueva: <span class="requerido"> *</span></label>
+                                    <div class="col-md-7">
+                                        @Html.EditorFor(model => model.ContraseniaNueva, new { htmlAttributes = new { @class = "form-control campo-requerido", type = "password", maxlength = 25, required = "" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Confirmar Contraseña: <span class="requerido"> *</span></label>
+                                    <div class="col-md-7">
+                                        @Html.EditorFor(model => model.ConfirmarContrasenia, new { htmlAttributes = new { @class = "form-control campo-requerido", type = "password", maxlength = 25, required = "" } })
+                                    </div>
+                                </div>
+                                <br />
+
+                                <div class="row fila-seccion">
+                                    <div class="col-xs-6" style="text-align: right;">
+                                        <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
+                                    </div>
+                                    <div class="col-xs-6" style="text-align: left;">
+                                        <a href="~/Home/Index/" class="btn btn-default">Regresar</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section ViewSpecificJavascript {
+    <script>
+        var urlAccionEditar = '@Url.Action("CambiarClave","Usuario")';
+        var urlAccionfinal = '@Url.Action("Logout", "Login")';
+
+        $("#guardar").click(function () {
+            debugger
+            var flag = validarCamposRequeridosFormularioCompleto("form-usuarios");
+
+            if (flag)
+                guardar();
+            else
+                toastr.error('@Mensajes.MensajeDatosObligatorios')
+        })
+
+        function guardar() {
+            debugger
+            var data_form = JSON.stringify({ "usuario": $('#form-usuarios').serializeObject() })
+            _Guardar(data_form, urlAccionEditar, urlAccionfinal)
+        }
+    </script>
+
+}
+

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<AprobacionRequerimientoEquipoInfo>
+@{
+    var acciones = (List<string>)ViewBag.AccionesUsuario;
+}
+@(Html
+        .Grid(Model)
+        .Build(columns =>
+        {
+            columns.Add(model => model.FechaSolicitud).Titled("Fecha Solicitud").RawNamed("FechaSolicitud").AppendCss("celda-grande");
+            columns.Add(model => model.NombresApellidos).Titled("Usuario").RawNamed("NombresApellidos").AppendCss("celda-grande");
+
+            columns.Add(model => model.Equipos).Titled("Equipos").RawNamed("Equipos").AppendCss("celda-grande");
+            columns.Add(model => model.HerramientasAdicionales).Titled("Herramientas Adicionales").RawNamed("HerramientasAdicionales").AppendCss("celda-grande");
+
+            columns.Add(model => model.NombreEmpresa).Titled("Empresa").RawNamed("Empresa").AppendCss("celda-grande");
+            columns.Add(model => model.TextoCatalogoCargo).Titled("Cargo").RawNamed("Cargo").AppendCss("celda-grande");
+            columns.Add(model => model.TextoCatalogoDepartamento).Titled("Departamento").RawNamed("Departamento").AppendCss("celda-grande");
+
+           
+           columns.Add(model => " <a title='Revisión de Equipos.' data-backdrop='static' data-toggle='modal' data-target='#contenido-modal' onclick='_GetCreate({id:\"" + model.IDRequerimientoEquipo + "\", equipos: \"" + (model.IDsEquipos ?? string.Empty) + "\" , equiposSugeridos: \"" + (model.IDsEquiposSugeridosCargoUsuario ?? string.Empty) + "\" },\"" + @Url.Action("_ComparativoEquipos", "AprobacionRequerimientoEquipo") + "\");' style='cursor: pointer;' class='btn btn-info " + ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-COMP-EQUIPOS") + "' id='comparar-equipos' data-id=\"" + model.IDRequerimientoEquipo + "\"><i style='color: black;' class='fa fa-balance-scale' aria-hidden='true'></i></a>" +
+            " <a title='Aprobar Requerimiento.' data-backdrop='static' data-toggle='modal' data-target='#contenido-modal' onclick='_GetCreate({id:" + model.IDRequerimientoEquipo + "},\"" + @Url.Action("_AprobarRequerimiento", "AprobacionRequerimientoEquipo") + "\");' style='cursor: pointer;background-color:#ccc;border-color:#ccc;' class='btn btn-default " + ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-APROBAR-REQ") + "' id='aprobar' data-id=\"" + model.IDRequerimientoEquipo + "\"><i style='color: black;' class='fa fa-thumbs-o-up' aria-hidden='true'></i></a>" +
+            " <button title = 'Descargar Requerimiento Equipo.' style = 'background-color:#FFC52D;border-color: #FFC52D;' class='btn btn-success " + ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-DESCARGAR") + " ' onclick='DescargarArchivos({id:" + model.IDRequerimientoEquipo + "},\"" + @Url.Action("GenerarReporte", "AprobacionRequerimientoEquipo") + "\" , \"" + @Url.Action("DescargarArchivo", "AprobacionRequerimientoEquipo") + "\");' data-id=\"" + model.IDRequerimientoEquipo + "\"><span class='glyphicon glyphicon-print' aria-hidden='true' style='color:black'></span></button>").AppendCss("celda-pequenia").Encoded(false);
+        })
+        .RowAttributed(model => new { data_id = model.IDRequerimientoEquipo })
+        .Empty(Mensajes.MensajeNoDataListado)
+        .Id("grid-AprobacionRequerimientoEquipo")
+        .UsingProcessingMode(GridProcessingMode.Manual)
+        .Pageable(pager =>
+        {
+            pager.TotalRows = ViewBag.TotalPaginas;
+            pager.RowsPerPage = 10;
+        })
+        .Filterable()
+        .Sortable())
+
+
+
+
+
+
+

@@ -1,0 +1,133 @@
+﻿@{
+    UsuarioInfo Usuario = (UsuarioInfo)ViewBag.DatosUsuario;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 id="texto-informacion-principal" class="box-title">Información Principal </h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+
+                <div class="row fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Nombres: <span class="requerido"> *</span></label>
+                            <div class="col-md-8" onkeypress="return soloLetras(event)">
+                                @Html.Editor("nombre_usuario", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = Usuario.Nombres, required = "", maxlength="150" } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" onkeypress="return soloLetras(event)">
+                            <label class="etiqueta-seccion control-label col-md-4">Apellidos: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.Editor("apellido_usuario", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = Usuario.Apellidos, required = "" , maxlength = "200" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Dirección: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.Editor("direccion_usuario", new { htmlAttributes = new { @class = "form-control campo-requerido", @Value = Usuario.Direccion, required = "", maxlength = "300" } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Email: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.Editor("mail_usuario", new { htmlAttributes = new { @class = "form-control  campo-requerido", @Value = Usuario.Mail, required = "", maxlength = "150" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Teléfono: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.Editor("telefono_usuario", new { htmlAttributes = new { @class = "form-control  campo-requerido", @Value = Usuario.Telefono, required = "", maxlength = "15" } })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Celular: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.Editor("celular_usuario", new { htmlAttributes = new { @class = "form-control  campo-requerido", @Value = Usuario.Celular, required = "", maxlength = "15" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">País: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("pais", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PAI-01", (Usuario.Pais ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Ciudad: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @*@Html.DropDownList("ciudad", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CIUDAD-01", (Usuario.Ciudad ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })*@
+                                @Html.DropDownList("Ciudad", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (Usuario.Ciudad ?? 0).ToString()) @*CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CIUDAD-01", (Usuario.Ciudad ?? 0).ToString())*@, Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row  fila-seccion">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Departamento:</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("Departamento", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("DTO-01", (Usuario.Departamento ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-4">Empresa:</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("Empresa", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("EMP-01", (Usuario.IdEmpresa ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+                <div class="row  fila-seccion">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="etiqueta-seccion control-label col-md-2">Departamento:</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("area_departamento_usuario", CatalogoDAL.ListadoCatalogosPorCodigoId("DEPARTAMENTO", (Usuario.IdEmpresa ?? 0), (Usuario.Departamento ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

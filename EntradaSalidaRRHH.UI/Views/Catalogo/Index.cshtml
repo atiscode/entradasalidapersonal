@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Catálogos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@Html.AjaxGrid(Url.Action("_IndexGrid"))
+
+@section ViewSpecificJavascript {
+    <script>
+
+        var idGrid = "grid-Catalogo";
+        var urlAccionCrear = '@Url.Action("Create")';
+        var urlAccionReporteExcel = '@Url.Action("DescargarReporteFormatoExcel", "Catalogo")';
+        var urlAccionReportePDF = '@Url.Action("DescargarReporteFormatoPDF", "Catalogo")';
+        var urlAccionReporteCSV = '@Url.Action("DescargarReporteFormatoCSV", "Catalogo")';
+
+        var resultado = @Html.Raw(Json.Encode(ViewBag.Resultado));
+        var estado = @Html.Raw(Json.Encode(ViewBag.Estado));
+        console.log(resultado);
+        console.log(estado);
+
+        $(document).ready(function () {
+          
+            recargarGridByID(idGrid);
+        })
+
+     
+        function CrearRegistro() {
+            location.href = urlAccionCrear;
+        }
+
+        function ExportarRegistrosFormatoEXCEL() {
+            location.href = urlAccionReporteExcel;
+        }
+        function ExportarRegistrosFormatoPDF() {
+            location.href = urlAccionReportePDF;
+        }
+        function ExportarRegistrosFormatoCSV() {
+            location.href = urlAccionReporteCSV;
+        }
+
+        function RecargarDatosGrid() {
+            recargarGridByID(idGrid);
+        }
+
+        $(document).keydown(callBackBusqueda);
+        $(document).keypress(callBackBusqueda);
+        $(document).keyup(callBackBusqueda);
+
+        function callBackBusqueda(e) {
+            debugger
+            busquedaGrid(idGrid);
+        }
+
+
+    
+
+    </script>
+}
+

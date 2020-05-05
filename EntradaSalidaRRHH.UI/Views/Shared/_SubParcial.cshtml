@@ -1,0 +1,60 @@
+﻿<!-- Modal para renderizar contenido ajax -->
+
+<style>
+    .modal-dialog {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%) !important;
+    }
+</style>
+
+<style>
+    .cerrar-SubModal {
+        float: right;
+        /*font-size: 21px;*/
+        font-weight: bold;
+        line-height: 1;
+        color: white;
+        -webkit-appearance: none;
+        padding: 0;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+    }
+
+        .cerrar-SubModal:hover,
+        .cerrar-SubModal:focus {
+            color: #00ad8e;
+            text-decoration: none;
+            cursor: pointer;
+            filter: alpha(opacity=50);
+            opacity: .5;
+        }
+</style>
+
+<div class="modal fade" id="contenido-Submodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #595959 !important;border-color: #595959 !important;color: white;">
+                <span style="font-size: 17px;" class="modal-title" id="seccion-titulo-Submodal"></span>
+
+                @*<button id="btn-cerrar-modal" type="button" class="cerrar-SubModal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">Volver</span>
+                    </button>*@
+            </div>
+
+            <div class="modal-body">
+                <div id="zonaCargandoContenido" align="center">
+                </div>
+                <img id="loading-contenido" src="@Url.Content(" ~/Content/img/loader-grid.gif")" style="display: none;  width: 20%;" />
+                <div id="main-Modal">
+                    <img src="@Url.Content(" ~/Content/img/loader-grid.gif")" style="  width: 20%;" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button title="Atrás." style="color: black;" id="cerrar-modal" type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Volver</button>
+            </div>
+        </div>
+    </div>
+</div>

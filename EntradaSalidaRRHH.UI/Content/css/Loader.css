@@ -1,0 +1,21 @@
+﻿div#preloader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    background: #595959 url('../img/loader.gif') no-repeat center center;
+}
+
+#preloader-grid {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    background: url('../img/loader-grid.gif') no-repeat center center;
+}

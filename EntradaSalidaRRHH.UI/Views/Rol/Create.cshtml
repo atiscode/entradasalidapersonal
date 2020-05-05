@@ -1,0 +1,94 @@
+﻿@model Rol
+
+@{
+    ViewBag.Title = "Crear Rol";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Formato para el template de datos *@
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+
+<form action="#" id="form-rol" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <div class="panel">
+
+                <div class="panel-heading-create custom-header-panel">
+                    <h4>@Etiquetas.TituloPanelCreacionRol</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Nombre: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150, required = "" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Descripción: <span class="requerido"> *</span></label>
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 200, required = "" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Perfiles:</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("idsPerfiles_guardar", ViewBag.idsPerfiles as SelectList, new { @id= "idsPerfiles_guardar", @class = "form-control selectpicker" , @multiple = "multiple" , @title  = Etiquetas.TituloComboMultipleVacio })
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="row fila-seccion">
+                            <div class="col-xs-6" style="text-align: right;">
+                                <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
+                            </div>
+                            <div class="col-xs-6" style="text-align: left;">
+                                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section ViewSpecificJavascript {
+    <script>
+        var urlAccionGuardar = '@Url.Action("Create","Rol")';
+        var urlAccionListado = '@Url.Action("Index","Rol")';
+
+        $("#guardar").click(function () {
+            debugger
+            var flag = validarCamposRequeridosFormularioCompleto("form-rol");
+            if (flag)
+                guardar();
+            else
+                toastr.error('@Mensajes.MensajeDatosObligatorios')
+        })
+        function guardar() {
+            debugger
+            var data_form = JSON.stringify({ "rol": $('#form-rol').serializeObject(), "perfiles": getPerfiles() })
+            _Guardar(data_form, urlAccionGuardar, urlAccionListado)
+        }
+
+        function getPerfiles() {
+            debugger
+            var idsOpcionesMenu = [];
+            var opciones = $("#idsPerfiles_guardar").val();
+
+            for (var i = 0; i < opciones.length; i++) {
+                let id = parseInt(opciones[i]);
+                idsOpcionesMenu.push(id);
+            }
+            return idsOpcionesMenu;
+        }
+
+    </script>
+}
+

@@ -1,0 +1,1719 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AdministracionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AuditLog">
+          <Key>
+            <PropertyRef Name="IdAuditLog" />
+          </Key>
+          <Property Name="IdAuditLog" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AuditType" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Tabla" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="PK" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Columnna" Type="nvarchar" MaxLength="100" />
+          <Property Name="ValorAnterior" Type="nvarchar(max)" />
+          <Property Name="ValorNuevo" Type="nvarchar(max)" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Catalogo">
+          <Key>
+            <PropertyRef Name="IdCatalogo" />
+          </Key>
+          <Property Name="IdCatalogo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodigoCatalogo" Type="varchar" MaxLength="50" />
+          <Property Name="NombreCatalogo" Type="varchar" MaxLength="150" />
+          <Property Name="DescripcionCatalogo" Type="varchar" MaxLength="150" />
+          <Property Name="IdCatalogoPadre" Type="int" />
+          <Property Name="EstadoCatalogo" Type="bit" />
+          <Property Name="IdEmpresa" Type="int" />
+          <Property Name="Eliminado" Type="bit" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CedulaRucPasaporte" Type="varchar" MaxLength="50" />
+          <Property Name="RazonSocial" Type="varchar" MaxLength="250" />
+          <Property Name="NombreComercial" Type="varchar" MaxLength="250" />
+          <Property Name="Direccion" Type="varchar" MaxLength="250" />
+          <Property Name="Telefono" Type="varchar" MaxLength="13" />
+          <Property Name="PaginaWeb" Type="varchar" MaxLength="250" />
+          <Property Name="Logo" Type="varchar" MaxLength="250" />
+          <Property Name="RepresentanteLegal" Type="varchar" MaxLength="250" />
+          <Property Name="ObligatorioLlevarContabilidad" Type="bit" />
+        </EntityType>
+        <EntityType Name="LogIngresos">
+          <Key>
+            <PropertyRef Name="IdLogIngr" />
+          </Key>
+          <Property Name="IdLogIngr" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="UsuarioLogin" Type="varchar" MaxLength="50" />
+          <Property Name="UsuarioClave" Type="varchar" MaxLength="550" />
+          <Property Name="LogFechaTransaccion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LogIngrFallidos">
+          <Key>
+            <PropertyRef Name="IdLogIngrFall" />
+          </Key>
+          <Property Name="IdLogIngrFall" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsuarioLogin" Type="varchar" MaxLength="50" />
+          <Property Name="UsuarioClave" Type="varchar" MaxLength="550" />
+          <Property Name="LogFechaTransaccion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="IdMenu" />
+          </Key>
+          <Property Name="IdMenu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreMenu" Type="varchar" MaxLength="150" />
+          <Property Name="NombrePaginaMenu" Type="varchar" MaxLength="150" />
+          <Property Name="EstadoMenu" Type="bit" />
+          <Property Name="IdMenuPadre" Type="int" />
+          <Property Name="OrdenMenu" Type="int" />
+        </EntityType>
+        <EntityType Name="Notificaciones">
+          <Key>
+            <PropertyRef Name="IDNotificaciones" />
+          </Key>
+          <Property Name="IDNotificaciones" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreTarea" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="DescripcionTarea" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="NombreEmisor" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="CorreoEmisor" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ClaveCorreo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CorreosDestinarios" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AsuntoCorreo" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="NombreArchivoPlantillaCorreo" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="CuerpoCorreo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AdjuntosCorreo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FechaEnvioCorreo" Type="datetime" Nullable="false" />
+          <Property Name="EstadoNotificacion" Type="bit" Nullable="false" />
+          <Property Name="EstadoEnviadoNotificacion" Type="bit" />
+          <Property Name="EstadoEjecucionNotificacion" Type="bit" Nullable="false" />
+          <Property Name="DetalleEstadoEjecucionNotificacion" Type="nvarchar(max)" />
+          <Property Name="Empresa" Type="varchar" MaxLength="150" />
+          <Property Name="Canal" Type="varchar" MaxLength="150" />
+          <Property Name="Tipo" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="ParametrosSistema">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="Valor" Type="varchar" MaxLength="50" />
+          <Property Name="Tipo" Type="varchar" MaxLength="50" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Estado" Type="bit" />
+        </EntityType>
+        <EntityType Name="Perfil">
+          <Key>
+            <PropertyRef Name="IdPerfil" />
+          </Key>
+          <Property Name="IdPerfil" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombrePerfil" Type="varchar" MaxLength="150" />
+          <Property Name="DescripcionPerfil" Type="varchar" MaxLength="200" />
+          <Property Name="EstadoPerfil" Type="bit" />
+        </EntityType>
+        <EntityType Name="PerfilMenu">
+          <Key>
+            <PropertyRef Name="IdPerfilMenu" />
+          </Key>
+          <Property Name="IdPerfilMenu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPerfil" Type="int" Nullable="false" />
+          <Property Name="IdMenu" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="150" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" />
+          <Property Name="Estado" Type="bit" />
+        </EntityType>
+        <EntityType Name="RolMenuPermiso">
+          <Key>
+            <PropertyRef Name="IDRolMenuPermiso" />
+          </Key>
+          <Property Name="IDRolMenuPermiso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RolID" Type="int" Nullable="false" />
+          <Property Name="PerfilID" Type="int" Nullable="false" />
+          <Property Name="MenuID" Type="int" Nullable="false" />
+          <Property Name="AccionID" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RolPerfil">
+          <Key>
+            <PropertyRef Name="IdRolPerfil" />
+          </Key>
+          <Property Name="IdRolPerfil" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdRol" Type="int" Nullable="false" />
+          <Property Name="IdPerfil" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoNotificacion">
+          <Key>
+            <PropertyRef Name="IdNotificacion" />
+          </Key>
+          <Property Name="IdNotificacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreNotificacion" Type="varchar" MaxLength="500" />
+          <Property Name="DescripcionNotificacion" Type="varchar" MaxLength="500" />
+          <Property Name="TiempoEspera" Type="int" />
+          <Property Name="EstadoNotificacion" Type="bit" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="150" />
+          <Property Name="Apellidos" Type="varchar" MaxLength="200" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" />
+          <Property Name="Identificacion" Type="varchar" MaxLength="20" />
+          <Property Name="IdEmpresa" Type="int" />
+          <Property Name="CiudadUbicacionEmpresa" Type="int" />
+          <Property Name="Cargo" Type="int" />
+          <Property Name="Area" Type="int" />
+          <Property Name="Departamento" Type="int" />
+          <Property Name="Pais" Type="int" />
+          <Property Name="Ciudad" Type="int" />
+          <Property Name="Direccion" Type="varchar(max)" />
+          <Property Name="Mail" Type="varchar" MaxLength="300" />
+          <Property Name="Telefono" Type="varchar" MaxLength="15" />
+          <Property Name="Celular" Type="varchar" MaxLength="15" />
+          <Property Name="MailCorporativo" Type="varchar" MaxLength="300" />
+          <Property Name="IdRol" Type="int" />
+          <Property Name="Clave" Type="varchar" MaxLength="500" />
+          <Property Name="Estado" Type="bit" />
+          <Property Name="Activo" Type="bit" />
+          <Property Name="ResetClave" Type="bit" />
+          <Property Name="ValidacionCorreo" Type="bit" />
+          <Property Name="TokenValidacionCorreo" Type="nvarchar(max)" />
+        </EntityType>
+        <Function Name="ActualizarEjecucionNotificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="bigint" Mode="In" />
+          <Parameter Name="detalle" Type="varchar" Mode="In" />
+          <Parameter Name="estado" Type="bit" Mode="In" />
+          <Parameter Name="identificadorTarea" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ActualizarEstadoEjecucionTarea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="bigint" Mode="In" />
+          <Parameter Name="detalle" Type="varchar" Mode="In" />
+          <Parameter Name="estado" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="ActualizarEstadoEnviadoNotificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="bigint" Mode="In" />
+          <Parameter Name="detalle" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CodigoCatalogo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" ReturnType="varchar">
+          <Parameter Name="id_catalogo" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="ConsultarCatalogo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarCatalogoPorCodigo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="codigo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ConsultarCatalogosCodigoIdPadre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="codigo" Type="varchar" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarCatalogosPorId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="codigo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ConsultarCatalogosPorPadre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarCorreosNotificaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="idPerfil" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarMenuRutaAcceso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id_rol" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarNumeroHijosCatalogo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarParametrosSistema" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarPerfil" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarRol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarTipoNotificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarUsuarioClave" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+          <Parameter Name="clave" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ConsultarUsuarioExistente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ConsultarUsuarioId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="correo_user" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ConsultarUsuarioRolMenuPermiso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id_usuario" Type="int" Mode="In" />
+          <Parameter Name="controlador" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Encontrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" ReturnType="varchar">
+          <Parameter Name="cadena" Type="varchar(max)" Mode="In" />
+          <Parameter Name="orden" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EnviarCorreoUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id_usuario" Type="int" Mode="In" />
+          <Parameter Name="clave" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="EnviarCorreoUsuarioCambioClave" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id_usuario" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EnviarCorreoUsuarioGenérico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id_usuario" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EnviarCorreoUsuarioResetClave" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id_usuario" Type="int" Mode="In" />
+          <Parameter Name="clave" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GuardarRolMenuPermisos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="idRol" Type="int" Mode="In" />
+          <Parameter Name="idPerfil" Type="int" Mode="In" />
+          <Parameter Name="idMenu" Type="int" Mode="In" />
+          <Parameter Name="idAccion" Type="int" Mode="In" />
+          <Parameter Name="createdBy" Type="int" Mode="In" />
+          <Parameter Name="updateBy" Type="int" Mode="In" />
+          <Parameter Name="createAt" Type="datetime" Mode="In" />
+          <Parameter Name="updateAt" Type="datetime" Mode="In" />
+          <Parameter Name="estado" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="Hijos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" ReturnType="int">
+          <Parameter Name="padre" Type="int" Mode="In" />
+        </Function>
+        <Function Name="LimpiarRolMenuPermisos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="idRol" Type="int" Mode="In" />
+          <Parameter Name="idPerfil" Type="int" Mode="In" />
+          <Parameter Name="idMenu" Type="int" Mode="In" />
+        </Function>
+        <Function Name="LimpiarRolMenuPermisosCompleto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="idRol" Type="int" Mode="In" />
+          <Parameter Name="idPerfil" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ListaCatalogos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoCatalogo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoCatalogosPadres" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoMenuPermisos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="IDRol" Type="varchar" Mode="In" />
+          <Parameter Name="IDPerfil" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ListadoNotificaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoNotificacionesCompletas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoOrdenMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoParametrosSistemas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoPerfil" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoPerfilMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="idperfil" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ListadoRol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoRolPerfil" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="idrol" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ListadoRolPerfilMenuPermisos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id_rol" Type="int" Mode="In" />
+          <Parameter Name="id_perfil" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ListadoSubcatalogos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoTipoNotificaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListadoUsuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ListaMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListaMenuHijos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListaPerfil" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListarMenuPermisos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="IDRol" Type="varchar" Mode="In" />
+          <Parameter Name="IDPerfil" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ListaRol" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <Function Name="ListarOpcionMenuUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="correo_username" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ListarUsuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="NombreCatalogo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" ReturnType="varchar">
+          <Parameter Name="id_catalogo" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="NombreEmpresa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" ReturnType="varchar">
+          <Parameter Name="idEmpresa" Type="int" Mode="In" />
+        </Function>
+        <Function Name="NombreMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" ReturnType="varchar">
+          <Parameter Name="id_padre" Type="int" Mode="In" />
+        </Function>
+        <Function Name="NombresCompletosUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" ReturnType="varchar">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ObtenerEstructuraRolMenuPermiso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="adm" />
+        <EntityContainer Name="AdministracionModelStoreContainer">
+          <EntitySet Name="AuditLog" EntityType="Self.AuditLog" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="Catalogo" EntityType="Self.Catalogo" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="LogIngresos" EntityType="Self.LogIngresos" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="LogIngrFallidos" EntityType="Self.LogIngrFallidos" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="Notificaciones" EntityType="Self.Notificaciones" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="ParametrosSistema" EntityType="Self.ParametrosSistema" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="Perfil" EntityType="Self.Perfil" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="PerfilMenu" EntityType="Self.PerfilMenu" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="RolMenuPermiso" EntityType="Self.RolMenuPermiso" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="RolPerfil" EntityType="Self.RolPerfil" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="TipoNotificacion" EntityType="Self.TipoNotificacion" Schema="adm" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="adm" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AdministracionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AuditLog">
+          <Key>
+            <PropertyRef Name="IdAuditLog" />
+          </Key>
+          <Property Name="IdAuditLog" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AuditType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Tabla" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Columnna" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ValorAnterior" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ValorNuevo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Catalogo">
+          <Key>
+            <PropertyRef Name="IdCatalogo" />
+          </Key>
+          <Property Name="IdCatalogo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodigoCatalogo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCatalogo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionCatalogo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IdCatalogoPadre" Type="Int32" />
+          <Property Name="EstadoCatalogo" Type="Boolean" />
+          <Property Name="IdEmpresa" Type="Int32" />
+          <Property Name="Eliminado" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CedulaRucPasaporte" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RazonSocial" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="NombreComercial" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="PaginaWeb" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Logo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="RepresentanteLegal" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ObligatorioLlevarContabilidad" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="LogIngresos">
+          <Key>
+            <PropertyRef Name="IdLogIngr" />
+          </Key>
+          <Property Name="IdLogIngr" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="UsuarioLogin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UsuarioClave" Type="String" MaxLength="550" FixedLength="false" Unicode="false" />
+          <Property Name="LogFechaTransaccion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="LogIngrFallidos">
+          <Key>
+            <PropertyRef Name="IdLogIngrFall" />
+          </Key>
+          <Property Name="IdLogIngrFall" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsuarioLogin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UsuarioClave" Type="String" MaxLength="550" FixedLength="false" Unicode="false" />
+          <Property Name="LogFechaTransaccion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="IdMenu" />
+          </Key>
+          <Property Name="IdMenu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreMenu" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="NombrePaginaMenu" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoMenu" Type="Boolean" />
+          <Property Name="IdMenuPadre" Type="Int32" />
+          <Property Name="OrdenMenu" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Notificaciones">
+          <Key>
+            <PropertyRef Name="IDNotificaciones" />
+          </Key>
+          <Property Name="IDNotificaciones" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreTarea" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DescripcionTarea" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombreEmisor" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CorreoEmisor" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaveCorreo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CorreosDestinarios" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AsuntoCorreo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombreArchivoPlantillaCorreo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CuerpoCorreo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdjuntosCorreo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaEnvioCorreo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EstadoNotificacion" Type="Boolean" Nullable="false" />
+          <Property Name="EstadoEnviadoNotificacion" Type="Boolean" />
+          <Property Name="EstadoEjecucionNotificacion" Type="Boolean" Nullable="false" />
+          <Property Name="DetalleEstadoEjecucionNotificacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Empresa" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Canal" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ParametrosSistema">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Perfil">
+          <Key>
+            <PropertyRef Name="IdPerfil" />
+          </Key>
+          <Property Name="IdPerfil" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombrePerfil" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionPerfil" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoPerfil" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="PerfilMenu">
+          <Key>
+            <PropertyRef Name="IdPerfilMenu" />
+          </Key>
+          <Property Name="IdPerfilMenu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPerfil" Type="Int32" Nullable="false" />
+          <Property Name="IdMenu" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="RolMenuPermiso">
+          <Key>
+            <PropertyRef Name="IDRolMenuPermiso" />
+          </Key>
+          <Property Name="IDRolMenuPermiso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RolID" Type="Int32" Nullable="false" />
+          <Property Name="PerfilID" Type="Int32" Nullable="false" />
+          <Property Name="MenuID" Type="Int32" Nullable="false" />
+          <Property Name="AccionID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RolPerfil">
+          <Key>
+            <PropertyRef Name="IdRolPerfil" />
+          </Key>
+          <Property Name="IdRolPerfil" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdRol" Type="Int32" Nullable="false" />
+          <Property Name="IdPerfil" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoNotificacion">
+          <Key>
+            <PropertyRef Name="IdNotificacion" />
+          </Key>
+          <Property Name="IdNotificacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreNotificacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionNotificacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TiempoEspera" Type="Int32" />
+          <Property Name="EstadoNotificacion" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombres" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Identificacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdEmpresa" Type="Int32" />
+          <Property Name="Cargo" Type="Int32" />
+          <Property Name="Area" Type="Int32" />
+          <Property Name="Departamento" Type="Int32" />
+          <Property Name="Pais" Type="Int32" />
+          <Property Name="Ciudad" Type="Int32" />
+          <Property Name="Direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Mail" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Celular" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="MailCorporativo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="IdRol" Type="Int32" />
+          <Property Name="Clave" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" />
+          <Property Name="Activo" Type="Boolean" />
+          <Property Name="ResetClave" Type="Boolean" />
+          <Property Name="ValidacionCorreo" Type="Boolean" />
+          <Property Name="TokenValidacionCorreo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CiudadUbicacionEmpresa" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="AdministracionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AuditLog" EntityType="Self.AuditLog" />
+          <EntitySet Name="Catalogo" EntityType="Self.Catalogo" />
+          <EntitySet Name="Empresa" EntityType="Self.Empresa" />
+          <EntitySet Name="LogIngresos" EntityType="Self.LogIngresos" />
+          <EntitySet Name="LogIngrFallidos" EntityType="Self.LogIngrFallidos" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" />
+          <EntitySet Name="Notificaciones" EntityType="Self.Notificaciones" />
+          <EntitySet Name="ParametrosSistema" EntityType="Self.ParametrosSistema" />
+          <EntitySet Name="Perfil" EntityType="Self.Perfil" />
+          <EntitySet Name="PerfilMenu" EntityType="Self.PerfilMenu" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="RolMenuPermiso" EntityType="Self.RolMenuPermiso" />
+          <EntitySet Name="RolPerfil" EntityType="Self.RolPerfil" />
+          <EntitySet Name="TipoNotificacion" EntityType="Self.TipoNotificacion" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <FunctionImport Name="ListarUsuarios" ReturnType="Collection(AdministracionModel.UsuarioInfo)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ListarOpcionMenuUsuario" ReturnType="Collection(AdministracionModel.OpcionMenuUsuarioInfo)">
+          <Parameter Name="correo_username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ListaRol" ReturnType="Collection(AdministracionModel.RolInfo)" />
+          <FunctionImport Name="ListaPerfil" ReturnType="Collection(AdministracionModel.PerfilInfo)" />
+          <FunctionImport Name="ListaMenuHijos" ReturnType="Collection(AdministracionModel.MenuHijosInfo)" />
+          <FunctionImport Name="ListaMenu" ReturnType="Collection(AdministracionModel.MenuInfo)" />
+          <FunctionImport Name="ListadoUsuarios" ReturnType="Collection(AdministracionModel.UsuarioInfo)" >
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ListadoTipoNotificaciones" ReturnType="Collection(AdministracionModel.TipoNotificacionesInfo)" />
+          <FunctionImport Name="ListadoSubcatalogos" ReturnType="Collection(AdministracionModel.CatalogoInfo)" />
+          <FunctionImport Name="ListadoRolPerfil" ReturnType="Collection(AdministracionModel.PerfilInfo)">
+          <Parameter Name="idrol" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ListadoRol" ReturnType="Collection(AdministracionModel.RolInfo)" />
+          <FunctionImport Name="ListadoPerfilMenu" ReturnType="Collection(AdministracionModel.MenuInfo)">
+          <Parameter Name="idperfil" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ListadoPerfil" ReturnType="Collection(AdministracionModel.PerfilInfo)" />
+          <FunctionImport Name="ListadoParametrosSistemas" ReturnType="Collection(AdministracionModel.ParametrosSistemasInfo)" />
+          <FunctionImport Name="ListadoOrdenMenu" ReturnType="Collection(AdministracionModel.OrdenMenuInfo)" />
+          <FunctionImport Name="ListadoMenu" ReturnType="Collection(AdministracionModel.MenuInfo)" />
+          <FunctionImport Name="ListadoCatalogosPadres" ReturnType="Collection(AdministracionModel.CatalogoInfo)" />
+          <FunctionImport Name="ListadoCatalogo" ReturnType="Collection(AdministracionModel.CatalogoInfo)" />
+          <FunctionImport Name="ListaCatalogos" ReturnType="Collection(AdministracionModel.CatalogoInfo)" />
+          <FunctionImport Name="LimpiarRolMenuPermisosCompleto">
+            <Parameter Name="idRol" Mode="In" Type="Int32" />
+            <Parameter Name="idPerfil" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="LimpiarRolMenuPermisos">
+            <Parameter Name="idRol" Mode="In" Type="Int32" />
+            <Parameter Name="idPerfil" Mode="In" Type="Int32" />
+            <Parameter Name="idMenu" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GuardarRolMenuPermisos">
+            <Parameter Name="idRol" Mode="In" Type="Int32" />
+            <Parameter Name="idPerfil" Mode="In" Type="Int32" />
+            <Parameter Name="idMenu" Mode="In" Type="Int32" />
+            <Parameter Name="idAccion" Mode="In" Type="Int32" />
+            <Parameter Name="createdBy" Mode="In" Type="Int32" />
+            <Parameter Name="updateBy" Mode="In" Type="Int32" />
+            <Parameter Name="createAt" Mode="In" Type="DateTime" />
+            <Parameter Name="updateAt" Mode="In" Type="DateTime" />
+            <Parameter Name="estado" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="EnviarCorreoUsuarioResetClave">
+            <Parameter Name="id_usuario" Mode="In" Type="Int32" />
+            <Parameter Name="clave" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EnviarCorreoUsuarioGenérico">
+          <Parameter Name="id_usuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EnviarCorreoUsuarioCambioClave">
+          <Parameter Name="id_usuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EnviarCorreoUsuario">
+            <Parameter Name="id_usuario" Mode="In" Type="Int32" />
+            <Parameter Name="clave" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarUsuarioId" ReturnType="Collection(AdministracionModel.UsuarioInfo)">
+          <Parameter Name="correo_user" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarUsuarioExistente" ReturnType="Collection(AdministracionModel.UsuarioInfo)">
+          <Parameter Name="usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarUsuarioClave" ReturnType="Collection(AdministracionModel.UsuarioInfo)">
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="clave" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarUsuario" EntitySet="Usuario" ReturnType="Collection(AdministracionModel.Usuario)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarNumeroHijosCatalogo" ReturnType="Collection(AdministracionModel.NumeroHijosCatalogoInfo)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarCatalogosPorPadre" ReturnType="Collection(AdministracionModel.CatalogosPorPadreInfo)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarCatalogosPorId" ReturnType="Collection(AdministracionModel.CatalogosPorIdInfo)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="codigo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarCatalogosCodigoIdPadre" ReturnType="Collection(AdministracionModel.CatalogoInfo)">
+            <Parameter Name="codigo" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarCatalogoPorCodigo" ReturnType="Collection(AdministracionModel.CatalogoInfo)">
+          <Parameter Name="codigo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarCatalogo" EntitySet="Catalogo" ReturnType="Collection(AdministracionModel.Catalogo)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarMenu" EntitySet="Menu" ReturnType="Collection(AdministracionModel.Menu)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarParametrosSistema" EntitySet="ParametrosSistema" ReturnType="Collection(AdministracionModel.ParametrosSistema)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarPerfil" EntitySet="Perfil" ReturnType="Collection(AdministracionModel.Perfil)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarRol" EntitySet="Rol" ReturnType="Collection(AdministracionModel.Rol)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarTipoNotificacion" EntitySet="TipoNotificacion" ReturnType="Collection(AdministracionModel.TipoNotificacion)">
+          <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ListadoRolPerfilMenuPermisos" ReturnType="Collection(AdministracionModel.UsuarioRolMenuPermisoInfo)">
+            <Parameter Name="id_rol" Mode="In" Type="Int32" />
+            <Parameter Name="id_perfil" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarUsuarioRolMenuPermiso" ReturnType="Collection(AdministracionModel.UsuarioRolMenuPermisoInfo)">
+            <Parameter Name="id_usuario" Mode="In" Type="Int32" />
+            <Parameter Name="controlador" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarMenuRutaAcceso" ReturnType="Collection(AdministracionModel.MenuRutaAccesoInfo)">
+          <Parameter Name="id_rol" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarCorreosNotificaciones" ReturnType="Collection(String)">
+          <Parameter Name="idPerfil" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="UsuarioInfo">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="Identificacion" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Nombres" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Apellidos" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="NombresApellidos" Nullable="false" MaxLength="351" />
+          <Property Type="String" Name="Username" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Area" Nullable="true" />
+          <Property Type="String" Name="TextoCatalogoArea" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Departamento" Nullable="true" />
+          <Property Type="String" Name="TextoCatalogoDepartamento" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Cargo" Nullable="true" />
+          <Property Type="String" Name="TextoCatalogoCargo" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="IdEmpresa" Nullable="true" />
+          <Property Type="String" Name="NombreEmpresa" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Pais" Nullable="true" />
+          <Property Type="String" Name="TextoCatalogoPais" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Ciudad" Nullable="true" />
+          <Property Type="String" Name="TextoCatalogoCiudad" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Direccion" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Mail" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="Clave" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Telefono" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="Celular" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="IdRol" Nullable="true" />
+          <Property Type="String" Name="NombreRol" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="DescripcionRol" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="EstadoRol" Nullable="true" />
+          <Property Type="String" Name="TextoEstadoRol" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="EstadoUsuario" Nullable="true" />
+          <Property Type="String" Name="TextoEstadoUsuario" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="ResetClave" Nullable="true" />
+          <Property Type="Boolean" Name="ValidacionCorreo" Nullable="true" />
+          <Property Type="Boolean" Name="Activo" Nullable="true" />
+          <Property Type="String" Name="TokenValidacionCorreo" Nullable="true" />
+          <Property Type="String" Name="MailCorporativo" Nullable="true" MaxLength="300" />
+          <Property Type="Int32" Name="CiudadUbicacionEmpresa" Nullable="true" />
+          <Property Type="String" Name="TextoCatalogoCiudadUbicacionEmpresa" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TextoActivoUsuario" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="OpcionMenuUsuarioInfo">
+          <Property Type="Int32" Name="IdMenu" Nullable="false" />
+          <Property Type="String" Name="NombreMenu" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="IdMenuPadre" Nullable="true" />
+          <Property Type="String" Name="carpeta" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="opcion" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="hijos" Nullable="true" />
+          <Property Type="String" Name="permisos" Nullable="false" MaxLength="7" />
+          <Property Type="Int32" Name="OrdenMenu" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="RolInfo">
+          <Property Type="Int32" Name="IdRol" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="EstadoRol" Nullable="true" />
+          <Property Type="String" Name="TextoEstado" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="PerfilInfo">
+          <Property Type="Int32" Name="IdPerfil" Nullable="false" />
+          <Property Type="String" Name="NombrePerfil" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="DescripcionPerfil" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="EstadoPerfil" Nullable="true" />
+          <Property Type="String" Name="TextoEstadoPerfil" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="MenuHijosInfo">
+          <Property Type="Int32" Name="IdMenu" Nullable="false" />
+          <Property Type="String" Name="NombreMenu" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="NombrePaginaMenu" Nullable="true" MaxLength="150" />
+          <Property Type="Boolean" Name="EstadoMenu" Nullable="true" />
+          <Property Type="String" Name="TextoEstadoMenu" Nullable="false" MaxLength="8" />
+          <Property Type="Int32" Name="IdMenuPadre" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MenuInfo">
+          <Property Type="Int32" Name="IdMenu" Nullable="false" />
+          <Property Type="String" Name="Padre" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="OpcionMenu" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="RutaAcceso" Nullable="true" MaxLength="150" />
+          <Property Type="Boolean" Name="EstadoMenu" Nullable="true" />
+          <Property Type="String" Name="TextoEstadoMenu" Nullable="false" MaxLength="8" />
+          <Property Type="Int32" Name="OrdenMenu" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="TipoNotificacionesInfo">
+          <Property Type="Int32" Name="IdNotificacion" Nullable="false" />
+          <Property Type="String" Name="NombreNotificacion" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="DescripcionNotificacion" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="TiempoEspera" Nullable="true" />
+          <Property Type="Boolean" Name="EstadoNotificacion" Nullable="true" />
+          <Property Type="String" Name="TextoEstadoNotificacion" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="CatalogoInfo">
+          <Property Type="Int32" Name="IdCatalogo" Nullable="false" />
+          <Property Type="String" Name="CodigoCatalogo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NombreCatalogo" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="DescripcionCatalogo" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="IdCatalogoPadre" Nullable="true" />
+          <Property Type="String" Name="NombreCatalogoPadre" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="CodigoCatalogoPadre" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="IdEmpresa" Nullable="true" />
+          <Property Type="Boolean" Name="Eliminado" Nullable="true" />
+          <Property Type="Boolean" Name="EstadoCatalogo" Nullable="true" />
+          <Property Type="String" Name="TextoEstadoCatalogo" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="TextoEstadoEliminado" Nullable="false" MaxLength="2" />
+        </ComplexType>
+        <ComplexType Name="ParametrosSistemasInfo">
+          <Property Type="Int32" Name="IdParametro" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Valor" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TextoTipo" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="EstadoTablaParametros" Nullable="true" />
+          <Property Type="String" Name="TextoEstadoTablaParametros" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="OrdenMenuInfo">
+          <Property Type="Int32" Name="IdMenu" Nullable="false" />
+          <Property Type="String" Name="OpcionMenu" Nullable="true" MaxLength="653" />
+          <Property Type="Int32" Name="OrdenMenu" Nullable="true" />
+          <Property Type="Int32" Name="IdMenuPadre" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="NumeroHijosCatalogoInfo">
+          <Property Type="Int32" Name="NumeroHIjos" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CatalogosPorPadreInfo">
+          <Property Type="Int32" Name="IdCatalogo" Nullable="false" />
+          <Property Type="String" Name="NombreCatalogo" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="CatalogosPorIdInfo">
+          <Property Type="Int32" Name="IdCatalogo" Nullable="false" />
+          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="150" />
+          <Property Type="Boolean" Name="Estado" Nullable="true" />
+          <Property Type="String" Name="TextoEstadoCatalogo" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="UsuarioRolMenuPermisoInfo">
+          <Property Type="Int32" Name="IDRolMenuPermiso" Nullable="false" />
+          <Property Type="Int32" Name="RolID" Nullable="false" />
+          <Property Type="String" Name="NombreRol" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="PerfilID" Nullable="false" />
+          <Property Type="String" Name="NombrePerfil" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="MenuID" Nullable="false" />
+          <Property Type="String" Name="NombreMenu" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="EnlaceMenu" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="MenuPadre" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="IDCatalogo" Nullable="false" />
+          <Property Type="String" Name="CodigoCatalogo" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TextoCatalogoAccion" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="MetodoControlador" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="NombreControlador" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="AccionEnlace" Nullable="true" MaxLength="301" />
+          <Property Type="Int32" Name="CreadoPorID" Nullable="true" />
+          <Property Type="String" Name="CreadoPor" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="ActualizadoPorID" Nullable="true" />
+          <Property Type="String" Name="ActualizadoPor" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="CreatedAt" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="UpdatedAt" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="Estado" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MenuRutaAccesoInfo">
+          <Property Type="String" Name="RUTAMENU" Nullable="true" MaxLength="150" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AdministracionModelStoreContainer" CdmEntityContainer="AdministracionEntities">
+          <EntitySetMapping Name="AuditLog">
+            <EntityTypeMapping TypeName="AdministracionModel.AuditLog">
+              <MappingFragment StoreEntitySet="AuditLog">
+                <ScalarProperty Name="IdAuditLog" ColumnName="IdAuditLog" />
+                <ScalarProperty Name="AuditType" ColumnName="AuditType" />
+                <ScalarProperty Name="Tabla" ColumnName="Tabla" />
+                <ScalarProperty Name="PK" ColumnName="PK" />
+                <ScalarProperty Name="Columnna" ColumnName="Columnna" />
+                <ScalarProperty Name="ValorAnterior" ColumnName="ValorAnterior" />
+                <ScalarProperty Name="ValorNuevo" ColumnName="ValorNuevo" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Catalogo">
+            <EntityTypeMapping TypeName="AdministracionModel.Catalogo">
+              <MappingFragment StoreEntitySet="Catalogo">
+                <ScalarProperty Name="IdCatalogo" ColumnName="IdCatalogo" />
+                <ScalarProperty Name="CodigoCatalogo" ColumnName="CodigoCatalogo" />
+                <ScalarProperty Name="NombreCatalogo" ColumnName="NombreCatalogo" />
+                <ScalarProperty Name="DescripcionCatalogo" ColumnName="DescripcionCatalogo" />
+                <ScalarProperty Name="IdCatalogoPadre" ColumnName="IdCatalogoPadre" />
+                <ScalarProperty Name="EstadoCatalogo" ColumnName="EstadoCatalogo" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Eliminado" ColumnName="Eliminado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empresa">
+            <EntityTypeMapping TypeName="AdministracionModel.Empresa">
+              <MappingFragment StoreEntitySet="Empresa">
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="CedulaRucPasaporte" ColumnName="CedulaRucPasaporte" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="NombreComercial" ColumnName="NombreComercial" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="PaginaWeb" ColumnName="PaginaWeb" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="RepresentanteLegal" ColumnName="RepresentanteLegal" />
+                <ScalarProperty Name="ObligatorioLlevarContabilidad" ColumnName="ObligatorioLlevarContabilidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogIngresos">
+            <EntityTypeMapping TypeName="AdministracionModel.LogIngresos">
+              <MappingFragment StoreEntitySet="LogIngresos">
+                <ScalarProperty Name="IdLogIngr" ColumnName="IdLogIngr" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="UsuarioLogin" ColumnName="UsuarioLogin" />
+                <ScalarProperty Name="UsuarioClave" ColumnName="UsuarioClave" />
+                <ScalarProperty Name="LogFechaTransaccion" ColumnName="LogFechaTransaccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogIngrFallidos">
+            <EntityTypeMapping TypeName="AdministracionModel.LogIngrFallidos">
+              <MappingFragment StoreEntitySet="LogIngrFallidos">
+                <ScalarProperty Name="IdLogIngrFall" ColumnName="IdLogIngrFall" />
+                <ScalarProperty Name="UsuarioLogin" ColumnName="UsuarioLogin" />
+                <ScalarProperty Name="UsuarioClave" ColumnName="UsuarioClave" />
+                <ScalarProperty Name="LogFechaTransaccion" ColumnName="LogFechaTransaccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menu">
+            <EntityTypeMapping TypeName="AdministracionModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="IdMenu" ColumnName="IdMenu" />
+                <ScalarProperty Name="NombreMenu" ColumnName="NombreMenu" />
+                <ScalarProperty Name="NombrePaginaMenu" ColumnName="NombrePaginaMenu" />
+                <ScalarProperty Name="EstadoMenu" ColumnName="EstadoMenu" />
+                <ScalarProperty Name="IdMenuPadre" ColumnName="IdMenuPadre" />
+                <ScalarProperty Name="OrdenMenu" ColumnName="OrdenMenu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notificaciones">
+            <EntityTypeMapping TypeName="AdministracionModel.Notificaciones">
+              <MappingFragment StoreEntitySet="Notificaciones">
+                <ScalarProperty Name="IDNotificaciones" ColumnName="IDNotificaciones" />
+                <ScalarProperty Name="NombreTarea" ColumnName="NombreTarea" />
+                <ScalarProperty Name="DescripcionTarea" ColumnName="DescripcionTarea" />
+                <ScalarProperty Name="NombreEmisor" ColumnName="NombreEmisor" />
+                <ScalarProperty Name="CorreoEmisor" ColumnName="CorreoEmisor" />
+                <ScalarProperty Name="ClaveCorreo" ColumnName="ClaveCorreo" />
+                <ScalarProperty Name="CorreosDestinarios" ColumnName="CorreosDestinarios" />
+                <ScalarProperty Name="AsuntoCorreo" ColumnName="AsuntoCorreo" />
+                <ScalarProperty Name="NombreArchivoPlantillaCorreo" ColumnName="NombreArchivoPlantillaCorreo" />
+                <ScalarProperty Name="CuerpoCorreo" ColumnName="CuerpoCorreo" />
+                <ScalarProperty Name="AdjuntosCorreo" ColumnName="AdjuntosCorreo" />
+                <ScalarProperty Name="FechaEnvioCorreo" ColumnName="FechaEnvioCorreo" />
+                <ScalarProperty Name="EstadoNotificacion" ColumnName="EstadoNotificacion" />
+                <ScalarProperty Name="EstadoEnviadoNotificacion" ColumnName="EstadoEnviadoNotificacion" />
+                <ScalarProperty Name="EstadoEjecucionNotificacion" ColumnName="EstadoEjecucionNotificacion" />
+                <ScalarProperty Name="DetalleEstadoEjecucionNotificacion" ColumnName="DetalleEstadoEjecucionNotificacion" />
+                <ScalarProperty Name="Empresa" ColumnName="Empresa" />
+                <ScalarProperty Name="Canal" ColumnName="Canal" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParametrosSistema">
+            <EntityTypeMapping TypeName="AdministracionModel.ParametrosSistema">
+              <MappingFragment StoreEntitySet="ParametrosSistema">
+                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Perfil">
+            <EntityTypeMapping TypeName="AdministracionModel.Perfil">
+              <MappingFragment StoreEntitySet="Perfil">
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="NombrePerfil" ColumnName="NombrePerfil" />
+                <ScalarProperty Name="DescripcionPerfil" ColumnName="DescripcionPerfil" />
+                <ScalarProperty Name="EstadoPerfil" ColumnName="EstadoPerfil" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PerfilMenu">
+            <EntityTypeMapping TypeName="AdministracionModel.PerfilMenu">
+              <MappingFragment StoreEntitySet="PerfilMenu">
+                <ScalarProperty Name="IdPerfilMenu" ColumnName="IdPerfilMenu" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="IdMenu" ColumnName="IdMenu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="AdministracionModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolMenuPermiso">
+            <EntityTypeMapping TypeName="AdministracionModel.RolMenuPermiso">
+              <MappingFragment StoreEntitySet="RolMenuPermiso">
+                <ScalarProperty Name="IDRolMenuPermiso" ColumnName="IDRolMenuPermiso" />
+                <ScalarProperty Name="RolID" ColumnName="RolID" />
+                <ScalarProperty Name="PerfilID" ColumnName="PerfilID" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="AccionID" ColumnName="AccionID" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolPerfil">
+            <EntityTypeMapping TypeName="AdministracionModel.RolPerfil">
+              <MappingFragment StoreEntitySet="RolPerfil">
+                <ScalarProperty Name="IdRolPerfil" ColumnName="IdRolPerfil" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoNotificacion">
+            <EntityTypeMapping TypeName="AdministracionModel.TipoNotificacion">
+              <MappingFragment StoreEntitySet="TipoNotificacion">
+                <ScalarProperty Name="IdNotificacion" ColumnName="IdNotificacion" />
+                <ScalarProperty Name="NombreNotificacion" ColumnName="NombreNotificacion" />
+                <ScalarProperty Name="DescripcionNotificacion" ColumnName="DescripcionNotificacion" />
+                <ScalarProperty Name="TiempoEspera" ColumnName="TiempoEspera" />
+                <ScalarProperty Name="EstadoNotificacion" ColumnName="EstadoNotificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="AdministracionModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="CiudadUbicacionEmpresa" ColumnName="CiudadUbicacionEmpresa" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="MailCorporativo" ColumnName="MailCorporativo" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="ResetClave" ColumnName="ResetClave" />
+                <ScalarProperty Name="ValidacionCorreo" ColumnName="ValidacionCorreo" />
+                <ScalarProperty Name="TokenValidacionCorreo" ColumnName="TokenValidacionCorreo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ListarUsuarios" FunctionName="AdministracionModel.Store.ListarUsuarios">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.UsuarioInfo">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="NombresApellidos" ColumnName="NombresApellidos" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="TextoCatalogoArea" ColumnName="TextoCatalogoArea" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="TextoCatalogoDepartamento" ColumnName="TextoCatalogoDepartamento" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="TextoCatalogoCargo" ColumnName="TextoCatalogoCargo" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="NombreEmpresa" ColumnName="NombreEmpresa" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="TextoCatalogoPais" ColumnName="TextoCatalogoPais" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="TextoCatalogoCiudad" ColumnName="TextoCatalogoCiudad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
+                <ScalarProperty Name="EstadoRol" ColumnName="EstadoRol" />
+                <ScalarProperty Name="TextoEstadoRol" ColumnName="TextoEstadoRol" />
+                <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
+                <ScalarProperty Name="TextoEstadoUsuario" ColumnName="TextoEstadoUsuario" />
+                <ScalarProperty Name="ResetClave" ColumnName="ResetClave" />
+                <ScalarProperty Name="ValidacionCorreo" ColumnName="ValidacionCorreo" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="TokenValidacionCorreo" ColumnName="TokenValidacionCorreo" />
+                <ScalarProperty Name="MailCorporativo" ColumnName="MailCorporativo" />
+                <ScalarProperty Name="CiudadUbicacionEmpresa" ColumnName="CiudadUbicacionEmpresa" />
+                <ScalarProperty Name="TextoCatalogoCiudadUbicacionEmpresa" ColumnName="TextoCatalogoCiudadUbicacionEmpresa" />
+                <ScalarProperty Name="TextoActivoUsuario" ColumnName="TextoActivoUsuario" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListarOpcionMenuUsuario" FunctionName="AdministracionModel.Store.ListarOpcionMenuUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.OpcionMenuUsuarioInfo">
+                <ScalarProperty Name="IdMenu" ColumnName="IdMenu" />
+                <ScalarProperty Name="NombreMenu" ColumnName="NombreMenu" />
+                <ScalarProperty Name="IdMenuPadre" ColumnName="IdMenuPadre" />
+                <ScalarProperty Name="carpeta" ColumnName="carpeta" />
+                <ScalarProperty Name="opcion" ColumnName="opcion" />
+                <ScalarProperty Name="hijos" ColumnName="hijos" />
+                <ScalarProperty Name="permisos" ColumnName="permisos" />
+                <ScalarProperty Name="OrdenMenu" ColumnName="OrdenMenu" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListaRol" FunctionName="AdministracionModel.Store.ListaRol">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.RolInfo">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="EstadoRol" ColumnName="EstadoRol" />
+                <ScalarProperty Name="TextoEstado" ColumnName="TextoEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListaPerfil" FunctionName="AdministracionModel.Store.ListaPerfil">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.PerfilInfo">
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="NombrePerfil" ColumnName="NombrePerfil" />
+                <ScalarProperty Name="DescripcionPerfil" ColumnName="DescripcionPerfil" />
+                <ScalarProperty Name="EstadoPerfil" ColumnName="EstadoPerfil" />
+                <ScalarProperty Name="TextoEstadoPerfil" ColumnName="TextoEstadoPerfil" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListaMenuHijos" FunctionName="AdministracionModel.Store.ListaMenuHijos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.MenuHijosInfo">
+                <ScalarProperty Name="IdMenu" ColumnName="IdMenu" />
+                <ScalarProperty Name="NombreMenu" ColumnName="NombreMenu" />
+                <ScalarProperty Name="NombrePaginaMenu" ColumnName="NombrePaginaMenu" />
+                <ScalarProperty Name="EstadoMenu" ColumnName="EstadoMenu" />
+                <ScalarProperty Name="TextoEstadoMenu" ColumnName="TextoEstadoMenu" />
+                <ScalarProperty Name="IdMenuPadre" ColumnName="IdMenuPadre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListaMenu" FunctionName="AdministracionModel.Store.ListaMenu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.MenuInfo">
+                <ScalarProperty Name="IdMenu" ColumnName="IdMenu" />
+                <ScalarProperty Name="Padre" ColumnName="Padre" />
+                <ScalarProperty Name="OpcionMenu" ColumnName="OpcionMenu" />
+                <ScalarProperty Name="RutaAcceso" ColumnName="RutaAcceso" />
+                <ScalarProperty Name="EstadoMenu" ColumnName="EstadoMenu" />
+                <ScalarProperty Name="TextoEstadoMenu" ColumnName="TextoEstadoMenu" />
+                <ScalarProperty Name="OrdenMenu" ColumnName="OrdenMenu" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoUsuarios" FunctionName="AdministracionModel.Store.ListadoUsuarios">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.UsuarioInfo">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="NombresApellidos" ColumnName="NombresApellidos" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="TextoCatalogoArea" ColumnName="TextoCatalogoArea" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="TextoCatalogoDepartamento" ColumnName="TextoCatalogoDepartamento" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="TextoCatalogoCargo" ColumnName="TextoCatalogoCargo" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="NombreEmpresa" ColumnName="NombreEmpresa" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="TextoCatalogoPais" ColumnName="TextoCatalogoPais" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="TextoCatalogoCiudad" ColumnName="TextoCatalogoCiudad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
+                <ScalarProperty Name="EstadoRol" ColumnName="EstadoRol" />
+                <ScalarProperty Name="TextoEstadoRol" ColumnName="TextoEstadoRol" />
+                <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
+                <ScalarProperty Name="TextoEstadoUsuario" ColumnName="TextoEstadoUsuario" />
+                <ScalarProperty Name="ResetClave" ColumnName="ResetClave" />
+                <ScalarProperty Name="ValidacionCorreo" ColumnName="ValidacionCorreo" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="TokenValidacionCorreo" ColumnName="TokenValidacionCorreo" />
+                <ScalarProperty Name="MailCorporativo" ColumnName="MailCorporativo" />
+                <ScalarProperty Name="CiudadUbicacionEmpresa" ColumnName="CiudadUbicacionEmpresa" />
+                <ScalarProperty Name="TextoCatalogoCiudadUbicacionEmpresa" ColumnName="TextoCatalogoCiudadUbicacionEmpresa" />
+                <ScalarProperty Name="TextoActivoUsuario" ColumnName="TextoActivoUsuario" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoTipoNotificaciones" FunctionName="AdministracionModel.Store.ListadoTipoNotificaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.TipoNotificacionesInfo">
+                <ScalarProperty Name="IdNotificacion" ColumnName="IdNotificacion" />
+                <ScalarProperty Name="NombreNotificacion" ColumnName="NombreNotificacion" />
+                <ScalarProperty Name="DescripcionNotificacion" ColumnName="DescripcionNotificacion" />
+                <ScalarProperty Name="TiempoEspera" ColumnName="TiempoEspera" />
+                <ScalarProperty Name="EstadoNotificacion" ColumnName="EstadoNotificacion" />
+                <ScalarProperty Name="TextoEstadoNotificacion" ColumnName="TextoEstadoNotificacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoSubcatalogos" FunctionName="AdministracionModel.Store.ListadoSubcatalogos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.CatalogoInfo">
+                <ScalarProperty Name="IdCatalogo" ColumnName="IdCatalogo" />
+                <ScalarProperty Name="CodigoCatalogo" ColumnName="CodigoCatalogo" />
+                <ScalarProperty Name="NombreCatalogo" ColumnName="NombreCatalogo" />
+                <ScalarProperty Name="DescripcionCatalogo" ColumnName="DescripcionCatalogo" />
+                <ScalarProperty Name="IdCatalogoPadre" ColumnName="IdCatalogoPadre" />
+                <ScalarProperty Name="NombreCatalogoPadre" ColumnName="NombreCatalogoPadre" />
+                <ScalarProperty Name="CodigoCatalogoPadre" ColumnName="CodigoCatalogoPadre" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Eliminado" ColumnName="Eliminado" />
+                <ScalarProperty Name="EstadoCatalogo" ColumnName="EstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoCatalogo" ColumnName="TextoEstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoEliminado" ColumnName="TextoEstadoEliminado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoRolPerfil" FunctionName="AdministracionModel.Store.ListadoRolPerfil">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.PerfilInfo">
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="NombrePerfil" ColumnName="NombrePerfil" />
+                <ScalarProperty Name="DescripcionPerfil" ColumnName="DescripcionPerfil" />
+                <ScalarProperty Name="EstadoPerfil" ColumnName="EstadoPerfil" />
+                <ScalarProperty Name="TextoEstadoPerfil" ColumnName="TextoEstadoPerfil" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoRol" FunctionName="AdministracionModel.Store.ListadoRol">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.RolInfo">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="EstadoRol" ColumnName="EstadoRol" />
+                <ScalarProperty Name="TextoEstado" ColumnName="TextoEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoPerfilMenu" FunctionName="AdministracionModel.Store.ListadoPerfilMenu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.MenuInfo">
+                <ScalarProperty Name="IdMenu" ColumnName="IdMenu" />
+                <ScalarProperty Name="Padre" ColumnName="Padre" />
+                <ScalarProperty Name="OpcionMenu" ColumnName="OpcionMenu" />
+                <ScalarProperty Name="RutaAcceso" ColumnName="RutaAcceso" />
+                <ScalarProperty Name="EstadoMenu" ColumnName="EstadoMenu" />
+                <ScalarProperty Name="TextoEstadoMenu" ColumnName="TextoEstadoMenu" />
+                <ScalarProperty Name="OrdenMenu" ColumnName="OrdenMenu" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoPerfil" FunctionName="AdministracionModel.Store.ListadoPerfil">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.PerfilInfo">
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="NombrePerfil" ColumnName="NombrePerfil" />
+                <ScalarProperty Name="DescripcionPerfil" ColumnName="DescripcionPerfil" />
+                <ScalarProperty Name="EstadoPerfil" ColumnName="EstadoPerfil" />
+                <ScalarProperty Name="TextoEstadoPerfil" ColumnName="TextoEstadoPerfil" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoParametrosSistemas" FunctionName="AdministracionModel.Store.ListadoParametrosSistemas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.ParametrosSistemasInfo">
+                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="TextoTipo" ColumnName="TextoTipo" />
+                <ScalarProperty Name="EstadoTablaParametros" ColumnName="EstadoTablaParametros" />
+                <ScalarProperty Name="TextoEstadoTablaParametros" ColumnName="TextoEstadoTablaParametros" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoOrdenMenu" FunctionName="AdministracionModel.Store.ListadoOrdenMenu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.OrdenMenuInfo">
+                <ScalarProperty Name="IdMenu" ColumnName="IdMenu" />
+                <ScalarProperty Name="OpcionMenu" ColumnName="OpcionMenu" />
+                <ScalarProperty Name="OrdenMenu" ColumnName="OrdenMenu" />
+                <ScalarProperty Name="IdMenuPadre" ColumnName="IdMenuPadre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoMenu" FunctionName="AdministracionModel.Store.ListadoMenu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.MenuInfo">
+                <ScalarProperty Name="IdMenu" ColumnName="IdMenu" />
+                <ScalarProperty Name="Padre" ColumnName="Padre" />
+                <ScalarProperty Name="OpcionMenu" ColumnName="OpcionMenu" />
+                <ScalarProperty Name="RutaAcceso" ColumnName="RutaAcceso" />
+                <ScalarProperty Name="EstadoMenu" ColumnName="EstadoMenu" />
+                <ScalarProperty Name="TextoEstadoMenu" ColumnName="TextoEstadoMenu" />
+                <ScalarProperty Name="OrdenMenu" ColumnName="OrdenMenu" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoCatalogosPadres" FunctionName="AdministracionModel.Store.ListadoCatalogosPadres">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.CatalogoInfo">
+                <ScalarProperty Name="IdCatalogo" ColumnName="IdCatalogo" />
+                <ScalarProperty Name="CodigoCatalogo" ColumnName="CodigoCatalogo" />
+                <ScalarProperty Name="NombreCatalogo" ColumnName="NombreCatalogo" />
+                <ScalarProperty Name="DescripcionCatalogo" ColumnName="DescripcionCatalogo" />
+                <ScalarProperty Name="IdCatalogoPadre" ColumnName="IdCatalogoPadre" />
+                <ScalarProperty Name="NombreCatalogoPadre" ColumnName="NombreCatalogoPadre" />
+                <ScalarProperty Name="CodigoCatalogoPadre" ColumnName="CodigoCatalogoPadre" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Eliminado" ColumnName="Eliminado" />
+                <ScalarProperty Name="EstadoCatalogo" ColumnName="EstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoCatalogo" ColumnName="TextoEstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoEliminado" ColumnName="TextoEstadoEliminado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoCatalogo" FunctionName="AdministracionModel.Store.ListadoCatalogo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.CatalogoInfo">
+                <ScalarProperty Name="IdCatalogo" ColumnName="IdCatalogo" />
+                <ScalarProperty Name="CodigoCatalogo" ColumnName="CodigoCatalogo" />
+                <ScalarProperty Name="NombreCatalogo" ColumnName="NombreCatalogo" />
+                <ScalarProperty Name="DescripcionCatalogo" ColumnName="DescripcionCatalogo" />
+                <ScalarProperty Name="IdCatalogoPadre" ColumnName="IdCatalogoPadre" />
+                <ScalarProperty Name="NombreCatalogoPadre" ColumnName="NombreCatalogoPadre" />
+                <ScalarProperty Name="CodigoCatalogoPadre" ColumnName="CodigoCatalogoPadre" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Eliminado" ColumnName="Eliminado" />
+                <ScalarProperty Name="EstadoCatalogo" ColumnName="EstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoCatalogo" ColumnName="TextoEstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoEliminado" ColumnName="TextoEstadoEliminado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListaCatalogos" FunctionName="AdministracionModel.Store.ListaCatalogos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.CatalogoInfo">
+                <ScalarProperty Name="IdCatalogo" ColumnName="IdCatalogo" />
+                <ScalarProperty Name="CodigoCatalogo" ColumnName="CodigoCatalogo" />
+                <ScalarProperty Name="NombreCatalogo" ColumnName="NombreCatalogo" />
+                <ScalarProperty Name="DescripcionCatalogo" ColumnName="DescripcionCatalogo" />
+                <ScalarProperty Name="IdCatalogoPadre" ColumnName="IdCatalogoPadre" />
+                <ScalarProperty Name="NombreCatalogoPadre" ColumnName="NombreCatalogoPadre" />
+                <ScalarProperty Name="CodigoCatalogoPadre" ColumnName="CodigoCatalogoPadre" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Eliminado" ColumnName="Eliminado" />
+                <ScalarProperty Name="EstadoCatalogo" ColumnName="EstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoCatalogo" ColumnName="TextoEstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoEliminado" ColumnName="TextoEstadoEliminado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="LimpiarRolMenuPermisosCompleto" FunctionName="AdministracionModel.Store.LimpiarRolMenuPermisosCompleto" />
+          <FunctionImportMapping FunctionImportName="LimpiarRolMenuPermisos" FunctionName="AdministracionModel.Store.LimpiarRolMenuPermisos" />
+          <FunctionImportMapping FunctionImportName="GuardarRolMenuPermisos" FunctionName="AdministracionModel.Store.GuardarRolMenuPermisos" />
+          <FunctionImportMapping FunctionImportName="EnviarCorreoUsuarioResetClave" FunctionName="AdministracionModel.Store.EnviarCorreoUsuarioResetClave" />
+          <FunctionImportMapping FunctionImportName="EnviarCorreoUsuarioGenérico" FunctionName="AdministracionModel.Store.EnviarCorreoUsuarioGenérico" />
+          <FunctionImportMapping FunctionImportName="EnviarCorreoUsuarioCambioClave" FunctionName="AdministracionModel.Store.EnviarCorreoUsuarioCambioClave" />
+          <FunctionImportMapping FunctionImportName="EnviarCorreoUsuario" FunctionName="AdministracionModel.Store.EnviarCorreoUsuario" />
+          <FunctionImportMapping FunctionImportName="ConsultarUsuarioId" FunctionName="AdministracionModel.Store.ConsultarUsuarioId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.UsuarioInfo">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="NombresApellidos" ColumnName="NombresApellidos" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="TextoCatalogoArea" ColumnName="TextoCatalogoArea" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="TextoCatalogoDepartamento" ColumnName="TextoCatalogoDepartamento" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="TextoCatalogoCargo" ColumnName="TextoCatalogoCargo" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="NombreEmpresa" ColumnName="NombreEmpresa" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="TextoCatalogoPais" ColumnName="TextoCatalogoPais" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="TextoCatalogoCiudad" ColumnName="TextoCatalogoCiudad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
+                <ScalarProperty Name="EstadoRol" ColumnName="EstadoRol" />
+                <ScalarProperty Name="TextoEstadoRol" ColumnName="TextoEstadoRol" />
+                <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
+                <ScalarProperty Name="TextoEstadoUsuario" ColumnName="TextoEstadoUsuario" />
+                <ScalarProperty Name="ResetClave" ColumnName="ResetClave" />
+                <ScalarProperty Name="ValidacionCorreo" ColumnName="ValidacionCorreo" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="TokenValidacionCorreo" ColumnName="TokenValidacionCorreo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarUsuarioExistente" FunctionName="AdministracionModel.Store.ConsultarUsuarioExistente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.UsuarioInfo">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="NombresApellidos" ColumnName="NombresApellidos" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="TextoCatalogoArea" ColumnName="TextoCatalogoArea" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="TextoCatalogoDepartamento" ColumnName="TextoCatalogoDepartamento" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="TextoCatalogoCargo" ColumnName="TextoCatalogoCargo" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="NombreEmpresa" ColumnName="NombreEmpresa" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="TextoCatalogoPais" ColumnName="TextoCatalogoPais" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="TextoCatalogoCiudad" ColumnName="TextoCatalogoCiudad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
+                <ScalarProperty Name="EstadoRol" ColumnName="EstadoRol" />
+                <ScalarProperty Name="TextoEstadoRol" ColumnName="TextoEstadoRol" />
+                <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
+                <ScalarProperty Name="TextoEstadoUsuario" ColumnName="TextoEstadoUsuario" />
+                <ScalarProperty Name="ResetClave" ColumnName="ResetClave" />
+                <ScalarProperty Name="ValidacionCorreo" ColumnName="ValidacionCorreo" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="TokenValidacionCorreo" ColumnName="TokenValidacionCorreo" />
+                <ScalarProperty Name="MailCorporativo" ColumnName="MailCorporativo" />
+                <ScalarProperty Name="CiudadUbicacionEmpresa" ColumnName="CiudadUbicacionEmpresa" />
+                <ScalarProperty Name="TextoCatalogoCiudadUbicacionEmpresa" ColumnName="TextoCatalogoCiudadUbicacionEmpresa" />
+                <ScalarProperty Name="TextoActivoUsuario" ColumnName="TextoActivoUsuario" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarUsuarioClave" FunctionName="AdministracionModel.Store.ConsultarUsuarioClave">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.UsuarioInfo">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="NombresApellidos" ColumnName="NombresApellidos" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="TextoCatalogoArea" ColumnName="TextoCatalogoArea" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="TextoCatalogoDepartamento" ColumnName="TextoCatalogoDepartamento" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="TextoCatalogoCargo" ColumnName="TextoCatalogoCargo" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="NombreEmpresa" ColumnName="NombreEmpresa" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="TextoCatalogoPais" ColumnName="TextoCatalogoPais" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="TextoCatalogoCiudad" ColumnName="TextoCatalogoCiudad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
+                <ScalarProperty Name="EstadoRol" ColumnName="EstadoRol" />
+                <ScalarProperty Name="TextoEstadoRol" ColumnName="TextoEstadoRol" />
+                <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
+                <ScalarProperty Name="TextoEstadoUsuario" ColumnName="TextoEstadoUsuario" />
+                <ScalarProperty Name="ResetClave" ColumnName="ResetClave" />
+                <ScalarProperty Name="ValidacionCorreo" ColumnName="ValidacionCorreo" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="TokenValidacionCorreo" ColumnName="TokenValidacionCorreo" />
+                <ScalarProperty Name="MailCorporativo" ColumnName="MailCorporativo" />
+                <ScalarProperty Name="CiudadUbicacionEmpresa" ColumnName="CiudadUbicacionEmpresa" />
+                <ScalarProperty Name="TextoCatalogoCiudadUbicacionEmpresa" ColumnName="TextoCatalogoCiudadUbicacionEmpresa" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarUsuario" FunctionName="AdministracionModel.Store.ConsultarUsuario">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarNumeroHijosCatalogo" FunctionName="AdministracionModel.Store.ConsultarNumeroHijosCatalogo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.NumeroHijosCatalogoInfo">
+                <ScalarProperty Name="NumeroHIjos" ColumnName="NumeroHIjos" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarCatalogosPorPadre" FunctionName="AdministracionModel.Store.ConsultarCatalogosPorPadre">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.CatalogosPorPadreInfo">
+                <ScalarProperty Name="IdCatalogo" ColumnName="IdCatalogo" />
+                <ScalarProperty Name="NombreCatalogo" ColumnName="NombreCatalogo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarCatalogosPorId" FunctionName="AdministracionModel.Store.ConsultarCatalogosPorId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.CatalogosPorIdInfo">
+                <ScalarProperty Name="IdCatalogo" ColumnName="IdCatalogo" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="TextoEstadoCatalogo" ColumnName="TextoEstadoCatalogo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarCatalogosCodigoIdPadre" FunctionName="AdministracionModel.Store.ConsultarCatalogosCodigoIdPadre">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.CatalogoInfo">
+                <ScalarProperty Name="IdCatalogo" ColumnName="IdCatalogo" />
+                <ScalarProperty Name="CodigoCatalogo" ColumnName="CodigoCatalogo" />
+                <ScalarProperty Name="NombreCatalogo" ColumnName="NombreCatalogo" />
+                <ScalarProperty Name="DescripcionCatalogo" ColumnName="DescripcionCatalogo" />
+                <ScalarProperty Name="IdCatalogoPadre" ColumnName="IdCatalogoPadre" />
+                <ScalarProperty Name="NombreCatalogoPadre" ColumnName="NombreCatalogoPadre" />
+                <ScalarProperty Name="CodigoCatalogoPadre" ColumnName="CodigoCatalogoPadre" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Eliminado" ColumnName="Eliminado" />
+                <ScalarProperty Name="EstadoCatalogo" ColumnName="EstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoCatalogo" ColumnName="TextoEstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoEliminado" ColumnName="TextoEstadoEliminado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarCatalogoPorCodigo" FunctionName="AdministracionModel.Store.ConsultarCatalogoPorCodigo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.CatalogoInfo">
+                <ScalarProperty Name="IdCatalogo" ColumnName="IdCatalogo" />
+                <ScalarProperty Name="CodigoCatalogo" ColumnName="CodigoCatalogo" />
+                <ScalarProperty Name="NombreCatalogo" ColumnName="NombreCatalogo" />
+                <ScalarProperty Name="DescripcionCatalogo" ColumnName="DescripcionCatalogo" />
+                <ScalarProperty Name="IdCatalogoPadre" ColumnName="IdCatalogoPadre" />
+                <ScalarProperty Name="NombreCatalogoPadre" ColumnName="NombreCatalogoPadre" />
+                <ScalarProperty Name="CodigoCatalogoPadre" ColumnName="CodigoCatalogoPadre" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Eliminado" ColumnName="Eliminado" />
+                <ScalarProperty Name="EstadoCatalogo" ColumnName="EstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoCatalogo" ColumnName="TextoEstadoCatalogo" />
+                <ScalarProperty Name="TextoEstadoEliminado" ColumnName="TextoEstadoEliminado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarCatalogo" FunctionName="AdministracionModel.Store.ConsultarCatalogo">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarMenu" FunctionName="AdministracionModel.Store.ConsultarMenu" />
+          <FunctionImportMapping FunctionImportName="ConsultarParametrosSistema" FunctionName="AdministracionModel.Store.ConsultarParametrosSistema" />
+          <FunctionImportMapping FunctionImportName="ConsultarPerfil" FunctionName="AdministracionModel.Store.ConsultarPerfil" />
+          <FunctionImportMapping FunctionImportName="ConsultarRol" FunctionName="AdministracionModel.Store.ConsultarRol" />
+          <FunctionImportMapping FunctionImportName="ConsultarTipoNotificacion" FunctionName="AdministracionModel.Store.ConsultarTipoNotificacion" />
+          <FunctionImportMapping FunctionImportName="ListadoRolPerfilMenuPermisos" FunctionName="AdministracionModel.Store.ListadoRolPerfilMenuPermisos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.UsuarioRolMenuPermisoInfo">
+                <ScalarProperty Name="IDRolMenuPermiso" ColumnName="IDRolMenuPermiso" />
+                <ScalarProperty Name="RolID" ColumnName="RolID" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="PerfilID" ColumnName="PerfilID" />
+                <ScalarProperty Name="NombrePerfil" ColumnName="NombrePerfil" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="NombreMenu" ColumnName="NombreMenu" />
+                <ScalarProperty Name="EnlaceMenu" ColumnName="EnlaceMenu" />
+                <ScalarProperty Name="MenuPadre" ColumnName="MenuPadre" />
+                <ScalarProperty Name="IDCatalogo" ColumnName="IDCatalogo" />
+                <ScalarProperty Name="CodigoCatalogo" ColumnName="CodigoCatalogo" />
+                <ScalarProperty Name="TextoCatalogoAccion" ColumnName="TextoCatalogoAccion" />
+                <ScalarProperty Name="MetodoControlador" ColumnName="MetodoControlador" />
+                <ScalarProperty Name="NombreControlador" ColumnName="NombreControlador" />
+                <ScalarProperty Name="AccionEnlace" ColumnName="AccionEnlace" />
+                <ScalarProperty Name="CreadoPorID" ColumnName="CreadoPorID" />
+                <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="ActualizadoPorID" ColumnName="ActualizadoPorID" />
+                <ScalarProperty Name="ActualizadoPor" ColumnName="ActualizadoPor" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarUsuarioRolMenuPermiso" FunctionName="AdministracionModel.Store.ConsultarUsuarioRolMenuPermiso">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.UsuarioRolMenuPermisoInfo">
+                <ScalarProperty Name="IDRolMenuPermiso" ColumnName="IDRolMenuPermiso" />
+                <ScalarProperty Name="RolID" ColumnName="RolID" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="PerfilID" ColumnName="PerfilID" />
+                <ScalarProperty Name="NombrePerfil" ColumnName="NombrePerfil" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="NombreMenu" ColumnName="NombreMenu" />
+                <ScalarProperty Name="EnlaceMenu" ColumnName="EnlaceMenu" />
+                <ScalarProperty Name="MenuPadre" ColumnName="MenuPadre" />
+                <ScalarProperty Name="IDCatalogo" ColumnName="IDCatalogo" />
+                <ScalarProperty Name="CodigoCatalogo" ColumnName="CodigoCatalogo" />
+                <ScalarProperty Name="TextoCatalogoAccion" ColumnName="TextoCatalogoAccion" />
+                <ScalarProperty Name="MetodoControlador" ColumnName="MetodoControlador" />
+                <ScalarProperty Name="NombreControlador" ColumnName="NombreControlador" />
+                <ScalarProperty Name="AccionEnlace" ColumnName="AccionEnlace" />
+                <ScalarProperty Name="CreadoPorID" ColumnName="CreadoPorID" />
+                <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="ActualizadoPorID" ColumnName="ActualizadoPorID" />
+                <ScalarProperty Name="ActualizadoPor" ColumnName="ActualizadoPor" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarMenuRutaAcceso" FunctionName="AdministracionModel.Store.ConsultarMenuRutaAcceso">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdministracionModel.MenuRutaAccesoInfo">
+                <ScalarProperty Name="RUTAMENU" ColumnName="RUTAMENU" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarCorreosNotificaciones" FunctionName="AdministracionModel.Store.ConsultarCorreosNotificaciones" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

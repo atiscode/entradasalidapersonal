@@ -1,0 +1,35 @@
+﻿@model IEnumerable<UsuarioInfo>
+@{
+    var acciones = (List<string>)ViewBag.AccionesUsuario;
+}
+@(Html
+                                            .Grid(Model)
+                                            .Build(columns =>
+                                            {
+                                                columns.Add(model => model.NombresApellidos).Titled("Nombres Completos");
+                                                columns.Add(model => model.Identificacion).Titled("Identificación");
+                                                columns.Add(model => model.NombreEmpresa).Titled("Empresa");
+                                                columns.Add(model => model.TextoCatalogoDepartamento).Titled("Departamento");
+                                                columns.Add(model => model.TextoCatalogoArea).Titled("Área");
+                                                columns.Add(model => model.TextoCatalogoCargo).Titled("Cargo");
+                                                columns.Add(model => model.TextoCatalogoCiudad).Titled("Ciudad");
+                                                columns.Add(model => model.Username).Titled("Nombre Usuario");
+                                                columns.Add(model => model.MailCorporativo).Titled("Mail Corporativo");
+                                                columns.Add(model => model.Mail).Titled("Mail Personal");
+                                                columns.Add(model => model.Celular).Titled("N.Celular");
+                                                columns.Add(model => model.NombreRol).Titled("Rol");
+                                                columns.Add(model => model.TextoEstadoUsuario).Titled("Estado Usuario");
+                                                columns.Add(model => "<button style='background-color:#002333;border-color: #002333;' class='btn btn-success " + ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-ACTUALIZAR") + "' onclick='location.href=\"" + @Url.Action("Edit", "Usuario", new { id = model.IdUsuario }) + "\"' id='editar' data-id=\"" + model.IdUsuario + "\"><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button> " +
+                                                "<a title='Bienvenida a Usuario.' data-backdrop='static' data-toggle='modal' data-target='#contenido-modal' onclick='_GetCreate({id:" + model.IdUsuario + "},\"" + @Url.Action("_Formulario", "Bienvenida") + "\");' style='cursor: pointer;background-color:#ccc;border-color:#ccc; display:" + (!model.Cargo.HasValue || ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-BIENVENIDA").Equals("ocultar-accion-catalogo") ? "inline-block" : "none") + ";' class='btn btn-danger " + ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-BIENVENIDA") + "' id='eliminar' data-id=\"" + model.IdUsuario + "\"><i style='color: black;' class='fa fa-paper-plane' aria-hidden='true'></i></a>" +
+                                                "<button onclick='ConfirmarCambioEstado(" + model.IdUsuario + ",\"" + @Url.Action("Eliminar", "Usuario") + "\",\"" + model.TextoEstadoUsuario + "\");' style='background-color:#FB9334;border-color:#FB9334;' class='btn btn-danger " + ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-ELIMINAR") + "' id='eliminar' data-id=\"" + model.IdUsuario + "\"><span class='glyphicon glyphicon-random' aria-hidden='true'></span></button>").Encoded(false);
+                                            })
+                .Empty(Mensajes.MensajeNoDataListado)
+                .Id("grid-Usuarios")
+                .Pageable(pager =>
+                {
+                    pager.PagesToDisplay = 5;
+                    pager.RowsPerPage = 10;
+                })
+                .Filterable()
+                .Sortable())
+

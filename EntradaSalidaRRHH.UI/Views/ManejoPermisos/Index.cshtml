@@ -1,0 +1,499 @@
+﻿@model RolMenuPermiso
+
+@{
+    ViewBag.Title = "Manejo de Permisos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Formato para el template de datos *@
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<style>
+    .fila-seccion {
+        margin-bottom: 15px;
+    }
+
+    .etiqueta-seccion {
+        text-align: right;
+    }
+
+    .Centrar {
+        text-align: center;
+    }
+    /*#datos {
+        visibility: hidden;
+    }*/
+    th {
+        text-align: center
+    }
+
+    .fixed-width {
+        width: 150px;
+    }
+
+    .checkbox input[type="checkbox"] {
+        opacity: 0;
+    }
+
+    .checkbox label {
+        position: relative;
+        display: inline-block;
+        /*16px width of fake checkbox + 6px distance between fake checkbox and text*/
+        padding-left: 22px;
+    }
+
+        .checkbox label::before,
+        .checkbox label::after {
+            position: absolute;
+            content: "";
+            /*Needed for the line-height to take effect*/
+            display: inline-block;
+        }
+
+        /*Outer box of the fake checkbox*/
+        .checkbox label::before {
+            height: 16px;
+            width: 16px;
+            border: 1px solid;
+            left: 0px;
+            /*(24px line-height - 16px height of fake checkbox) / 2 - 1px for the border
+     *to vertically center it.
+     */
+            top: 3px;
+        }
+
+        /*Checkmark of the fake checkbox*/
+        .checkbox label::after {
+            height: 5px;
+            width: 9px;
+            border-left: 2px solid;
+            border-bottom: 2px solid;
+            transform: rotate(-45deg);
+            left: 4px;
+            top: 7px;
+        }
+
+    /*Hide the checkmark by default*/
+    .checkbox input[type="checkbox"] + label::after {
+        content: none;
+    }
+
+    /*Unhide on the checked state*/
+    .checkbox input[type="checkbox"]:checked + label::after {
+        content: "";
+    }
+
+    /*Adding focus styles on the outer-box of the fake checkbox*/
+    .checkbox input[type="checkbox"]:focus + label::before {
+        outline: rgb(59, 153, 252) auto 5px;
+    }
+</style>
+
+<div class="panel">
+
+    <div class="panel-heading-create custom-header-panel">
+        <h4>Datos Rol-Perfil</h4>
+    </div>
+
+    <div class="panel-body">
+        <form action="#" id="form-permisos" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Elegir Rol-Perfil</h3>
+                        </div>
+                        <div class="box-body">
+                            <br />
+
+                            <div class="row fila-seccion">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label class=" etiqueta-seccion control-label col-md-4">Rol: <span class="requerido"> *</span></label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownList("id_rol", ViewBag.listadoRoles as List<SelectListItem>, Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <label class=" etiqueta-seccion control-label col-md-4">Perfil:<span class="requerido"> *</span></label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownList("id_perfil", new SelectList(Enumerable.Empty<SelectListItem>()), Etiquetas.TituloComboVacio, new { id = "id_perfil", @class = "form-control campo-requerido" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br />
+                        <br />
+                        <div class="row fila-seccion">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.AjaxGrid(Url.Action("IndexGrid"))
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row fila-seccion">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-offset-5 col-md-12">
+                                        <br />
+                                        <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
+                                        <br />
+                                        <br />
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+</div>
+
+@section ViewSpecificJavascript {
+    <script>
+
+        var idGrid = "grid-Permisos";
+
+        var perfilID2 = 0;
+        var rolID2 = 0;
+
+        var catalogacion = @Html.Raw(Json.Encode(ViewBag.estructuraMP));
+        var urlAccionGuardar = '@Url.Action("Guardar", "ManejoPermisos")';
+        var urlAccionListado = '@Url.Action("Index","ManejoPermisos")';
+        var listadoCatalogos = @Html.Raw(Json.Encode(ViewBag.ListadoCatalogoHijos));
+        var urlAccionReporteExcel = '@Url.Action("DescargarReporteFormatoExcel", "ManejoPermisos")';
+        var urlAccionReportePDF = '@Url.Action("DescargarReporteFormatoPDF", "ManejoPermisos")';
+        var urlAccionReporteCSV = '@Url.Action("DescargarReporteFormatoCSV", "ManejoPermisos")';
+
+
+        $(document).click(function (e) {
+            var elemento = $(e.currentTarget.activeElement)[0];
+
+
+
+            if (elemento.id === 'recargar') {
+                debugger
+                $("#GridSearch").val('');
+
+                let rolID = $('#id_rol').val();
+                let perfilID = $("#id_perfil").val();
+
+                let grid = new MvcGrid(document.querySelector('.mvc-grid'));
+                grid.query.set('search', '');
+                grid.query.set('rolID', rolID);
+                grid.query.set('perfilID', perfilID);
+                grid.reload();
+
+            }
+
+            if (elemento.id === 'nuevo') {
+
+                DeshabilitarAccionNuevo();
+            }
+
+            if (elemento.id === 'ExportarGridExcel') {
+
+                location.href = urlAccionReporteExcel + '?rol='+rolID2 + '&perfil='+perfilID2;
+            }
+
+            if (elemento.id === 'ExportarGridPDF') {
+
+                reporteGridPDF(urlAccionReportePDF + '?rol='+rolID2+'&perfil='+perfilID2);
+            }
+
+            if (elemento.id === 'ExportarGridCSV') {
+
+                location.href = urlAccionReporteCSV + '?rol=' + rolID2 + '&perfil=' + perfilID2;
+            }
+            if (elemento.id === 'Ayuda') {
+
+                $('#help-modal').modal({
+                    'show': 'true',
+                    'backdrop': 'static',
+                    'keyboard': false
+                })
+            }
+
+            if (elemento.className === 'seleccionar-columna') {
+                $("#seleccionar-todo").prop('checked', false);
+
+                let chkPrincipal = $(elemento);
+                let span = $(elemento).closest("span");
+                let indiceColumna = $(span).closest("th").index() + 1;
+
+                    debugger
+                    $('#grid-Permisos tbody tr td:nth-child(' + indiceColumna + ')').each(function (index, value) {
+                        debugger
+                        let chk = $(value).find('.seleccion-item');
+
+                        if (!$(value).hasClass("AccionBloqueada")) {
+                            var checkeado = $(chkPrincipal).is(':checked')
+                            if (checkeado) {
+                                $(chk).prop('checked', true);
+                            } else {
+                                $(chk).prop('checked', false);
+                            }
+                        }
+                    });
+            }
+
+            if (elemento.id === 'seleccionar-todo') {
+                debugger
+                $(".seleccionar-columna").prop('checked', false);
+                let chkPrincipal = $(elemento);
+                var checkeado = $(chkPrincipal).is(':checked')
+
+                if (checkeado) {
+                    $('.Centrar:not(".AccionBloqueada")').find("input").prop('checked', true)
+                } else {
+                    $('.Centrar:not(".AccionBloqueada")').find("input").prop('checked', false)
+
+                }
+            }
+
+            if (elemento.className === 'seleccion-item') {
+                debugger
+            }
+
+        });
+
+        $(document).keydown(callBackBusqueda);
+        $(document).keypress(callBackBusqueda);
+        $(document).keyup(callBackBusqueda);
+
+            function callBackBusqueda(e) {
+
+                var elemento = $(e.currentTarget.activeElement)[0];
+
+                var filtrosBusqueda = document.getElementById('GridSearchGeneral');
+                busquedaGrid(idGrid);
+            }
+
+        $(document).ready(function () {
+
+
+            $("#guardar").prop("disabled", true);
+
+
+            $("#id_rol").change(function () {
+                 debugger
+                let rolID = $(this).val();
+                GetPerfiles(rolID)
+             });
+
+             $("#id_perfil").change(function () {
+                 debugger
+                let rolID = $('#id_rol').val();
+                 let perfilID = $(this).val();
+
+                 rolID2 = $('#id_rol').val();
+                 perfilID2 = $(this).val();
+
+                 let grid = new MvcGrid(document.querySelector('.mvc-grid'));
+                 grid.query.set('rolID', rolID);
+                 grid.query.set('perfilID', perfilID);
+
+                 grid.reload();
+
+                 $("#guardar").prop("disabled", false);
+
+
+            });
+
+        });
+
+        function arregloPermisos() {
+            var item = $(".mvc-grid").find("tbody").children();
+
+            $.each(item, function (index, value) {
+
+                $(value).find('td').each(function (column, td) {
+                    var thead = $("table thead tr th").eq(column)
+                    var fila = $('table tr').eq(index + 1).find('td').eq(1).html();
+
+                    if (column > 4) {
+                    var nombreCol = thead.find(".mvc-grid-title").html();
+                    var label = $(nombreCol).next();
+                    var textocolumna = label.html();
+
+                    let accion = $(td).find('input:checkbox').is(':checked');
+
+                    var columna = listadoCatalogos.find(obj => {
+                        return obj.Text === textocolumna
+                        })
+                        opcion.push({
+                             'fila': fila
+                           , 'columna': columna.Value
+                           , 'accion': accion
+                    });
+                    }
+                });
+
+            });
+        }
+
+        function GetPerfiles(rolID) {
+
+            debugger
+            $.ajax({
+                    url: '@Url.Action("ListarPerfiles", "ManejoPermisos")',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { rolID: rolID },
+                    success: function (response) {
+                        $("#id_perfil").empty();
+                        var len = response.length;
+                        if (len > 0) {
+
+                            for (var i = 0; i < len; i++) {
+                                var id = response[i]['Value'];
+                                var name = response[i]['Text'];
+                                $("#id_perfil").append("<option value='" + id + "'>" + name + "</option>");
+                            }
+                        }
+                    }
+                });
+        }
+
+        function GetListadoPermisos() {
+
+            var items = $(".mvc-grid").find("tbody").children();
+            var Array = [];
+            $.each(items, function (index, value) {
+                let totalColumnas = $(value).find('td').length - 1;
+                $(value).find('td').each(function (column, td) {
+                    var th = $("table thead tr th").eq(column)
+                    var MenuID = $('table tr').eq(index + 1).find('td').eq(1).html();
+                    var rolID = $('table tr').eq(index + 1).find('td').eq(2).html();
+                    var PerfilID = $('table tr').eq(index + 1).find('td').eq(3).html();
+
+                    let contieneChk = $(td).find('input:checkbox');
+                    let valor = contieneChk.length > 0 ? $(td).find('input:checkbox').is(':checked') : $(td).html();
+
+                    if (column > 4) {
+
+                        var nombreColumna = th.find(".mvc-grid-title").html();
+                        var label = $(nombreColumna).next();
+                        var texto = label.html();
+
+                        let Estado = $(td).find('input:checkbox').is(':checked');
+                        if (valor) {
+                            var AccionID = listadoCatalogos.find(obj => {
+                                return obj.Text === texto
+                            })
+
+                            Array.push({
+                                'IDRolMenuPermiso': 0
+                                , 'RolID': rolID
+                                , 'PerfilID': PerfilID
+                                , 'MenuID': MenuID
+                                , 'AccionID': AccionID.Value
+                                , 'CreatedBy': ''
+                                , 'UpdatedBy': ''
+                                , 'CreatedAt': ''
+                                , 'UpdatedAt': ''
+                                , 'Estado': Estado
+                            })
+                        }
+                    }
+                });
+            })
+
+            return Array;
+        }
+
+
+        $("#guardar").click(function () {
+
+            var flag = validarCamposRequeridos('form-permisos');
+            if (flag) {
+                guardar();
+            }
+            else {
+                toastr.error('@Mensajes.MensajeDatosObligatorios')
+                return;
+            }
+        })
+
+        function guardar() {
+            debugger
+
+            var rolmenupermiso = GetListadoPermisos();
+            var rolIDPermisos = $('#id_rol').val();
+            var perfilIDPermisos = $('#id_perfil').val();
+
+            var data_form = JSON.stringify({ "rolmenupermiso": rolmenupermiso, 'rolid': rolIDPermisos, 'perfilid': perfilIDPermisos })
+
+
+            $("#guardar").prop("disabled", true);
+            _GuardarPermisos(data_form, urlAccionGuardar, success, error);
+
+        }
+
+        function success(result) {
+            debugger
+
+            result = result.Resultado;
+
+            let rol = $('#id_rol').val();
+            let perfil = $('#id_perfil').val();
+
+            if (result.Estado) {
+
+                let grid = new MvcGrid(document.querySelector('.mvc-grid'));
+                grid.query.set('search', '');
+                grid.query.set('rolID', rol);
+                grid.query.set('perfilID', perfil);
+                grid.reload();
+
+                toastr.success(result.Respuesta)
+                $("#guardar").prop("disabled", false);
+                }
+            else {
+
+                let grid = new MvcGrid(document.querySelector('.mvc-grid'));
+                grid.query.set('search', '');
+                grid.query.set('rolID', rol);
+                grid.query.set('perfilID', perfil);
+                grid.reload();
+                $("#guardar").prop("disabled", false);
+                toastr.error(result.Respuesta)
+            }
+        }
+
+        function error(xhr, textStatus, errorThrown) {
+
+            let rol = $('#id_rol').val();
+            let perfil = $('#id_perfil').val();
+
+            toastr.error("Codigo: " + xhr.status)
+            toastr.error("Tipo: " + textStatus)
+            toastr.error("Detalle: " + errorThrown.message)
+
+            let grid = new MvcGrid(document.querySelector('.mvc-grid'));
+            grid.query.set('search', '');
+            grid.query.set('rolID', rol);
+            grid.query.set('perfilID', perfil);
+
+            grid.reload();
+
+            $("#guardar").prop("disabled", false);
+
+        }
+
+    </script>
+}

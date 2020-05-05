@@ -1,0 +1,44 @@
+﻿@using System.Data
+@{
+    // var listado = ViewBag.ListadoCatalogo;
+    string nombreColumna = string.Empty;
+}
+@model DataTable
+
+@(Html
+                                                            .Grid(Model.Rows.Cast<DataRow>()/*Model.AsEnumerable()*/)
+                                                            .Build(columns =>
+                                                            {
+                                                                foreach (DataColumn column in Model.Columns)
+                                                                {
+                                                                    switch (column.ColumnName)
+                                                                    {
+                                                                        case "N":
+                                                                            columns.Add(model => model.ItemArray[column.Ordinal]).Titled((ControlPermisos.GetCheckBoxTitle(column.ColumnName, "seleccionar-todo", "select-all-chk"))).Named(column.ColumnName).AppendCss("Centrar");
+
+                                                                            //columns.Add(model => Html.CheckBox("Check_" + model.ItemArray[column.Ordinal])).Titled(Html.CheckBox("CheckAll")).Named(column.ColumnName).AppendCss("Centrar");
+                                                                            break;
+                                                                        case "NOMBREMENU":
+                                                                            columns.Add(model => model.ItemArray[column.Ordinal]).Titled("NOMBRE MENÚ").Sortable(true).Filterable(true).Named(column.ColumnName).AppendCss("celda-grande");
+                                                                            break;
+                                                                        case "MenuID":
+                                                                        case "PerfilID":
+                                                                        case "RolID":
+                                                                            columns.Add(model => model.ItemArray[column.Ordinal]).Titled(column.ColumnName).Sortable(true).Filterable(true).Named(column.ColumnName).AppendCss("Centrar").Css("hidden");
+                                                                            break;
+                                                                        default:
+
+                                                                            columns.Add(model => Html.CheckBox(Guid.NewGuid().ToString().Substring(0, 5), (int)model.ItemArray[column.Ordinal] == 0 ? false : true, new { @class = "seleccion-item " })).Titled((ControlPermisos.GetCheckBoxTitle(column.ColumnName, "seleccionar-columna-" + column.ColumnName, "seleccionar-columna"))).Named(column.ColumnName).AppendCss("Centrar");
+
+                                                                            //columns.Template(@<text><input class="box" id="assignChkBx" name="assignChkBx" type="checkbox" value="@item.LogID" /></text>).HeaderTemplate(@<text><input class="selectAll" type="checkbox" id="allBox" onclick="toggleSelection()" /></text>).Width(20);
+                                                                            break;
+                                                                    }
+                                                                }
+
+                                                            })
+                                                .Empty(Mensajes.MensajeNoDataListado)
+                                                .Id("grid-Permisos")
+                                                .UsingProcessingMode(GridProcessingMode.Automatic)
+                                                .AppendCss("table-hover")
+                                                .Filterable()
+                                                .Sortable())

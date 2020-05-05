@@ -1,0 +1,83 @@
+﻿@model CatalogoInfo
+
+<link href="~/Content/css/Formulario.css" rel="stylesheet" />
+<script src="~/Content/js/init.js"></script>
+
+<script>
+    var urlAccionListado = '@Url.Action("Index")';
+    var urlAccionGuardarSubCatalogo = '@Url.Action("CrearSubCatalogo")';
+
+    $(document).ready(function () {
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+    });
+
+    $("#guardar-subcatalogo").click(function () {
+        debugger
+        let flag = validarCamposRequeridosFormularioCompleto("form-Subcatalogo");
+        if (flag)
+            agregarSubcatalogo();
+        else
+            toastr.error('@Mensajes.MensajeDatosObligatorios')
+    })
+
+    function agregarSubcatalogo() {
+        debugger
+        let formulario = $('#form-Subcatalogo').serializeObject()
+
+        let data_form = JSON.stringify({ "formulario": formulario })
+        _GuardarModal(data_form, urlAccionGuardarSubCatalogo)
+        //_GuardarGenerico(data_form, urlAccionGuardarSubCatalogo)
+    }
+</script>
+
+<form action="#" id="form-Subcatalogo" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+    <div class="col-md-12">
+
+        <div class="col-lg-12 seccion-detalles-caso">
+            <div class="box box-default">
+
+                @*@Html.Hidden("IdCatalogo", Model.IdCatalogo)*@
+                @*@Html.Hidden("CodigoCatalogo", Model.CodigoCatalogo)*@
+                @Html.Hidden("IdCatalogoPadre", Model.IdCatalogo)
+
+                @Html.Hidden("EstadoCatalogo", true)
+                @Html.Hidden("IdEmpresa", 1)
+                @Html.Hidden("Eliminado", false)
+
+                <div class="box-body">
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-2">Nombre:<span class="requerido"> *</span></label>
+                                <div class="col-md-10">
+                                    @Html.Editor("NombreCatalogo", new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control campo-requerido",
+                                       maxlength = 150,
+                                       @Value = string.Empty
+                                   }
+                               })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div class="row fila-seccion">
+    <div class="col-lg-12" style="text-align: center;">
+        <input id="guardar-subcatalogo" type="button" value="Guardar" class="btn btn-warning" />
+    </div>
+</div>
+
+
+
