@@ -3,7 +3,6 @@ using EntradaSalidaRRHH.DAL.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,15 +15,12 @@ using System.Linq.Dynamic;
 using EntradaSalidaRRHH.Repositorios;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.draw;
 using System.IO;
 using System.Web.Hosting;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Configuration;
 using EntradaSalidaRRHH.UI.Helper;
 using NLog;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 
 namespace EntradaSalidaRRHH.UI.Controllers
