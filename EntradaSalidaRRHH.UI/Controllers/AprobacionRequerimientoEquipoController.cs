@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 //Extensión para Query string dinámico
@@ -13,7 +12,6 @@ using System.Linq.Dynamic;
 using EntradaSalidaRRHH.Repositorios;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using System.Text;
 using EntradaSalidaRRHH.UI.Helper;
 using System.IO;
 using System.Configuration;
