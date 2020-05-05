@@ -37,11 +37,13 @@ namespace EntradaSalidaRRHH.UI.Controllers
         public const string PDFContentType = "application/pdf";
         public const string CSVContentType = "text/csv";
 
+        //Repesitorio en el servidor para guardar y  buscar archivos
         public string basePathRepositorioDocumentos = ConfigurationManager.AppSettings["RepositorioDocumentos"];
 
         public string CanalNotificaciones = ConfigurationManager.AppSettings["CanalNotificaciones"];
         public string TemplateNotificaciones = ConfigurationManager.AppSettings["TemplateNotificaciones"];
-
+        
+        //IPS
         public string ipPublica = ConfigurationManager.AppSettings["IPDominioSalidaPublica"] ?? string.Empty;
         public string ipPrivada = ConfigurationManager.AppSettings["IPDominioPrivado"] ?? string.Empty;
 
@@ -55,6 +57,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
         public string claveEmisorMasivo = ConfigurationManager.AppSettings["ClaveCorreoEmisorNotificacionMasiva"];
         public string nombreCorreoEmisorMasivo = ConfigurationManager.AppSettings["NombreCorreoEmisorMasivo"];
 
+        //Objeto global de cada respuesta asincrona
         public RespuestaTransaccion Resultado = new RespuestaTransaccion();
 
         public JsonSerializerSettings settingsJsonDeserilize = new JsonSerializerSettings
@@ -62,9 +65,6 @@ namespace EntradaSalidaRRHH.UI.Controllers
             Converters = new List<JsonConverter> { new BadDateFixingConverter("dd/MM/yyyy") }, //"dd/MM/yyyy HH:mm:ss"
             DateParseHandling = DateParseHandling.None
         };
-
-        //public static string format = "dd/MM/yyyy hh:mm:ss"; // your datetime format "dd/MM/yyyy"
-        //public IsoDateTimeConverter dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = format };
 
         #region Variables de sesión
 
@@ -110,20 +110,16 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 Session["Test"] = value;
             }
         }
+
+        //Guardar mensajes de respuestas de transacciones en Sesión
+        public string ResponseMessage
+        {
+            get { return Session["ReponseMessage"] == null ? string.Empty : Session["ReponseMessage"].ToString(); }
+            set { Session["ReponseMessage"] = value; }
+        }
         #endregion
 
-        public String ErrorMessage
-        {
-            get { return TempData["ErrorMessage"] == null ? String.Empty : TempData["ErrorMessage"].ToString(); }
-            set { TempData["ErrorMessage"] = value; }
-        }
-
-        //public RespuestaTransaccion Resultado
-        //{
-        //    get { return new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeTransaccionFallida }; }
-        //    set { Resultado = value; }
-        //}
-
+        //Setea a cada controlador en nombre del Grid , tal y como se encuentra escrito en el menú
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var opcion = filterContext.ActionParameters.FirstOrDefault(s => s.Key == "opcion");
@@ -133,7 +129,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
             base.OnActionExecuting(filterContext);
         }
-
+        #region Funcionalidades Genéricas para Grids
         public string BuildWhereDynamicClause(Dictionary<string, object> queryString)
         {
             string query = string.Empty;
@@ -215,23 +211,9 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 return querystringDic;
             }
         }
+        #endregion
 
-        public void InitProperties(object obj)
-        {
-            foreach (var prop in obj.GetType()
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(p => p.CanWrite))
-            {
-                var type = prop.PropertyType;
-                var constr = type.GetConstructor(Type.EmptyTypes); //find paramless const
-                if (type.IsClass && constr != null)
-                {
-                    var propInst = Activator.CreateInstance(type);
-                    prop.SetValue(obj, propInst, null);
-                    InitProperties(propInst);
-                }
-            }
-        }
+        #region Reportes Básicos Genéricos
 
         public ExcelPackage GetEXCEL(List<string> columnas, List<object> collection, string nombreHoja = "Listado")
         {
@@ -287,7 +269,6 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 return package;
             }
         }
-
 
         private static void CambiarColorFila(ExcelWorksheet hoja, int fila, int totalColumnas, System.Drawing.Color color)
         {
@@ -398,50 +379,9 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
             return buffer;
         }
+        #endregion
 
-        public string GetEmailTemplate(string nombreTemplate)
-        {
-            try
-            {
-                var busquedaArchivo = Directory.GetFiles(HostingEnvironment.MapPath("~/Views/Base/"), nombreTemplate + ".cshtml", SearchOption.AllDirectories).FirstOrDefault();
-                //string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/Content/templates/") + nombreTemplate + ".cshtml");
-                string body = System.IO.File.ReadAllText(busquedaArchivo);
-                return body.ToString();
-            }
-            catch (Exception ex)
-            {
-                string plantillaPorDefecto = "Default";
-                string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/Views/Base/") + plantillaPorDefecto + ".cshtml");
-                return body.ToString();
-            }
-        }
-
-        public string GetBodyEmailTemplate(string template, string cuerpoCorreo)
-        {
-            try
-            {
-                var message = GetEmailTemplate(template);
-                message = message.Replace("@ViewBag.CuerpoCorreo", cuerpoCorreo); //Cuerpo del correo
-                return message;
-            }
-            catch (Exception ex)
-            {
-                return string.Empty;
-            }
-        }
-
-        private static int TotalPageCount(string file)
-        {
-            using (StreamReader sr = new StreamReader(System.IO.File.OpenRead(file)))
-            {
-                Regex regex = new Regex(@"/Type\s*/Page[^s]");
-                MatchCollection matches = regex.Matches(sr.ReadToEnd());
-
-                return matches.Count;
-            }
-        }
-
-        // Path Archivos - Destino para Guardar archivo final
+        // Funcionalidad para Hacer Merge de varios archivos PDF
         private static bool MergeArhivosPDF(List<string> archivos, string EnRuta)
         {
             try
@@ -484,17 +424,27 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
         }
 
+        private static int TotalPageCount(string file)
+        {
+            using (StreamReader sr = new StreamReader(System.IO.File.OpenRead(file)))
+            {
+                Regex regex = new Regex(@"/Type\s*/Page[^s]");
+                MatchCollection matches = regex.Matches(sr.ReadToEnd());
+
+                return matches.Count;
+            }
+        }
+
+        //Ruta Absoluta del Sitio publicado
         public string GetUrlSitio(string subRuta = null)
         {
             string domain = "172.16.36.18/"; //+ subRuta; //Request.Url.GetLeftPart(UriPartial.Authority); //  "172.16.36.18/" + subRuta;
             string urlPrincipal = string.Format("{0}{1}", domain, string.IsNullOrEmpty(subRuta) ? Url.Content("~") : subRuta);
             return urlPrincipal;
-
             //http:///recursos_humanos_pruebas/FichaIngreso/NuevoIngreso?usuarioID=15
-
         }
 
-
+        #region Funcionalidades de Permisos Globales en la aplicación
         public List<string> GetMetodosControlador(string controlador)
         {
             List<string> NavItems = new List<string>();
@@ -521,7 +471,50 @@ namespace EntradaSalidaRRHH.UI.Controllers
             }
             return NavItems;
         }
-        #region Vistas Templates
+
+        public void Permisos(string nombreControlador)
+        {
+            //controlar permisos
+            var usuario = UsuarioLogeadoSession.IdUsuario;
+
+            ViewBag.NombreControlador = nombreControlador;
+            ViewBag.AccionesUsuario = ManejoPermisosDAL.ListadoAccionesCatalogoUsuario(usuario, nombreControlador);
+            ViewBag.AccionesControlador = GetMetodosControlador(nombreControlador);//Obtener Acciones del controlador
+        }
+        #endregion
+
+        #region Notificaciones del Sistema
+        public string GetEmailTemplate(string nombreTemplate)
+        {
+            try
+            {
+                var busquedaArchivo = Directory.GetFiles(HostingEnvironment.MapPath("~/Views/Base/"), nombreTemplate + ".cshtml", SearchOption.AllDirectories).FirstOrDefault();
+                //string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/Content/templates/") + nombreTemplate + ".cshtml");
+                string body = System.IO.File.ReadAllText(busquedaArchivo);
+                return body.ToString();
+            }
+            catch (Exception ex)
+            {
+                string plantillaPorDefecto = "Default";
+                string body = System.IO.File.ReadAllText(HostingEnvironment.MapPath("~/Views/Base/") + plantillaPorDefecto + ".cshtml");
+                return body.ToString();
+            }
+        }
+
+        public string GetBodyEmailTemplate(string template, string cuerpoCorreo)
+        {
+            try
+            {
+                var message = GetEmailTemplate(template);
+                message = message.Replace("@ViewBag.CuerpoCorreo", cuerpoCorreo); //Cuerpo del correo
+                return message;
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
+        }
+
         public ActionResult TemplateBienvenida()
         {
             return View();
@@ -596,16 +589,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
         }
         #endregion
 
-        public void Permisos(string nombreControlador)
-        {
-            //controlar permisos
-            var usuario = UsuarioLogeadoSession.IdUsuario;
-
-            ViewBag.NombreControlador = nombreControlador;
-            ViewBag.AccionesUsuario = ManejoPermisosDAL.ListadoAccionesCatalogoUsuario(usuario, nombreControlador);
-            ViewBag.AccionesControlador = GetMetodosControlador(nombreControlador);//Obtener Acciones del controlador
-        }
-
+        //Convertir archivo de imagen a un Drawing Image Objeto de Excel
         public static System.Drawing.Image ByteArrayToImage(byte[] bArray)
         {
             if (bArray == null)
