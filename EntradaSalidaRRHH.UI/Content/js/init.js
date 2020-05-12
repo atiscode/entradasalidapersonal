@@ -220,7 +220,9 @@ function RemoveAccents(strAccents) {
 function showAlertAditionals(alerttype, header, message, footer, timeOut = 5000) {
     debugger
     $('.content').prepend('<div id="alertdiv" role="alert" class="alert ' + alerttype + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="alert-heading">' + header + '</h4> <span id="texto-alerta">' + message + '</span> <hr>  <small>'+ footer +'</small></div>')
-    setTimeout(function () { // this will automatically close the alert and remove this if the users doesnt close it in 5 secs
-        $("#alertdiv").remove();
-    }, timeOut);
+    if (timeOut > 0) {
+        setTimeout(function () { // this will automatically close the alert and remove this if the users doesnt close it in 5 secs
+            $("#alertdiv").remove();
+        }, timeOut);
+    }
 }

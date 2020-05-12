@@ -126,6 +126,16 @@
       <DependentUpon>RRHH.edmx</DependentUpon>
       <LastGenOutput>RRHH.cs</LastGenOutput>
     </Content>
+    <Content Include="Modelo\SAFI.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SAFI.edmx</DependentUpon>
+      <LastGenOutput>SAFI.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Modelo\SAFI.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SAFI.edmx</DependentUpon>
+      <LastGenOutput>SAFI.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +145,7 @@
     <Compile Include="Metodos\CodificacionEquipoDAL.cs" />
     <Compile Include="Metodos\ComentariosRequerimientoEquipoDAL.cs" />
     <Compile Include="Metodos\DesvinculacionPersonalDAL.cs" />
+    <Compile Include="Metodos\DocumentosPendientesCobroFinancieroDAL.cs" />
     <Compile Include="Metodos\EquipoDAL.cs" />
     <Compile Include="Metodos\FichaIngresoDAL.cs" />
     <Compile Include="Metodos\IngresoDAL.cs" />
@@ -251,6 +262,9 @@
     </Compile>
     <Compile Include="Modelo\DocumentosAdjuntosIngreso.cs">
       <DependentUpon>RRHH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\DocumentosPendientesCobroP2P.cs">
+      <DependentUpon>SAFI.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelo\Empresa.cs">
       <DependentUpon>Administracion.tt</DependentUpon>
@@ -408,6 +422,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RRHH.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\SAFI.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SAFI.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\SAFI.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SAFI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\SAFI.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SAFI.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Modelo\SugerenciaEquipoReporteBasico.cs" />
     <Compile Include="Modelo\SugerenciaEquiposCargo.cs">
       <DependentUpon>RRHH.tt</DependentUpon>
@@ -458,6 +487,13 @@
     </EntityDeploy>
     <Content Include="Modelo\Notificador.edmx.diagram">
       <DependentUpon>Notificador.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Modelo\SAFI.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SAFI.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Modelo\SAFI.edmx.diagram">
+      <DependentUpon>SAFI.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
     <None Include="Web.Debug.config">

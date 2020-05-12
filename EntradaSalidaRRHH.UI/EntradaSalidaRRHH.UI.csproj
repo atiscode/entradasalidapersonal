@@ -1279,6 +1279,8 @@
     <Content Include="Views\Base\TemplateComentarioAprobacion.cshtml" />
     <Content Include="Views\EnviosMasivosNotificaciones\Index.cshtml" />
     <Content Include="Views\Base\TemplateEnviosMasivosFocus.cshtml" />
+    <Content Include="Views\DocumentosPendientesCobro\Index.cshtml" />
+    <Content Include="Views\DocumentosPendientesCobro\_ReporteFinanciero.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1294,6 +1296,7 @@
     <Compile Include="Controllers\CatalogoController.cs" />
     <Compile Include="Controllers\CodificacionEquipoController.cs" />
     <Compile Include="Controllers\DesvinculacionPersonalController.cs" />
+    <Compile Include="Controllers\DocumentosPendientesCobroController.cs" />
     <Compile Include="Controllers\EnviosMasivosNotificacionesController.cs" />
     <Compile Include="Controllers\EquipoController.cs" />
     <Compile Include="Controllers\FichaIngresoController.cs" />

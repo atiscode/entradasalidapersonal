@@ -1,0 +1,91 @@
+﻿<script>
+    $(document).ready(function () {
+        $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
+    });
+
+    $("#guardar").click(function () {
+        debugger
+        var flag = validarCamposRequeridos("form-ReporteFinanciero");
+        if (flag)
+            guardar();
+        else
+            toastr.error('@Mensajes.MensajeDatosObligatorios')
+    })
+    
+    function guardar() {
+        debugger
+        var TipoReferencia = $("#TipoReferencia").val();
+        var DescripcionServicio = $("#DescripcionServicio").val();
+        
+        var fechaInicio = $("#FechaInicio").val();
+        var fechaFin = $("#FechaFin").val();
+
+        location.href = '@Url.Action("DescargarReporteFormatoCSV", "DocumentosPendientesCobro")?TipoReferencia=' + TipoReferencia + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin + '&descripcionServicio=' + DescripcionServicio;
+    }
+
+</script>
+
+<form action="#" id="form-ReporteFinanciero" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+
+    <div style="text-align: center;margin-bottom: 10px;">
+        <img src="~/Content/img/qph.png" />
+    </div>
+
+    <div class="col-md-12">
+
+        <div class="col-lg-12 seccion-detalles-caso">
+            <div class="box box-default">
+                <div class="box-header with-border">
+
+
+                </div>
+                <div class="box-body">
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="etiqueta-seccion control-label col-md-3" required>Descripción del Código de Servicio:</label>
+                                <div class="col-md-9">
+                                   
+                                    @Html.Editor("DescripcionServicio", new { htmlAttributes = new { @class = "form-control", @Value = "Placetopay", maxlength = "150", disabled="disabled" } })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                            <label class="etiqueta-seccion control-label col-md-3" required>Código del Servicio:</label>
+                            <div class="col-md-9">
+                                @Html.DropDownList("TipoReferencia", DocumentosPendientesCobroFinancieroDAL.ObtenerListadoTipoReferencia(), null, new { @class = "form-control campo-requerido", required = "" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row fila-seccion">
+                        <div class="col-md-12">
+                                <label class="etiqueta-seccion control-label col-md-3" required>Fecha:</label>
+                                <div class="col-md-9">
+                                    <div class="input-group input-daterange">
+                                        @Html.Editor("FechaInicio", new { htmlAttributes = new { @class = "form-control campo-requerido", @type = "date", id = "FechaInicio", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+                                        <div class="input-group-addon" title="Hasta." style="cursor: help;"><i class="fa fa-calendar" aria-hidden="true"></i> </div>
+                                        @Html.Editor("FechaFin", new { htmlAttributes = new { @class = "form-control campo-requerido", @type = "date", id = "FechaFin", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div class="row fila-seccion">
+    <div class="col-lg-12" style="text-align: center;">
+        <input id="guardar" type="button" value="Generar" class="btn btn-success" />
+    </div>
+</div>

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SAFIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="ReporteDocumentosPendientesCobroP2P" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+          <Parameter Name="CodigoServicio" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="SAFIModelStoreContainer" />
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SAFIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SAFIEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="ReporteDocumentosPendientesCobroP2P" ReturnType="Collection(SAFIModel.DocumentosPendientesCobroP2P)">
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+            <Parameter Name="CodigoServicio" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="DocumentosPendientesCobroP2P">
+          <Property Type="DateTime" Name="FechaEmision" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ReferenciaFactura" Nullable="false" MaxLength="15" />
+          <Property Type="Guid" Name="ReferenciaAlterna" Nullable="true" />
+          <Property Type="String" Name="DocumentoDelComprador" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="NombreDelComprador" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="ValorFacturaDecimal" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="ValorFactura" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="FechaVencimiento" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="ValorRecargo" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="FechaCorte" Nullable="true" MaxLength="8000" />
+          <Property Type="Int32" Name="CodigoRecargo" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SAFIModelStoreContainer" CdmEntityContainer="SAFIEntities" >
+          <FunctionImportMapping FunctionImportName="ReporteDocumentosPendientesCobroP2P" FunctionName="SAFIModel.Store.ReporteDocumentosPendientesCobroP2P">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAFIModel.DocumentosPendientesCobroP2P">
+                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+                <ScalarProperty Name="ReferenciaFactura" ColumnName="ReferenciaFactura" />
+                <ScalarProperty Name="ReferenciaAlterna" ColumnName="ReferenciaAlterna" />
+                <ScalarProperty Name="DocumentoDelComprador" ColumnName="DocumentoDelComprador" />
+                <ScalarProperty Name="NombreDelComprador" ColumnName="NombreDelComprador" />
+                <ScalarProperty Name="ValorFacturaDecimal" ColumnName="ValorFacturaDecimal" />
+                <ScalarProperty Name="ValorFactura" ColumnName="ValorFactura" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="ValorRecargo" ColumnName="ValorRecargo" />
+                <ScalarProperty Name="FechaCorte" ColumnName="FechaCorte" />
+                <ScalarProperty Name="CodigoRecargo" ColumnName="CodigoRecargo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

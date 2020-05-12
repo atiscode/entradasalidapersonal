@@ -144,5 +144,9 @@ namespace EntradaSalidaRRHH.Repositorios
         public static string MensajeErrorArchivoNoEncontrado = "El archivo de {0} no se encontró en el directorio.";
         public static string MensajeErrorParametrizacionArchivoEmpresaDirectorio = "El código de catálogo (parametrización del nombre del archivo en el directorio) es requerido para la empresa {0}";
 
+        public static string MensajeValidacionFilasInvalidas = "Filas no válidas: {0} .";
+        public static string MensajeValidacionEmailsRepetidos = "Emails repetidos: {0} .";
+
+        public static string MensajeValidacionCargaMasivaMailsExitosaConErrores = "La carga masiva de notificaciones fue realizada, sin embargo las filas con errores o emails repetidos no fueron tomados: {0} ";
     }
 }

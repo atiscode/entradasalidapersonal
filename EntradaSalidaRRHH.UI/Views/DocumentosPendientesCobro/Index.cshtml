@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section ViewSpecificJavascript {
+    <script>
+    $(window).on('load', function () {
+        _GetCreate(null, '@Url.Action("_ReporteFinanciero")');
+        $('#contenido-modal').modal({
+            'show': 'true',
+            'backdrop': 'static',
+            'keyboard': false
+        });
+
+        $('#contenido-modal').on('hidden.bs.modal', function () {
+            debugger
+            //$("#idsContactosClientes_guardar").data('api').load();
+            location.href = '@Url.Action("Index","Home")';
+        })
+    })
+    </script>
+}
