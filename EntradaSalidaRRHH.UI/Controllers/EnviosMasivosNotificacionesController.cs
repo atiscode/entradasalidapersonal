@@ -165,7 +165,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 {
                     Resultado.Estado = false;
                     Resultado.Respuesta = Mensajes.MensajeTransaccionFallida + "Límite excedido.";
-                    return Json(new { Resultado = Resultado }, JsonRequestBehavior.AllowGet);
+                    return Json(new {  Resultado }, JsonRequestBehavior.AllowGet);
                 }
 
                 List<Notificaciones> listadoBatchNotificaciones = new List<Notificaciones>();
