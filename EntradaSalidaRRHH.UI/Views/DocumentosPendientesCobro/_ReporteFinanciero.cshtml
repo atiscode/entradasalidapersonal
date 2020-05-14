@@ -6,17 +6,24 @@
     $("#guardar").click(function () {
         debugger
         var flag = validarCamposRequeridos("form-ReporteFinanciero");
-        if (flag)
+        let rangoFechasValido = $("#FechaInicio").val() <= $("#FechaFin").val() ? true : false;
+
+        if (!rangoFechasValido) {
+            toastr.error('@(string.Format(Mensajes.MensajeValidacionRangoFecha, "inicio", "finalización"))')
+            return;
+        }
+
+        if (flag && rangoFechasValido)
             guardar();
         else
             toastr.error('@Mensajes.MensajeDatosObligatorios')
     })
-    
+
     function guardar() {
         debugger
         var TipoReferencia = $("#TipoReferencia").val();
         var DescripcionServicio = $("#DescripcionServicio").val();
-        
+
         var fechaInicio = $("#FechaInicio").val();
         var fechaFin = $("#FechaFin").val();
 

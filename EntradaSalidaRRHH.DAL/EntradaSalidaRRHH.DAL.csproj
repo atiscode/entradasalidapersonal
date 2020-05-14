@@ -266,6 +266,9 @@
     <Compile Include="Modelo\DocumentosPendientesCobroP2P.cs">
       <DependentUpon>SAFI.tt</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\DocumentosPendientesCobroP2PInfo.cs">
+      <DependentUpon>SAFI.tt</DependentUpon>
+    </Compile>
     <Compile Include="Modelo\Empresa.cs">
       <DependentUpon>Administracion.tt</DependentUpon>
     </Compile>

@@ -15,7 +15,7 @@ namespace EntradaSalidaRRHH.DAL.Modelo
     {
         public Nullable<System.DateTime> FechaEmision { get; set; }
         public string ReferenciaFactura { get; set; }
-        public Nullable<System.Guid> ReferenciaAlterna { get; set; }
+        public string ReferenciaAlterna { get; set; }
         public string DocumentoDelComprador { get; set; }
         public string NombreDelComprador { get; set; }
         public Nullable<decimal> ValorFacturaDecimal { get; set; }

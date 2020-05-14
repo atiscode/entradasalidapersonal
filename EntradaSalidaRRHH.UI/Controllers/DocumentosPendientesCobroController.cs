@@ -36,7 +36,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
             string NumeroFacturasImportadas = reporte.Count.ToString();
             string CodigoServicio = TipoReferencia.ToString();
             string DescripcionCodigoServicio = descripcionServicio;
-            string SumaTotalReporte = reporte.Select(s => s.ValorFacturaDecimal).Sum().ToString().Replace(".", "");
+            string SumaTotalReporte = reporte.Select(s => s.ValorFacturaDecimal).Sum().ToString().Replace(",", "").Replace(".", "");
 
             var comlumHeadrs = new string[]
             {
@@ -47,7 +47,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 NumeroFacturasImportadas,
                 CodigoServicio,
                 DescripcionCodigoServicio,
-                SumaTotalReporte,
+                SumaTotalReporte + " "
             };
 
             var listado = (from item in reporte
@@ -66,12 +66,16 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
             // Build the file content
             var objetoCSV = new StringBuilder();
+
+            //Agregando cabecera
+            objetoCSV.AppendLine(string.Join(",", comlumHeadrs.ToList()));
+            //Agregando detalles
             listado.ForEach(line =>
             {
                 objetoCSV.AppendLine(string.Join(",", line));
             });
 
-            byte[] buffer = Encoding.Default.GetBytes($"{string.Join(",", comlumHeadrs)}\r\n{objetoCSV.ToString()}");
+            byte[] buffer = Encoding.Default.GetBytes($"{objetoCSV.ToString()}");
             return File(buffer, CSVContentType, $"ReporteFinancieroP2P.csv");
         }
 

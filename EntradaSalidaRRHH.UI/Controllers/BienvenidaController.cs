@@ -73,7 +73,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 //SI LA RUTA EN DISCO NO EXISTE LOS ARCHIVOS SE ALMACENAN EN LA CARPETA MISMO DEL PROYECTO
                 string rutaBase = basePath + "\\RRHH\\Documentos\\AcumulacionDecimos";
 
-                nombreArchivo += ".docx";
+                nombreArchivo += ".pdf";
                 string pathServidor = Path.Combine(rutaBase, nombreArchivo);
 
                 //SI LA RUTA EN DISCO NO EXISTE LOS ARCHIVOS SE ALMACENAN EN LA CARPETA MISMO DEL PROYECTO
@@ -83,7 +83,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 bool directorio = Directory.Exists(pathServidor);
 
                 string rutaBaseDocumentosIngreso = AppDomain.CurrentDomain.BaseDirectory + "Documentos/Otros/";
-                string pathDocumentosIngreso = Path.Combine(rutaBaseDocumentosIngreso, "Formulario Documentos de Ingreso.xlsx");
+                string pathDocumentosIngreso = Path.Combine(rutaBaseDocumentosIngreso, "Formulario Documentos de Ingreso.pdf");
 
                 bool existeUsuario = UsuarioDAL.VerificarCorreoUsuarioExistente(formulario.Mail);
 
@@ -133,7 +133,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                     });
                 }
 
-                return Json(new { Resultado = Resultado }, JsonRequestBehavior.AllowGet);
+                return Json(new { Resultado }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

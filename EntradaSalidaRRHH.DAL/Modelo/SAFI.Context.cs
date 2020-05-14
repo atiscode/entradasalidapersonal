@@ -44,5 +44,18 @@ namespace EntradaSalidaRRHH.DAL.Modelo
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DocumentosPendientesCobroP2P>("ReporteDocumentosPendientesCobroP2P", fechaInicioParameter, fechaFinParameter, codigoServicioParameter);
         }
+    
+        public virtual ObjectResult<DocumentosPendientesCobroP2PInfo> ListadoDocumentosPendientesCobroP2P(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
+        {
+            var fechaInicioParameter = fechaInicio.HasValue ?
+                new ObjectParameter("FechaInicio", fechaInicio) :
+                new ObjectParameter("FechaInicio", typeof(System.DateTime));
+    
+            var fechaFinParameter = fechaFin.HasValue ?
+                new ObjectParameter("FechaFin", fechaFin) :
+                new ObjectParameter("FechaFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DocumentosPendientesCobroP2PInfo>("ListadoDocumentosPendientesCobroP2P", fechaInicioParameter, fechaFinParameter);
+        }
     }
 }

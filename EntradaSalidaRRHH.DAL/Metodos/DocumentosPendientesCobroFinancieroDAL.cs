@@ -16,17 +16,15 @@ namespace EntradaSalidaRRHH.DAL.Metodos
         public static List<DocumentosPendientesCobroP2P> ListarDocumentos(DateTime FechaInicio, DateTime FechaFin, int tipo)
         {
             List<DocumentosPendientesCobroP2P> listado = new List<DocumentosPendientesCobroP2P>();
-            try
-            {
-                listado = db.ReporteDocumentosPendientesCobroP2P(null, null, tipo).ToList();
-                listado = listado.Where(s => s.FechaEmision >= FechaInicio && s.FechaEmision <= FechaFin).ToList();
 
-                return listado;
-            }
-            catch (Exception ex)
-            {
-                return listado;
-            }
+            //Verificar los filtros en procedimiento almacenado - Quitarlos si la consulta se vuelve muy lenta
+            var filtroSoloPendientesCobro = db.ListadoDocumentosPendientesCobroP2P(FechaInicio, FechaFin).Select(s => s.NumeroFactura).ToList();
+
+            listado = db.ReporteDocumentosPendientesCobroP2P(null, null, tipo).Where(s => filtroSoloPendientesCobro.Contains(s.ReferenciaFactura)).ToList();
+            listado = listado.Where(s => s.FechaEmision >= FechaInicio && s.FechaEmision <= FechaFin).ToList();
+
+            return listado;
+
         }
 
         public static IEnumerable<SelectListItem> ObtenerListadoTipoReferencia()

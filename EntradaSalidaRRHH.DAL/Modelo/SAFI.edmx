@@ -4,15 +4,18 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SAFIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SAFIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="ListadoDocumentosPendientesCobroP2P" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
+          <Parameter Name="FechaFin" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="ReporteDocumentosPendientesCobroP2P" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FechaInicio" Type="datetime" Mode="In" />
           <Parameter Name="FechaFin" Type="datetime" Mode="In" />
           <Parameter Name="CodigoServicio" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="SAFIModelStoreContainer" />
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SAFIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -22,19 +25,38 @@
             <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
             <Parameter Name="CodigoServicio" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="ListadoDocumentosPendientesCobroP2P" ReturnType="Collection(SAFIModel.DocumentosPendientesCobroP2PInfo)">
+            <Parameter Name="FechaInicio" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaFin" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="DocumentosPendientesCobroP2P">
           <Property Type="DateTime" Name="FechaEmision" Nullable="true" Precision="23" />
           <Property Type="String" Name="ReferenciaFactura" Nullable="false" MaxLength="15" />
-          <Property Type="Guid" Name="ReferenciaAlterna" Nullable="true" />
+          <Property Type="String" Name="ReferenciaAlterna" Nullable="true" MaxLength="8000" />
           <Property Type="String" Name="DocumentoDelComprador" Nullable="true" MaxLength="13" />
           <Property Type="String" Name="NombreDelComprador" Nullable="true" MaxLength="500" />
           <Property Type="Decimal" Name="ValorFacturaDecimal" Nullable="true" Precision="18" Scale="2" />
           <Property Type="String" Name="ValorFactura" Nullable="true" MaxLength="8000" />
           <Property Type="String" Name="FechaVencimiento" Nullable="true" MaxLength="8000" />
-          <Property Type="String" Name="ValorRecargo" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="ValorRecargo" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="FechaCorte" Nullable="true" MaxLength="8000" />
           <Property Type="Int32" Name="CodigoRecargo" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="DocumentosPendientesCobroP2PInfo">
+          <Property Type="String" Name="NumeroFactura" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="ClaveCliente" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="NombreCliente" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Ruc" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="FechaEmision" Nullable="true" Precision="23" />
+          <Property Type="String" Name="FechaVence" Nullable="true" MaxLength="10" />
+          <Property Type="Decimal" Name="ValorFactura" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Abonos" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Saldo" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Int32" Name="Dias" Nullable="true" />
+          <Property Type="Decimal" Name="PorVencer" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="Decimal" Name="Vencido" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="String" Name="Detalle" Nullable="false" MaxLength="110" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -56,6 +78,25 @@
                 <ScalarProperty Name="ValorRecargo" ColumnName="ValorRecargo" />
                 <ScalarProperty Name="FechaCorte" ColumnName="FechaCorte" />
                 <ScalarProperty Name="CodigoRecargo" ColumnName="CodigoRecargo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListadoDocumentosPendientesCobroP2P" FunctionName="SAFIModel.Store.ListadoDocumentosPendientesCobroP2P">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SAFIModel.DocumentosPendientesCobroP2PInfo">
+                <ScalarProperty Name="NumeroFactura" ColumnName="NumeroFactura" />
+                <ScalarProperty Name="ClaveCliente" ColumnName="ClaveCliente" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="Ruc" ColumnName="Ruc" />
+                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+                <ScalarProperty Name="FechaVence" ColumnName="FechaVence" />
+                <ScalarProperty Name="ValorFactura" ColumnName="ValorFactura" />
+                <ScalarProperty Name="Abonos" ColumnName="Abonos" />
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+                <ScalarProperty Name="Dias" ColumnName="Dias" />
+                <ScalarProperty Name="PorVencer" ColumnName="PorVencer" />
+                <ScalarProperty Name="Vencido" ColumnName="Vencido" />
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
