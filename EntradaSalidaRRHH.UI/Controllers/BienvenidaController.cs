@@ -34,56 +34,38 @@ namespace EntradaSalidaRRHH.UI.Controllers
         {
             try
             {
-                //#region Búsqueda de archivos adjuntos en directorio
-                //Catalogo catalogo = CatalogoDAL.ConsultarCatalogo(formulario.IdEmpresa.Value);
+                #region Validaciones Iniciales de Identificacion y Mail
+                if (!Validaciones.ValidarMail(formulario.Mail))
+                    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeCorreoIncorrecto } }, JsonRequestBehavior.AllowGet);
+                if (!Validaciones.VerificaIdentificacion(formulario.Identificacion))
+                    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeCedulaRucIncorrecto } }, JsonRequestBehavior.AllowGet);
+                #endregion
 
-                ////El nombre del archivo de acumulación de décimos tiene que ser igual al código del catálogo de la empresa seleccionada.
-                //string nombreArchivo = catalogo.CodigoCatalogo;
-
-                //if (string.IsNullOrEmpty(nombreArchivo))
-                //    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = string.Format(Mensajes.MensajeErrorParametrizacionArchivoEmpresaDirectorio, catalogo) } }, JsonRequestBehavior.AllowGet);
-
-                ////SI LA RUTA EN DISCO NO EXISTE LOS ARCHIVOS SE ALMACENAN EN LA CARPETA MISMO DEL PROYECTO
-                //string rutaBase = basePathRepositorioDocumentos + "\\RRHH\\Documentos\\AcumulacionDecimos";
-
-                //nombreArchivo += ".docx";
-                //string pathServidor = Path.Combine(rutaBase, nombreArchivo);
-
-                //if (!Directory.Exists(pathServidor))
-                //    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = string.Format(Mensajes.MensajeErrorArchivoNoEncontrado, nombreArchivo) } }, JsonRequestBehavior.AllowGet);
-
-                //string rutaBaseDocumentosIngreso = basePathRepositorioDocumentos + "\\RRHH\\Documentos\\Otros";
-                //string nombreArchivoDocumentoIngreso = "Formulario Documentos de Ingreso.xlsx";
-                //string pathDocumentosIngreso = Path.Combine(rutaBaseDocumentosIngreso, nombreArchivoDocumentoIngreso);
-
-                //if (!Directory.Exists(pathDocumentosIngreso))
-                //    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = string.Format(Mensajes.MensajeErrorArchivoNoEncontrado, nombreArchivoDocumentoIngreso) } }, JsonRequestBehavior.AllowGet);
-                //#endregion
-
+                #region Búsqueda de archivos adjuntos en directorio
                 Catalogo catalogo = CatalogoDAL.ConsultarCatalogo(formulario.IdEmpresa.Value);
 
                 //El nombre del archivo de acumulación de décimos tiene que ser igual al código del catálogo de la empresa seleccionada.
                 string nombreArchivo = catalogo.CodigoCatalogo;
 
                 if (string.IsNullOrEmpty(nombreArchivo))
-                    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = "El código de catálogo es requerido para la empresa " + catalogo } }, JsonRequestBehavior.AllowGet);
-
-                string basePath = ConfigurationManager.AppSettings["RepositorioDocumentos"];
+                    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = string.Format(Mensajes.MensajeErrorParametrizacionArchivoEmpresaDirectorio, catalogo) } }, JsonRequestBehavior.AllowGet);
 
                 //SI LA RUTA EN DISCO NO EXISTE LOS ARCHIVOS SE ALMACENAN EN LA CARPETA MISMO DEL PROYECTO
-                string rutaBase = basePath + "\\RRHH\\Documentos\\AcumulacionDecimos";
+                string rutaBase = basePathRepositorioDocumentos + "\\RRHH\\Documentos\\AcumulacionDecimos";
 
                 nombreArchivo += ".pdf";
                 string pathServidor = Path.Combine(rutaBase, nombreArchivo);
 
-                //SI LA RUTA EN DISCO NO EXISTE LOS ARCHIVOS SE ALMACENAN EN LA CARPETA MISMO DEL PROYECTO
-                string ruta = AppDomain.CurrentDomain.BaseDirectory + "Documentos/AcumulacionDecimos/" + nombreArchivo;
+                if (!System.IO.File.Exists(pathServidor))
+                    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = string.Format(Mensajes.MensajeErrorArchivoNoEncontrado, nombreArchivo) } }, JsonRequestBehavior.AllowGet);
 
-                // En caso de que no exista el directorio, crearlo.
-                bool directorio = Directory.Exists(pathServidor);
+                string rutaBaseDocumentosIngreso = basePathRepositorioDocumentos + "\\RRHH\\Documentos\\Otros";
+                string nombreArchivoDocumentoIngreso = "Formulario Documentos de Ingreso.pdf";
+                string pathDocumentosIngreso = Path.Combine(rutaBaseDocumentosIngreso, nombreArchivoDocumentoIngreso);
 
-                string rutaBaseDocumentosIngreso = AppDomain.CurrentDomain.BaseDirectory + "Documentos/Otros/";
-                string pathDocumentosIngreso = Path.Combine(rutaBaseDocumentosIngreso, "Formulario Documentos de Ingreso.pdf");
+                if (!System.IO.File.Exists(pathDocumentosIngreso))
+                    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = string.Format(Mensajes.MensajeErrorArchivoNoEncontrado, nombreArchivoDocumentoIngreso) } }, JsonRequestBehavior.AllowGet);
+                #endregion
 
                 bool existeUsuario = UsuarioDAL.VerificarCorreoUsuarioExistente(formulario.Mail);
 

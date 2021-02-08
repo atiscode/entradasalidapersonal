@@ -1,4 +1,4 @@
-﻿//using NLog;
+﻿using NLog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,7 +12,7 @@ namespace EntradaSalidaRRHH.Repositorios
 {
     public static class Auxiliares
     {
-        //private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public static List<string> GetNombreCamposObjeto(List<object> collection)
         {
@@ -311,7 +311,14 @@ namespace EntradaSalidaRRHH.Repositorios
             return (T)x;
         }
 
-        
+        public static void RegisterException(Exception ex, string nombreMetodoDAL)
+        {
+            Log.Error(ex, string.Format("UN ERROR OCURRIÓ EN {0}", nombreMetodoDAL));
+        }
 
+        public static void RegisterInformation(string message)
+        {
+            Log.Info(message);
+        }
     }
 }

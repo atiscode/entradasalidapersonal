@@ -12,22 +12,38 @@
     });
 
     $("#guardar").click(function () {
-        debugger
+        
         var flag = validarCamposRequeridosFormularioCompleto("form-bienvenida");
         if (flag)
             guardar();
-        else
-            toastr.error('@Mensajes.MensajeDatosObligatorios')
+        else {
+            //_ALERT_TOASTR.DANGER.Options.progressBar = true;
+            //_ALERT_TOASTR.DANGER.Options.timeOut = 1500;
+            //_ALERT_TOASTR.DANGER.Options.extendedTimeOut = 1500;
+            _ALERT_TOASTR.ShowAlert(_ALERT_TOASTR.DANGER, '@Mensajes.MensajeDatosObligatorios', '@Etiquetas.TituloError')
+        }
+
     })
 
     function guardar() {
-        debugger
+        
         let formulario = $('#form-bienvenida').serializeObject()
 
         var data_form = JSON.stringify({ "formulario": formulario })
-        _Guardar(data_form, urlAccionGuardar, urlAccionListado)
+        //_Guardar(data_form, urlAccionGuardar, urlAccionListado)
+        // For Post Method $('#form-bienvenida').serialize(); //
+        Common.Ajax(_HTTP_METHOD.POST, urlAccionGuardar, data_form, _TYPE_REQUEST.JSON, DoneRequest, true);
     }
 
+    function DoneRequest(response) {
+        let resultado = response.Resultado; //Variable resultado
+        if (resultado.Estado) {
+            Common.DisplayAlert(_ALERT_TOASTR.SUCCESS, resultado.Respuesta);
+            $('#form-bienvenida')[0].reset();
+        } else {
+            Common.DisplayAlert(_ALERT_TOASTR.DANGER, resultado.Respuesta);
+        }
+    }
 
 </script>
 

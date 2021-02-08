@@ -24,5 +24,13 @@ namespace EntradaSalidaRRHH.DAL.Modelo
         public string ValorRecargo { get; set; }
         public string FechaCorte { get; set; }
         public int CodigoRecargo { get; set; }
+        public string FechaVencimientoSinFormato { get; set; }
+        public string FechaCorteSinFormato { get; set; }
+        public Nullable<decimal> PorcentajeIVA { get; set; }
+        public Nullable<int> Cantidad { get; set; }
+        public Nullable<decimal> PrecioUnitario { get; set; }
+        public Nullable<decimal> ValorIVA { get; set; }
+        public Nullable<long> rn { get; set; }
+        public string Tipo { get; set; }
     }
 }

@@ -14,7 +14,7 @@
         <div class="col-lg-12">
             <div class="box box-default">
                 <div class="box-header with-border">
-                    <h3 id="texto-informacion-principal" class="box-title">ENVÍO DE PRUEBA</h3>
+                    <h3 id="texto-informacion-principal" class="box-title">DESCARGAS</h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -22,40 +22,10 @@
                 </div>
                 <div class="box-body">
                     <div class="row fila-seccion">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="etiqueta-seccion control-label col-md-4" required>Direcciones de Prueba:</label>
-                                <div class="col-md-8">
-                                    @*@Html.Editor("Destinatarios", new { htmlAttributes = new { @class = "form-control campo-requerido", required = "", maxlength = "150", placeholder = "Separar por ; cuando son varios correos." } })*@
-                                
-                                    <input style="width: 100%;" type="text"  name="Destinatarios" class="campo-requerido" data-role="tagsinput" maxlength="150" />
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="etiqueta-seccion control-label col-md-4">Asunto:</label>
-                                <div class="col-md-8">
-                                    @Html.Editor("Asunto", new { htmlAttributes = new { @class = "form-control",  maxlength = "100", placeholder = "NOTIFICACIÓN SORTEO" } })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row fila-seccion">
-                        <div class="col-md-12">
-                            <textarea placeholder="Si no hay texto, se envía el que fue definido en la plantilla previamente." id="description" name="description" rows="3" class="form-control editor-texto-html" style="width: 100%"></textarea>
-                        <span><small>Tiempo máximo de espera 1 minuto.</small></span>
-                        </div>
-                    </div>
-
-                    <div class="row fila-seccion">
                         <div class="col-xs-12" style="text-align: center;">
                             <input id="guardar" type="button" value="ENVIAR" class="btn btn-success" />
                         </div>
                     </div>
-
                 </div>
 
 
@@ -94,82 +64,6 @@
     </div>
 
 </div>
-
-@*<div class="tab-content">
-        <div class="tab-pane" id="one">
-
-            <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" class="form-control" name="name" tabindex="1" maxlength="250" value="">
-            </div>
-
-            <div class="form-group">
-                <label>Correo Electronico</label>
-                <input type="text" class="form-control" name="email" tabindex="2" maxlength="250" value="">
-            </div>
-
-            <div class="form-group">
-                <label>Departmento</label>
-                <select name="dept" tabindex="3" onchange="mswDeptLoader()" class="form-control">
-                    <option value="0">- - - -</option>
-                    <option value="1">Soporte Usuario</option>
-                    <option value="4">Soporte ADVERTMIND</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Asunto</label>
-                <input type="text" class="form-control" name="subject" tabindex="4" maxlength="250" value="">
-            </div>
-
-            <div class="form-group">
-                <label>Comentarios (Haga click en el icono <i class="fa fa-arrows-alt fa-fw" style="font-size:12px"></i> para expandir el area de texto)</label>
-                <div class="bbButtons">
-                    <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('bold','comments')"><i class="fa fa-bold fa-fw"></i></button>
-                    <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('italic','comments')"><i class="fa fa-italic fa-fw"></i></button>
-                    <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('underline','comments')"><i class="fa fa-underline fa-fw"></i></button>
-                    <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('url','comments')"><i class="fa fa-link fa-fw"></i></button>
-                    <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('email','comments')"><i class="fa fa-envelope-o fa-fw"></i></button>
-                    <div class="mobilebreakpoint">
-                        <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('img','comments')"><i class="fa fa-picture-o fa-fw"></i></button>
-                        <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('youtube','comments')"><i class="fa fa-youtube fa-fw"></i></button>
-                        <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('vimeo','comments')"><i class="fa fa-vimeo fa-fw"></i></button>
-                        <button class="btn btn-info btn-sm" type="button" onclick="mswBBTags('dailymotion','comments')"><i class="fa fa-play fa-fw"></i></button>
-                        <button class="btn btn-success btn-sm" type="button" onclick="window.open('http://172.16.36.36/HelpDeskQPH/?bbcode=show','_blank')"><i class="fa fa-question fa-fw"></i></button>
-                    </div>
-                </div>                  <div class="tx-editor-wrapper"><div class="tx-editor"><a href="#" class="tx-icon"><i class="fa fa-arrows-alt fa-fw"></i></a><textarea rows="12" cols="40" name="comments" id="comments" tabindex="5" class="form-control" style="width: 100%; height: 100%; resize: none;"></textarea></div></div>
-            </div>
-
-            <div class="form-group">
-                <label>Prioridad</label>
-                <select name="priority" tabindex="6" class="form-control">
-                    <option value="0">- - - -</option>
-                    <option value="low">Baja</option>
-                    <option value="medium">Normal</option>
-                    <option value="high">Alta</option>
-                </select>
-            </div>
-
-        </div>
-
-        <div class="tab-pane fade" id="three">
-            <div><i class="fa fa-warning fa-fw"></i> Please select a department to load relevant fields (if applicable). If there are no additional fields, this tab will disappear.</div>
-        </div>
-        <div class="tab-pane fade active in" id="two">
-
-            <div class="ajax-file-upload" style="position: relative; overflow: hidden; cursor: default;">
-                <div class="droparea">
-                    <span class="label label-success"><i class="fa fa-info fa-fw"></i></span> Adjuntos opcionales. Haga clic en el área punteada para seleccionar el archivo(s):<br><br><i class="fa fa-angle-right"></i> <b>Cantidad Maxima de archivos:</b> 1<br><i class="fa fa-angle-right"></i> <b>Tamaño máximo </b>: 1MB por archivo<br><i class="fa fa-angle-right"></i> <b>Tipos de archivo permitidos</b>: <span class="filetypes">xsl,xslx</span>
-                </div>
-                <div class="mswfup-ajax-upload-id-1588278217291" style="margin: 0px; padding: 0px;"><input type="file" id="ajax-upload-id-1588278217291" name="file" style="position: absolute; cursor: pointer; top: 0px; width: 1114px; height: 153px; left: 0px; z-index: 100; opacity: 0;"></div>
-            </div><div id="dropzone" class="dropzone" style="display: none;">
-                <div class="droparea">
-                    <span class="label label-success"><i class="fa fa-info fa-fw"></i></span> Adjuntos opcionales. Haga clic en el área punteada para seleccionar el archivo(s):<br><br><i class="fa fa-angle-right"></i> <b>Cantidad Maxima de archivos:</b> 1<br><i class="fa fa-angle-right"></i> <b>Tamaño máximo </b>: 1MB por archivo<br><i class="fa fa-angle-right"></i> <b>Tipos de archivo permitidos</b>: <span class="filetypes">xsl,xslx</span>
-                </div>
-            </div><div></div>
-
-        </div>
-    </div>*@
 
 
 @section ViewSpecificJavascript {

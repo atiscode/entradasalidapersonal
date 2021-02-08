@@ -216,6 +216,12 @@ namespace EntradaSalidaRRHH.Repositorios
         // Etiquetas Pantalla ClienteAsegurado Empresa
         public static string TituloPanelFormularioDesvinculacionPersonal = "Datos Desvinculación";
         public static string TituloGridDesvinculacionPersonal = "Desvinculación Personal";
-        
+
+        // Etiquetas TÍTULO TOAST NOTIFICACIONES
+        public static string TituloExito = "ÉXITO";
+        public static string TituloInformación = "INFORMACIÓN";
+        public static string TituloAdvertencia = "ADVERTENCIA";
+        public static string TituloError = "ERROR";
+
     }
 }   

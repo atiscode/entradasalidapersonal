@@ -42,6 +42,14 @@
           <Property Type="String" Name="ValorRecargo" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="FechaCorte" Nullable="true" MaxLength="8000" />
           <Property Type="Int32" Name="CodigoRecargo" Nullable="false" />
+          <Property Type="String" Name="FechaVencimientoSinFormato" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="FechaCorteSinFormato" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="PorcentajeIVA" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="Cantidad" Nullable="true" />
+          <Property Type="Decimal" Name="PrecioUnitario" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="ValorIVA" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int64" Name="rn" Nullable="true" />
+          <Property Type="String" Name="Tipo" Nullable="false" MaxLength="25" />
         </ComplexType>
         <ComplexType Name="DocumentosPendientesCobroP2PInfo">
           <Property Type="String" Name="NumeroFactura" Nullable="true" MaxLength="15" />
@@ -78,6 +86,14 @@
                 <ScalarProperty Name="ValorRecargo" ColumnName="ValorRecargo" />
                 <ScalarProperty Name="FechaCorte" ColumnName="FechaCorte" />
                 <ScalarProperty Name="CodigoRecargo" ColumnName="CodigoRecargo" />
+                <ScalarProperty Name="FechaVencimientoSinFormato" ColumnName="FechaVencimientoSinFormato" />
+                <ScalarProperty Name="FechaCorteSinFormato" ColumnName="FechaCorteSinFormato" />
+                <ScalarProperty Name="PorcentajeIVA" ColumnName="PorcentajeIVA" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+                <ScalarProperty Name="ValorIVA" ColumnName="ValorIVA" />
+                <ScalarProperty Name="rn" ColumnName="rn" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

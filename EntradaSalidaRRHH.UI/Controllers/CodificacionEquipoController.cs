@@ -111,7 +111,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 if (requerimiento != null)
                 {
                     equipos = requerimiento.IDsEquipos.Split(',').Select(s => int.Parse(s)).ToList();
-                    herrmientasAccesorios = requerimiento.IDsHerramientasAdicionales.Split(',').Select(s => int.Parse(s)).ToList();
+                    herrmientasAccesorios = !string.IsNullOrEmpty(requerimiento.IDsHerramientasAdicionales) ? requerimiento.IDsHerramientasAdicionales.Split(',').Select(s => int.Parse(s)).ToList() : new List<int>();
 
                     UsuarioID = requerimiento.UsuarioID;
                 }

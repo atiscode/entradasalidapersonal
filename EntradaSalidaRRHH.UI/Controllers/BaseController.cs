@@ -45,9 +45,9 @@ namespace EntradaSalidaRRHH.UI.Controllers
         public string ipPrivada = ConfigurationManager.AppSettings["IPDominioPrivado"] ?? string.Empty;
 
         //Notificaciones normales
-        public string correoEmisor = ConfigurationManager.AppSettings["CorreoEmisorNotificacionMasiva"];
-        public string claveEmisor = ConfigurationManager.AppSettings["ClaveCorreoEmisorNotificacionMasiva"];
-        public string nombreCorreoEmisor = ConfigurationManager.AppSettings["NombreCorreoEmisorMasivo"];
+        public string correoEmisor = ConfigurationManager.AppSettings["CorreoEmisorNotificacion"];
+        public string claveEmisor = ConfigurationManager.AppSettings["ClaveCorreoEmisorNotificacion"];
+        public string nombreCorreoEmisor = ConfigurationManager.AppSettings["NombreCorreoEmisor"];
 
         //Notificaciones Masivas (mailing)
         public string correoEmisorMasivo = ConfigurationManager.AppSettings["CorreoEmisorNotificacionMasiva"];
@@ -603,6 +603,21 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 img = null;
             }
             return img;
+        }
+
+        public ActionResult DownloadFile(string path)
+        {
+            try
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+                string fileName = Path.GetFileName(path);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                Auxiliares.RegisterException(ex, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                return View("~/Views/Error/InternalServerError.cshtml");
+            }
         }
     }
 }

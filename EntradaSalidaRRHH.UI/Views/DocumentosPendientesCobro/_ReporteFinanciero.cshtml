@@ -1,4 +1,6 @@
 ﻿<script>
+    const urlAccionGenerarReporte = '@Url.Action("DescargarReporteFormatoCSV")';
+
     $(document).ready(function () {
         $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
     });
@@ -20,14 +22,24 @@
     })
 
     function guardar() {
-        debugger
         var TipoReferencia = $("#TipoReferencia").val();
         var DescripcionServicio = $("#DescripcionServicio").val();
-
         var fechaInicio = $("#FechaInicio").val();
         var fechaFin = $("#FechaFin").val();
 
-        location.href = '@Url.Action("DescargarReporteFormatoCSV", "DocumentosPendientesCobro")?TipoReferencia=' + TipoReferencia + '&fechaInicio=' + fechaInicio + '&fechaFin=' + fechaFin + '&descripcionServicio=' + DescripcionServicio;
+        var data_form = JSON.stringify({ "TipoReferencia": TipoReferencia, "fechaInicio": fechaInicio, "fechaFin": fechaFin, "descripcionServicio": DescripcionServicio })
+        Common.Ajax(_HTTP_METHOD.POST, urlAccionGenerarReporte, data_form, _TYPE_REQUEST.JSON, DoneRequest, true);
+    }
+
+    function DoneRequest(response) {
+        let resultado = response.Resultado; //Variable resultado
+        if (resultado.Estado) {
+            Common.DisplayAlert(_ALERT_TOASTR.SUCCESS, resultado.Respuesta);
+            $('#form-ReporteFinanciero')[0].reset();
+            DownloadFiles(response.Files, '@Url.Action("DownloadFile", "Base")', delay = 1000)
+        } else {
+            Common.DisplayAlert(_ALERT_TOASTR.DANGER, resultado.Respuesta);
+        }
     }
 
 </script>
@@ -76,7 +88,7 @@
                                 <div class="col-md-9">
                                     <div class="input-group input-daterange">
                                         @Html.Editor("FechaInicio", new { htmlAttributes = new { @class = "form-control campo-requerido", @type = "date", id = "FechaInicio", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
-                                        <div class="input-group-addon" title="Hasta." style="cursor: help;"><i class="fa fa-calendar" aria-hidden="true"></i> </div>
+                                        <div class="input-group-addon" title="Hasta." style="cursor: help;"><i class="fa fa-exchange" aria-hidden="true"></i> </div>
                                         @Html.Editor("FechaFin", new { htmlAttributes = new { @class = "form-control campo-requerido", @type = "date", id = "FechaFin", @Value = DateTime.Now.ToString("yyyy-MM-dd") } })
                                     </div>
                                 </div>

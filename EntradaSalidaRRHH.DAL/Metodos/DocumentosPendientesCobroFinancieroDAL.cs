@@ -13,7 +13,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
     {
         private static readonly SAFIEntities db = new SAFIEntities();
 
-        public static List<DocumentosPendientesCobroP2P> ListarDocumentos(DateTime FechaInicio, DateTime FechaFin, int tipo)
+        public static List<DocumentosPendientesCobroP2P> ListarDocumentos(DateTime FechaInicio, DateTime FechaFin, int? tipo)
         {
             List<DocumentosPendientesCobroP2P> listado = new List<DocumentosPendientesCobroP2P>();
 
@@ -36,6 +36,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
                     new List<SelectListItem> {
                         new SelectListItem{ Text = "MENSUALIDAD O TRANSACCIÓN", Value = "1" },
                         new SelectListItem{ Text = "CERTIFICACIÓN", Value = "2" },
+                        new SelectListItem{ Text = "CONSOLIDADO", Value = "0" },
                     }
                     );
                 return ListadoCatalogo;

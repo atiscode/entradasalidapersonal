@@ -3,10 +3,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="cargando-grid">
-    <div id="preloader-grid"></div>
-</div>
-
 @Html.AjaxGrid(Url.Action("_IndexGrid"))
 
 @section ViewSpecificJavascript {
@@ -21,8 +17,6 @@
         var urlAccionReporteCSV = '@Url.Action("DescargarReporteFormatoCSV")';
 
         $(document).ready(function () {
-            debugger
-            recargarGridByID(idGrid);
         })
 
         function CrearRegistro() {
