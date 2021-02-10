@@ -1289,6 +1289,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configs\Configurations.cs" />
     <Compile Include="Controllers\AprobacionRequerimientoEquipoController.cs" />
     <Compile Include="Controllers\AsignacionEquipoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />

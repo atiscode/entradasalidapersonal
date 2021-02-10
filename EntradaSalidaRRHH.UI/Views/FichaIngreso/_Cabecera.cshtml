@@ -172,6 +172,9 @@
                             <label class="etiqueta-seccion control-label col-md-4">Banco: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
                                @Html.DropDownList("Banco", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("BANCO-01", (cabecera.Banco ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                <div>
+                                    <span class="requerido" id="mensaje-banco-default" hidden="hidden">Por favor, es necesario aperturar una cuenta en el Banco del Pichincha.</span>
+                                </div>
                             </div>
                         </div>
                     </div>

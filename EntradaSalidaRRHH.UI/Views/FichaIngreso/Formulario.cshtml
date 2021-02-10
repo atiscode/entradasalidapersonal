@@ -1,10 +1,12 @@
-﻿@model FichaIngresoDetallada
+﻿@using EntradaSalidaRRHH.UI.Configs
+@model FichaIngresoDetallada
 @{
     ViewBag.Title = "Formulario";
     Layout = (bool)ViewBag.interno ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutSecundario.cshtml";
 
     FichaIngreso cabecera = Model.FichaIngreso;
     var usuario = UsuarioDAL.ConsultarUsuario(ViewBag.UsuarioID);
+    var bancoDefault = Configurations.GetBancoDefault();
 }
 
 <link href="~/Content/css/Formulario.css" rel="stylesheet" />
@@ -44,9 +46,9 @@
             @Html.Partial("_Cabecera", new ViewDataDictionary { { "Cabecera", cabecera }, { "DatosUsuario", usuario } })
         </form>
 
-            @Html.Partial("_DetalleEstudios", new ViewDataDictionary { { "TituloPanelDetalle", "Estudios" }, { "ListadoDetalleEstudios", Model.Estudios } })
-            @Html.Partial("_DetalleExperiencias", new ViewDataDictionary { { "TituloPanelDetalle", "Experiencias" }, { "ListadoDetalleExperiencias", Model.Experiencias } })
-            @Html.Partial("_DetalleCargasFamiliares", new ViewDataDictionary { { "TituloPanelDetalle", "Cargas Familiares" }, { "ListadoDetalleCargasFamiliares", Model.CargasFamiliares } })
+        @Html.Partial("_DetalleEstudios", new ViewDataDictionary { { "TituloPanelDetalle", "Estudios" }, { "ListadoDetalleEstudios", Model.Estudios } })
+        @Html.Partial("_DetalleExperiencias", new ViewDataDictionary { { "TituloPanelDetalle", "Experiencias" }, { "ListadoDetalleExperiencias", Model.Experiencias } })
+        @Html.Partial("_DetalleCargasFamiliares", new ViewDataDictionary { { "TituloPanelDetalle", "Cargas Familiares" }, { "ListadoDetalleCargasFamiliares", Model.CargasFamiliares } })
 
         <div class="row fila-seccion">
             <div class="col-xs-6" style="text-align: right;">
@@ -159,8 +161,6 @@
             });
         });
 
-
-
         $("#Foto").change(function (event) {
             RecurFadeIn();
             readURL(this);
@@ -168,6 +168,16 @@
         $("#Foto").on('click', function (event) {
             RecurFadeIn();
         });
+
+        $("#Banco").change(function (e) {
+            var banco = $(this).find("option:selected").text();
+            if (banco !== '@bancoDefault') {
+                $("#mensaje-banco-default").show();
+            } else {
+                $("#mensaje-banco-default").hide();
+            }                
+        });
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -251,7 +261,6 @@
                 },
                 escapeMarkup: function (markup) { return markup; }
             });
-
 
             $("#Titulo").select2({
                 //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)
