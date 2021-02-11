@@ -102,7 +102,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="etiqueta-seccion control-label col-md-4">Ciudad: <span class="requerido"> *</span></label>
+                            <label class="etiqueta-seccion control-label col-md-4">Ciudad ó Estado de Nacimiento: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
                                 @Html.DropDownList("Ciudad", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (Usuario.Ciudad ?? 0).ToString()) @*CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CIUDAD-01", (Usuario.Ciudad ?? 0).ToString())*@, Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
                             </div>
