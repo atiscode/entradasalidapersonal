@@ -82,7 +82,7 @@
         var urlAccionfinal = '@Url.Action("Logout", "Login")';
 
         $("#guardar").click(function () {
-            debugger
+            
             var flag = validarCamposRequeridosFormularioCompleto("form-usuarios");
 
             if (flag)
@@ -92,7 +92,7 @@
         })
 
         function guardar() {
-            debugger
+            
             var data_form = JSON.stringify({ "usuario": $('#form-usuarios').serializeObject() })
             _Guardar(data_form, urlAccionEditar, urlAccionfinal)
         }

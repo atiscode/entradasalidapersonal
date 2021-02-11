@@ -75,7 +75,7 @@
         var contador = 0;
         $(document).ready(function () {
             $('.agregarFila').click(function (e) {
-                debugger
+
                 var template = $(this).closest("tr");
                 var idTemplate = $(template).attr('id')
 
@@ -95,7 +95,7 @@
         })
 
         function guardar() {
-            debugger
+
 
             var cabecera = $('#form-FichaIngreso').serializeObject()
 
@@ -111,7 +111,7 @@
 
             $.when(AdjuntarArchivo(archivo, accion, data_form)).done(function (result) {
                 result = result.Resultado;
-                debugger
+
                 if (result.Estado) {
                     toastr.success(result.Respuesta);
 
@@ -135,7 +135,7 @@
         }
 
         $("#guardar").click(function () {
-            debugger
+
             var flag = validarCamposRequeridosFormularioCompleto("form-FichaIngreso");
             let validacionEstudios = TablaDinamicaVacia("tbl-Estudios");
 
@@ -146,7 +146,7 @@
         })
 
         $("#Pais").change(function () {
-            debugger;
+
             $("#Ciudad").empty();
             $("#CiudadResidencia").empty();
             $("#LugarNacimiento").empty();
@@ -169,13 +169,33 @@
             RecurFadeIn();
         });
 
-        $("#Banco").change(function (e) {
+        $("#FechaNacimiento").change(function () {
+            var fecha = $(this).val();
+            $("#Edad").text(GetAge(fecha) + " años");
+        });
+
+        function GetAge(fecha) {
+            var fechaSplit = fecha.split("/");
+            var birthDate = new Date(fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0]);
+            var today = new Date();
+
+            var age = today.getFullYear() - birthDate.getFullYear();
+
+            var m = today.getMonth() - birthDate.getMonth();
+
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        $("#Banco").change(function () {
             var banco = $(this).find("option:selected").text();
             if (banco !== '@bancoDefault') {
                 $("#mensaje-banco-default").show();
             } else {
                 $("#mensaje-banco-default").hide();
-            }                
+            }
         });
 
         function readURL(input) {
@@ -184,7 +204,7 @@
                 var filename = $("#Foto").val();
                 filename = filename.substring(filename.lastIndexOf('\\') + 1);
                 reader.onload = function (e) {
-                    debugger;
+
                     $('#blah').attr('src', e.target.result);
                     $('#blah').hide();
                     $('#blah').fadeIn(500);
@@ -216,6 +236,10 @@
     </script>
     <script>
         $(document).ready(function () {
+
+            $("#CiudadResidencia").chosen();
+
+            $("#FechaNacimiento").trigger("change");
 
             $("#Institucion").select2({
                 //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)

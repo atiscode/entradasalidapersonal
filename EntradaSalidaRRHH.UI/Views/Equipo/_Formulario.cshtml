@@ -19,7 +19,7 @@
     });
 
     $("#guardar").click(function () {
-        debugger
+        
         var flag = validarCamposRequeridosFormularioCompleto("form-equipo");
         if (flag)
             guardar();
@@ -28,7 +28,7 @@
     })
 
     function guardar() {
-        debugger
+        
         let formulario = $('#form-equipo').serializeObject()
         let accion = $("#IDEquipo").val() == 0 ? urlAccionGuardar : urlAccionEditar;
 

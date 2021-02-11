@@ -180,11 +180,11 @@
         var urlAccionGuardar = '@Url.Action("EnviarPrueba")';
 
         $(document).ready(function () {
-            debugger
+            
         })
 
         $("#guardar").click(function () {
-            debugger
+            
             var flag = validarCamposRequeridosFormularioCompleto("form-PruebaNotificacion");
             if (flag)
                 enviar();
@@ -193,7 +193,7 @@
         })
 
         function enviar() {
-            debugger
+            
             let formulario = $('#form-PruebaNotificacion').serializeObject()
             let accion = urlAccionGuardar;
             var data_form = JSON.stringify(formulario)
@@ -218,11 +218,11 @@
             //validateInitialCount: true,
             allowedFileExtensions: ['xls', 'xlsx']
         }).on('filepreupload', function (event, data, previewId, index) {
-            debugger
+            
             //$('.alert').alert('close')
                 //alert('The description entered is:\n\n' + ($('#description').val() || ' NULL'));
             }).on('fileuploaded', function (event, previewId, index, fileId) {
-                debugger
+                
                 let respuesta = previewId.response.Resultado;
 
                 if (respuesta.Estado) {
@@ -239,10 +239,10 @@
                 //console.log(respuesta);
             //console.log('File Uploaded', 'ID: ' + fileId + ', Thumb ID: ' + previewId);
             }).on('fileuploaderror', function (event, data, msg) {
-                debugger
+                
             //console.log('File Upload Error', 'ID: ' + data.fileId + ', Thumb ID: ' + data.previewId);
             }).on('filebatchuploadcomplete', function (event, preview, config, tags, extraData) {
-                debugger
+                
             //console.log('File Batch Uploaded', preview, config, tags, extraData);
             });
 

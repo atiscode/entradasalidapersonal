@@ -64,7 +64,7 @@
         var urlAccionListado = '@Url.Action("Index","Rol")';
 
         $("#guardar").click(function () {
-            debugger
+            
             var flag = validarCamposRequeridosFormularioCompleto("form-rol");
             if (flag)
                 guardar();
@@ -72,13 +72,13 @@
                 toastr.error('@Mensajes.MensajeDatosObligatorios')
         })
         function guardar() {
-            debugger
+            
             var data_form = JSON.stringify({ "rol": $('#form-rol').serializeObject(), "perfiles": getPerfiles() })
             _Guardar(data_form, urlAccionGuardar, urlAccionListado)
         }
 
         function getPerfiles() {
-            debugger
+            
             var idsOpcionesMenu = [];
             var opciones = $("#idsPerfiles_guardar").val();
 

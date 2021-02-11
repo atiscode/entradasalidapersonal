@@ -20,7 +20,7 @@
     });
 
     $("#guardar").click(function () {
-        debugger
+        
         var flag = validarCamposRequeridosFormularioCompleto("form-ingreso");
         if (flag)
             guardar();
@@ -29,7 +29,7 @@
     })
 
     function guardar() {
-        debugger
+        
         let formulario = $('#form-ingreso').serializeObject()
         let accion = $("#IDIngreso").val() == 0 ? urlAccionGuardar : urlAccionEditar;
 
@@ -38,7 +38,7 @@
     }
 
     $("#Empresa").change(function () {
-        debugger;
+        
         $("#Departamento").empty();
         $.getJSON('@Url.Action("GetDepartamento", "Usuario")', { id: $('#Empresa').val() }, function (data) {
             $.each(data, function () {
@@ -68,7 +68,7 @@
         });
     });
     @*$("#Departamento").change(function () {
-        debugger;
+        
         $("#Area").empty();
         $.getJSON('@Url.Action("GetArea", "Usuario")', { id: $('#Departamento').val() }, function (data) {
             $.each(data, function () {
@@ -79,7 +79,7 @@
 
     //Cuando elijo la persona debe cargar la empresa a la que fue ingresado previamente
     $("#FichaIngresoID").change(function () {
-        debugger;
+        
         $("#Area").empty();
 
         if ($('#FichaIngresoID').val() == "") {
@@ -87,7 +87,7 @@
             $("#Departamento").val($("#Departamento option:first").val());
         } else {
         $.getJSON('@Url.Action("GetEmpresaUsuario", "Usuario")', { id: $('#FichaIngresoID').val() }, function (data) {
-            debugger
+            
             if (data == 0)
                 $("#Empresa").val($("#Empresa option:first").val());
             else

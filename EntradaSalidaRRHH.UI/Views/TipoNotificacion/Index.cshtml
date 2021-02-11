@@ -13,7 +13,7 @@
 
 @section ViewSpecificJavascript {
     <script>
-        debugger
+        
         var idGrid = "grid-TipoNotificacion";
         var urlAccionCrear = '@Url.Action("Create")';
     var urlAccionReporteExcel = '@Url.Action("DescargarReporteFormatoExcel", "TipoNotificacion")';
@@ -22,7 +22,7 @@
 
 
         $(document).ready(function () {
-            debugger
+            
             recargarGridByID(idGrid);
         })
         function CrearRegistro() {
@@ -48,7 +48,7 @@
         $(document).keyup(callBackBusqueda);
 
         function callBackBusqueda(e) {
-            debugger
+            
             busquedaGrid(idGrid);
         }
 

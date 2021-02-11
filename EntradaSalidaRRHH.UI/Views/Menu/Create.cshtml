@@ -80,7 +80,7 @@
        $("#guardar").click(function () {
                 var flag = true;
                 $('#form-menu .campo-requerido').each(function (index, value) {
-                    //debugger
+                    //
                     if ($(this).val() == "" && $(this).is(":visible")) {
                         flag = false;
                     }
@@ -95,7 +95,7 @@
 
 
     function guardar() {
-        debugger
+        
 
         var data_form = JSON.stringify({"menu": $('#form-menu').serializeObject() })
 

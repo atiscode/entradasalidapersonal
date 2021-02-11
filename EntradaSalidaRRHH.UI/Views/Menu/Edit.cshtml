@@ -86,7 +86,7 @@
                 var flag = true;
                 // your code here (But not asynchronous code such as Ajax because it does not wait for response and move to next line.)
                 $('#form-menu .campo-requerido').each(function (index, value) {
-                    //debugger
+                    //
                     if ($(this).val() == "" && $(this).is(":visible")) {
                         //console.log('Please fill all the fields');
                         flag = false;
@@ -102,7 +102,7 @@
 
 
     function guardar() {
-        debugger
+        
 
         var data_form = JSON.stringify({"menu": $('#form-menu').serializeObject() })
 

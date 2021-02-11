@@ -56,13 +56,13 @@
         var urlAccionRecuperarPassword = '@Url.Action("RecoveryPassword")';
 
         function Ingreso() {
-            debugger
+            
             var data_form = JSON.stringify({ "formulario": $('#form-Ingreso').serializeObject() })
             console.log(data_form)
 
             $("#seccion-cargando-loading").show();
             $.when(_GuardarGenerico(data_form, urlAccionIngresar)).done(function (result) {
-                debugger
+                
                 result = result.Resultado;
 
                 if (result.Estado) {
@@ -75,11 +75,11 @@
         }
 
         function Registro() {
-            debugger
+            
             var data_form = JSON.stringify({ "formulario": $('#form-Registro').serializeObject() })
             $("#seccion-cargando-loading").show();
             $.when(_SaveData(data_form, urlAccionRegistrarse)).done(function (result) {
-                debugger
+                
                 result = result.Resultado;
                 if (result.Estado) {
                     setTimeout(function () {
@@ -93,7 +93,7 @@
         }
 
         function RecuperarPassword() {
-            debugger
+            
             var data_form = JSON.stringify({ "formulario": $('#form-RecuperarPassword').serializeObject() })
             console.log(data_form)
             _GuardarGenerico(data_form, urlAccionRecuperarPassword);
@@ -120,7 +120,7 @@
             $('#logreg-forms #cancel_signup').click(toggleSignUp);
 
             $("#btn-Login").click(function (e) {
-                debugger
+                
                 e.preventDefault();
                 var flag = validarCamposRequeridosFormularioCompleto("form-Ingreso");
                 if (flag)
@@ -130,7 +130,7 @@
             })
 
             $("#btn-Register").click(function (e) {
-                debugger
+                
                 e.preventDefault();
                 var flag = validarCamposRequeridosFormularioCompleto("form-Registro");
                 if (flag)
@@ -140,7 +140,7 @@
             })
 
             $("#btn-RecoveryPassword").click(function (e) {
-                debugger
+                
                 e.preventDefault();
                 var flag = validarCamposRequeridosFormularioCompleto("form-RecuperarPassword");
                 if (flag)

@@ -7,6 +7,8 @@ namespace EntradaSalidaRRHH.UI.App_Start
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
+            BundleTable.EnableOptimizations = true;
+
             bundles.Add(new StyleBundle("~/Bundles/css")
                  .Include("~/Content/css/bootstrap.min.css", new CssRewriteUrlTransformAbsolute())
                  .Include("~/Content/css/bootstrap-select.css")
@@ -18,6 +20,8 @@ namespace EntradaSalidaRRHH.UI.App_Start
                  .Include("~/Content/js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css", new CssRewriteUrlTransformAbsolute())
                  //.Include("~/Content/css/skins/skin-blue.css")
                  .Include("~/Content/css/skins/skin-asertec.css")
+                 //search list
+                 .Include("~/Content/bootstrap-chosen.css")
                  );
 
             bundles.Add(new ScriptBundle("~/Bundles/js")
@@ -36,7 +40,11 @@ namespace EntradaSalidaRRHH.UI.App_Start
                 .Include("~/Content/js/plugins/validator/validator.js")
                 .Include("~/Content/js/plugins/inputmask/jquery.inputmask.bundle.js")
                 .Include("~/Content/js/adminlte.js")
-                .Include("~/Content/js/init.js"));
+                .Include("~/Content/js/init.js")
+                //search list
+                .Include("~/Scripts/chosen.jquery.min.js")
+                );
+            
 
             bundles.Add(new ScriptBundle("~/Bundles/js_login")
     .Include("~/Content/js/plugins/jquery/jquery-3.3.1.js")

@@ -8,7 +8,7 @@
 
 @section ViewSpecificJavascript {
     <script>
-        debugger
+        
         var idGrid = "grid-Roles";
         var urlAccionCrear = '@Url.Action("Create")';
         var urlAccionReporteExcel = '@Url.Action("DescargarReporteFormatoExcel", "Rol")';
@@ -17,7 +17,7 @@
 
 
     $(document).ready(function () {
-            debugger
+            
             recargarGridByID(idGrid);
         })
 
@@ -44,7 +44,7 @@
         $(document).keyup(callBackBusqueda);
 
         function callBackBusqueda(e) {
-            debugger
+            
             busquedaGrid(idGrid);
         }
 

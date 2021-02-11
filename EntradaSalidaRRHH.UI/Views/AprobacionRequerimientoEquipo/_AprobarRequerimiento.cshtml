@@ -16,7 +16,7 @@
     });
 
     $("#comentar").click(function () {
-        debugger
+        
         var flag = validarCamposRequeridosFormularioCompleto("form-ComentarioRequerimientoEquipo");
         if (flag)
             comentar();
@@ -29,7 +29,7 @@
     })
 
     function comentar() {
-        debugger
+        
         let formulario = $('#form-ComentarioRequerimientoEquipo').serializeObject()
         let accion = urlAccionGuardar;
 
@@ -38,7 +38,7 @@
     }
 
     function aprobar() {
-        debugger
+        
         let accion = urlAccionAprobar;
 
         var data_form = JSON.stringify({ "id": $("#RequerimientoEquipoID").val() })

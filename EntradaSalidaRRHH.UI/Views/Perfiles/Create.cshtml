@@ -88,7 +88,7 @@
         var urlAccionListado = '@Url.Action("Index","Perfiles")';
 
         $("#guardar").click(function () {
-            debugger
+            
             var flag = true;
             $('#form-perfiles .campo-requerido').each(function (index, value) {
                 if ($(this).val() == "" && $(this).is(":visible")) {
@@ -103,14 +103,14 @@
         })
 
         function guardar() {
-            debugger
+            
             var opcionesMenu = getOpcionesMenu();
             var data_form = JSON.stringify({ "perfil": $('#form-perfiles').serializeObject(), "opcionesMenu": opcionesMenu })
             _Guardar(data_form, urlAccionGuardar, urlAccionListado)
         }
 
         function getOpcionesMenu() {
-            debugger
+            
             var idsOpcionesMenu = [];
             var opciones = $("#idsPerfiles_guardar").val();
             //opciones = opciones.split(',');

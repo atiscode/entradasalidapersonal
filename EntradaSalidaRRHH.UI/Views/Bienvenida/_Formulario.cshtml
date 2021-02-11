@@ -12,7 +12,7 @@
     });
 
     $("#guardar").click(function () {
-        debugger
+        
         var flag = validarCamposRequeridosFormularioCompleto("form-bienvenida");
         if (flag)
             guardar();
@@ -21,7 +21,7 @@
     })
 
     function guardar() {
-        debugger
+        
         let formulario = $('#form-bienvenida').serializeObject()
 
         var data_form = JSON.stringify({ "formulario": formulario })

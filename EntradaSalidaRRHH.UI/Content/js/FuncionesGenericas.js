@@ -2,7 +2,7 @@
 function mostrarElementosFormulario() {
     $('form input, form select').each(
         function (index, valor) {
-            //debugger
+            //
             var seccion = valor.name;
 
             if (seccion.length > 0)
@@ -15,7 +15,7 @@ function mostrarElementosFormulario() {
 // Necesita que la clase del div que agrupa el form-group tenga el mismo nombre que el elemento a ocultar para que se oculte la sección completa (label e input)
 function ocultarListadoElementos(campos) {
     $.each(campos, function (index, value) {
-        //debugger
+        //
         if (value.length > 0)
             $("." + value).hide();
     });
@@ -24,7 +24,7 @@ function ocultarListadoElementos(campos) {
 function validarCamposRequeridos(formulario) {
     var flag = true;
     $('#' + formulario + ' .campo-requerido').each(function (index, value) {
-        debugger
+        
         var elemento = $(this).val();
         var idElemento = this.id;
         if ((elemento == "" || elemento === null || elemento === undefined) && $(this).is(":visible")) {
@@ -50,11 +50,11 @@ function validarCamposRequeridosFormularioCompleto(formulario) {
 }
 
 $.fn.serializeObject = function () {
-    //debugger
+    //
     var o = {};
     var a = this.serializeArray();
     $.each(a, function () {
-        //debugger
+        //
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];
@@ -122,7 +122,7 @@ function formatearNumeroFormatoComun(numero) {
 
 
 function habilitarBotonCargaMasiva(retardo) {
-    debugger
+    
 
     setTimeout(function () {
         appendBotonCargaMasiva()
@@ -161,7 +161,7 @@ function ControlesCargaFinalizada(idSeccionContenidoCargasMasivas, idBotonProces
 
 
 function DeshabilitarAccionNuevo() {
-    debugger
+    
     $("#nuevo").delay(100).hide();
 }
 
@@ -212,7 +212,7 @@ function CompararObjetos(v1, v2) {
 }
 
 function zoomin(idElemento) {
-    debugger
+    
     var myImg = document.getElementById(idElemento);
     var currWidth = myImg.clientWidth;
     if (currWidth == 2500) return false;
@@ -221,7 +221,7 @@ function zoomin(idElemento) {
     }
 }
 function zoomout(idElemento) {
-    debugger
+    
     var myImg = document.getElementById(idElemento);
     var currWidth = myImg.clientWidth;
     if (currWidth == 100) return false;
@@ -232,7 +232,7 @@ function zoomout(idElemento) {
 
 
 function AgregarElementoArreglo(array, elemento) {
-    debugger
+    
     const index = array.indexOf(elemento);
     if (index === -1) {
         array.push(elemento)
@@ -241,7 +241,7 @@ function AgregarElementoArreglo(array, elemento) {
 }
 
 function AgregarMultiplesElementosArreglo(array, elementos) {
-    debugger
+    
     for (var i = 0; i < elementos.length; i++) {
         const index = array.indexOf(elementos[i]);
         if (index === -1) {
@@ -252,13 +252,13 @@ function AgregarMultiplesElementosArreglo(array, elementos) {
 }
 
 function EliminarElementoArreglo(array, elemento) {
-    debugger
+    
     array = array.filter(item => item != elemento)
     return array;
 }
 
 function EliminarMultiplesElementosArreglo(array, elementos) {
-    debugger
+    
     for (var i = 0; i < elementos.length; i++) {
         array = array.filter(item => item != elementos[i])
     }
@@ -287,9 +287,9 @@ function ProcessReady() {
 }
 
 function CargarValoresSelect2(listado, IDElementoSelect2) {
-    debugger
+    
     $.each(listado, function (index, value) {
-        debugger
+        
         // Create a DOM Option and pre-select by default
         var newOption = new Option(value.Text, value.Value, true, true);
         // Append it to the select

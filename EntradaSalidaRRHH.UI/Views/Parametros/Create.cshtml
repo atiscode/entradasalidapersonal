@@ -89,7 +89,7 @@
 
 
         $("#guardar").click(function () {
-            debugger
+            
             var flag = true;
             $('#form-parametros .campo-requerido').each(function (index, value) {
               
@@ -108,7 +108,7 @@
         })
 
         function guardar() {
-            debugger
+            
             var data_form = JSON.stringify({ "parametros": $('#form-parametros').serializeObject() })
             _Guardar(data_form, urlAccionGuardar, urlAccionListado)
         }

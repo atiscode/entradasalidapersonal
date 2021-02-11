@@ -125,7 +125,7 @@ $(document).on("input", ".int-number", function (e) {
 $(".search-menu-box").on('input', function () {
     var filter = $(this).val().trim();
     $(".sidebar-menu > li").each(function () {
-        debugger
+        
         if (RemoveAccents($(this).text()).search(new RegExp(filter, "i")) < 0) {
             $(this).hide();
         } else {
@@ -134,7 +134,7 @@ $(".search-menu-box").on('input', function () {
 
             elementos = elementos.find('li');
             elementos.each(function (index, value) {
-                debugger
+                
                 //console.log(value)
                 let enlace = $(value).find('a');
                 let texto = $(enlace).text();
@@ -218,7 +218,7 @@ function RemoveAccents(strAccents) {
 }
 
 function showAlertAditionals(alerttype, header, message, footer, timeOut = 5000) {
-    debugger
+    
     $('.content').prepend('<div id="alertdiv" role="alert" class="alert ' + alerttype + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> <h4 class="alert-heading">' + header + '</h4> <span id="texto-alerta">' + message + '</span> <hr>  <small>'+ footer +'</small></div>')
     if (timeOut > 0) {
         setTimeout(function () { // this will automatically close the alert and remove this if the users doesnt close it in 5 secs

@@ -127,7 +127,7 @@
         var herramientasAdicionales = @Html.Raw(Json.Encode(ViewBag.HerramientasAdicionales));
 
         $(window).on('load',function () {
-            debugger
+            
             //Cargar Sugerencias de Equipos por defecto
             if ($("#IDRequerimientoEquipo").val() == 0) {
                 setTimeout(function () {
@@ -141,7 +141,7 @@
         })
 
         function guardar() {
-            debugger
+            
 
             var formulario = $('#form-RequerimientoEquipo').serializeObject()
 
@@ -153,7 +153,7 @@
         }
 
         $("#guardar").click(function () {
-            debugger
+            
             var flag = validarCamposRequeridosFormularioCompleto("form-RequerimientoEquipo");
             if (flag)
                 guardar();

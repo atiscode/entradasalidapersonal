@@ -24,17 +24,17 @@
 
 @section ViewSpecificJavascript {
     <script>
-        debugger
+        
         var idGrid = "grid-Notificacion";
     var urlAccionReporteExcel = '@Url.Action("DescargarReporteFormatoExcel", "Notificacion")';
     var urlAccionReportePDF = '@Url.Action("DescargarReporteFormatoPDF", "Notificacion")';
     var urlAccionReporteCSV = '@Url.Action("DescargarReporteFormatoCSV", "Notificacion")';
 
-     debugger
+     
         
 
     $(document).ready(function () {
-            debugger
+            
             recargarGridByID(idGrid);
         })
 
@@ -57,7 +57,7 @@
         $(document).keyup(callBackBusqueda);
 
         function callBackBusqueda(e) {
-            debugger
+            
             busquedaGrid(idGrid);
         }
 

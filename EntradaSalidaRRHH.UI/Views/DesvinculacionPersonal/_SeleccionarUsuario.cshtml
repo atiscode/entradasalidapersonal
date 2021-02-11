@@ -8,7 +8,7 @@
     });
 
     $("#seleccion-usuario").click(function () {
-        debugger
+        
         var flag = validarCamposRequeridos("form-seleccionUsuario");
         if (flag)
             seleccionarUsuario();
@@ -17,7 +17,7 @@
     })
 
     function seleccionarUsuario() {
-        debugger
+        
         var usuario = $("#UsuarioID").val();
         location.href = '@Url.Action("Formulario", "DesvinculacionPersonal")?usuarioID=' + usuario;
     }

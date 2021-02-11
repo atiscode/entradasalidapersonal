@@ -145,13 +145,18 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-4">Fecha de Nacimiento: <span class="requerido"> *</span></label>
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="input-group date">
                                     <div class="input-group-addon" title="Seleccionar o digitar la fecha.">
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" name="FechaNacimiento" id="FechaNacimiento" class="form-control pull-right datepicker campo-requerido" value="@(cabecera.FechaNacimiento != null ? cabecera.FechaNacimiento.Value.ToString("dd/MM/yyyy") : System.DateTime.Now.ToString("dd/MM/yyyy") )" required>
                                 </div>
+                            </div>
+                            <div class="col-md-2">
+                                <span class="requerido" id="Edad">
+
+                                </span>
                             </div>
                         </div>
                     </div>

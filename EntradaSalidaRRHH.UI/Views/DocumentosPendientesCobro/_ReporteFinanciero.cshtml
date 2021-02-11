@@ -4,7 +4,7 @@
     });
 
     $("#guardar").click(function () {
-        debugger
+        
         var flag = validarCamposRequeridos("form-ReporteFinanciero");
         let rangoFechasValido = $("#FechaInicio").val() <= $("#FechaFin").val() ? true : false;
 
@@ -20,7 +20,7 @@
     })
 
     function guardar() {
-        debugger
+        
         var TipoReferencia = $("#TipoReferencia").val();
         var DescripcionServicio = $("#DescripcionServicio").val();
 

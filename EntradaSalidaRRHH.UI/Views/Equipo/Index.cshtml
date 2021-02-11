@@ -11,7 +11,7 @@
 
 @section ViewSpecificJavascript {
     <script>
-        debugger
+        
         var idGrid = "grid-Equipo";
 
         var urlAccionFormulario = '@Url.Action("_Formulario")';
@@ -21,7 +21,7 @@
         var urlAccionReporteCSV = '@Url.Action("DescargarReporteFormatoCSV")';
 
         $(document).ready(function () {
-            debugger
+            
             recargarGridByID(idGrid);
         })
 
@@ -53,12 +53,12 @@
         $(document).keyup(callBackBusqueda);
 
         function callBackBusqueda(e) {
-            debugger
+            
             busquedaGrid(idGrid);
         }
 
         $('#contenido-modal').on('hidden.bs.modal', function () {
-            debugger
+            
             RecargarDatosGrid()
         })
     </script>

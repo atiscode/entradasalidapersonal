@@ -16,7 +16,7 @@
     });
 
     $("#comentar").click(function () {
-        debugger
+        
         var flag = validarCamposRequeridosFormularioCompleto("form-ComentarioRequerimientoEquipo");
         if (flag)
             comentar();
@@ -25,7 +25,7 @@
     })
 
     function comentar() {
-        debugger
+        
         let formulario = $('#form-ComentarioRequerimientoEquipo').serializeObject()
         let accion = urlAccionGuardar;
 

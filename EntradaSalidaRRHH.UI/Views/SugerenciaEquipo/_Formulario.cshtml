@@ -16,7 +16,7 @@
     var equipos = @Html.Raw(Json.Encode(ViewBag.EquiposCompletos));
 
     $(document).ready(function () {
-        debugger
+        
         $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
         setTimeout(function () {
 
@@ -27,7 +27,7 @@
     });
 
     $("#guardar").click(function () {
-        debugger
+        
         var flag = validarCamposRequeridosFormularioCompleto("form-sugerenciaEquipo");
         if (flag)
             guardar();
@@ -36,7 +36,7 @@
     })
 
     function guardar() {
-        debugger
+        
         let formulario = $('#form-sugerenciaEquipo').serializeObject()
         let accion = $("#IDSugerenciaEquiposCargo").val() == 0 ? urlAccionGuardar : urlAccionEditar;
 
@@ -94,13 +94,13 @@
 
 
     $("#EquipoID").change(function (e) {
-        debugger;
+        
         let valor = $(e.currentTarget).val();
         verificarCampoRequeridoAplicaciones(valor);
     });
 
     function verificarCampoRequeridoAplicaciones(valor) {
-        debugger
+        
         let equipo = equipos.find(equipo => equipo.IDEquipo == valor);
         if (equipo.CodigoCatalogoTipo == 'COMPUTADOR-01') {
             $("#Programas").addClass("campo-requerido");
@@ -112,7 +112,7 @@
     }
 
     $("#Empresa").change(function () {
-        debugger;
+        
         $("#Cargo").empty();
         $.getJSON('@Url.Action("GetCargoEmpresa", "SugerenciaEquipo")', { id: $('#Empresa').val() }, function (data) {
             $.each(data, function () {

@@ -186,7 +186,7 @@
 
 
             if (elemento.id === 'recargar') {
-                debugger
+                
                 $("#GridSearch").val('');
 
                 let rolID = $('#id_rol').val();
@@ -235,9 +235,9 @@
                 let span = $(elemento).closest("span");
                 let indiceColumna = $(span).closest("th").index() + 1;
 
-                    debugger
+                    
                     $('#grid-Permisos tbody tr td:nth-child(' + indiceColumna + ')').each(function (index, value) {
-                        debugger
+                        
                         let chk = $(value).find('.seleccion-item');
 
                         if (!$(value).hasClass("AccionBloqueada")) {
@@ -252,7 +252,7 @@
             }
 
             if (elemento.id === 'seleccionar-todo') {
-                debugger
+                
                 $(".seleccionar-columna").prop('checked', false);
                 let chkPrincipal = $(elemento);
                 var checkeado = $(chkPrincipal).is(':checked')
@@ -266,7 +266,7 @@
             }
 
             if (elemento.className === 'seleccion-item') {
-                debugger
+                
             }
 
         });
@@ -290,13 +290,13 @@
 
 
             $("#id_rol").change(function () {
-                 debugger
+                 
                 let rolID = $(this).val();
                 GetPerfiles(rolID)
              });
 
              $("#id_perfil").change(function () {
-                 debugger
+                 
                 let rolID = $('#id_rol').val();
                  let perfilID = $(this).val();
 
@@ -348,7 +348,7 @@
 
         function GetPerfiles(rolID) {
 
-            debugger
+            
             $.ajax({
                     url: '@Url.Action("ListarPerfiles", "ManejoPermisos")',
                     type: "GET",
@@ -430,7 +430,7 @@
         })
 
         function guardar() {
-            debugger
+            
 
             var rolmenupermiso = GetListadoPermisos();
             var rolIDPermisos = $('#id_rol').val();
@@ -445,7 +445,7 @@
         }
 
         function success(result) {
-            debugger
+            
 
             result = result.Resultado;
 

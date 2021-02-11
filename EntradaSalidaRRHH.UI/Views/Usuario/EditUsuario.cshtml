@@ -209,7 +209,7 @@
     }
     $(document).ready(function () {
     $("#pais").change(function () {
-        debugger;
+        
         $("#ciudad").empty();
         $.getJSON('@Url.Action("GetCiudad", "Usuario")', { id: $('#pais').val() }, function (data) {
             $.each(data, function () {
@@ -218,7 +218,7 @@
         });
         });
           $("#IdEmpresa").change(function () {
-        debugger;
+        
             $("#Departamento").empty();
             $.getJSON('@Url.Action("GetDepartamento", "Usuario")', { id: $('#IdEmpresa').val() }, function (data) {
             $.each(data, function () {
@@ -244,7 +244,7 @@
 
 
         $("#editar").click(function () {
-            debugger
+            
                 var flag = true;
                   $('#form-usuarios .campo-requerido').each(function (index, value) {
                     if ($(this).val() == "" && $(this).is(":visible")) {
@@ -260,7 +260,7 @@
               })
 
         function guardar() {
-        debugger
+        
             var data_form = JSON.stringify({ "usuario": $('#form-usuarios').serializeObject() })
             _Guardar(data_form, urlAccionEditar, urlAccionfinal)
         }

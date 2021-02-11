@@ -101,7 +101,7 @@
 
         $(document).ready(function () {
             $('.agregarFila').click(function (e) {
-                debugger
+                
                 var template = $(this).closest("tr");
                 var idTemplate = $(template).attr('id')
 
@@ -121,7 +121,7 @@
         })
 
         function guardar() {
-            debugger
+            
 
             var cabecera = $('#form-CodificacionEquipo').serializeObject()
 
@@ -135,7 +135,7 @@
 
         function convertToBase64CodificacionCompleta(element) {
             //Read File
-            debugger
+            
             var id = parseInt($(element).attr('id'));
 
             var selectedFile = document.getElementById(id).files;
@@ -159,7 +159,7 @@
         }
 
         function convertToBase64(element) {
-            debugger
+            
             var id = parseInt($(element).attr('id'));
             var f = $(element)[0].files[0]; // FileList object
 
@@ -187,7 +187,7 @@
         }
 
         $("#guardar").click(function () {
-            debugger
+            
             var flag = validarCamposRequeridosFormularioCompleto("form-CodificacionEquipo");
             let validacion = TablaDinamicaVacia("tbl-Detalles");
 
@@ -198,7 +198,7 @@
         })
 
         $(".informacion-equipo").click(function (e) {
-            debugger
+            
             let elemento = $(e.currentTarget);
 
             var fila = elemento.closest("tr"); // fila

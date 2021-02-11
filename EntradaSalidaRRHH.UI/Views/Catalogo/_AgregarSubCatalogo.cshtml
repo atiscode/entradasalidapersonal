@@ -12,7 +12,7 @@
     });
 
     $("#guardar-subcatalogo").click(function () {
-        debugger
+        
         let flag = validarCamposRequeridosFormularioCompleto("form-Subcatalogo");
         if (flag)
             agregarSubcatalogo();
@@ -21,7 +21,7 @@
     })
 
     function agregarSubcatalogo() {
-        debugger
+        
         let formulario = $('#form-Subcatalogo').serializeObject()
 
         let data_form = JSON.stringify({ "formulario": formulario })

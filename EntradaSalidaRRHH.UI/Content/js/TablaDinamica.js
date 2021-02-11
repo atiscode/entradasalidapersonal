@@ -6,7 +6,7 @@ $(document).ready(function () {
 
 function agregarFila(idTemplate, idTabla, contador) {
     try {
-        debugger
+        
         //$('#' + idTemplate)
         //    .clone()                        // Clona elemento del DOM
         //    .attr('id', 'row' + (contador))    // Setea ID unico
@@ -48,7 +48,7 @@ function agregarFila(idTemplate, idTabla, contador) {
         //$('.js-example-basic-single').select2();
 
         $(".informacion-equipo").click(function (e) {
-            debugger
+            
             let elemento = $(e.currentTarget);
 
             var fila = elemento.closest("tr"); // fila
@@ -71,7 +71,7 @@ function agregarFila(idTemplate, idTabla, contador) {
 
 
         //$('.chk-presente').change(function (e) {
-        //    debugger
+        //    
         //    if ($(e).is(":checked")) {
         //        $(e).val("true");
         //    } else {
@@ -106,7 +106,7 @@ function limpiarControles(idTemplate) {
 }
 
 function eliminarFila(elemento) {
-    debugger
+    
     try {
         var row = elemento.parentNode.parentNode;
         var IDElemento = $(row).find("td:first").html();
@@ -133,7 +133,7 @@ function GetListadoTablaDinamica(tablaID, tieneFilaTemplate = true) {
                 return $cell.find('input,select').val() || $cell.text() /*|| $('input[type=checkbox]').val()*/
             }
         });
-        //debugger
+        //
         //Eliminando el primer elemento #template(fila vacía)
 
 
@@ -160,7 +160,7 @@ function GetListadoFilesTablaDinamica(tablaID) {
                 //$('#Foto')[0].files[0]
                 let tipo = $cell.find('input,select').attr('type');
                 if (tipo == 'file') {
-                    debugger
+                    
                     var reader = new FileReader();
                     reader.readAsDataURL($cell.find('input')[0].files[0]);
                     reader.onload = function () {
@@ -176,7 +176,7 @@ function GetListadoFilesTablaDinamica(tablaID) {
 
             }
         });
-        //debugger
+        //
         //Eliminando el primer elemento #template(fila vacía)
         if (listado.length > 0)
             listado = listado.slice(1)
@@ -221,13 +221,13 @@ function getFile(file) {
 //Valida que todos los inputs sean obligatorios
 function TablaDinamicaVacia(tablaID) {
     try {
-        debugger
+        
         let elementoVacio = false;
         var tabla = $("#" + tablaID);
 
         listado = tabla.tableToJSON({
             extractor: function (cellIndex, $cell) {
-                debugger
+                
                 var numeroFila = $cell.closest("tr").index();
                 let tipo = $cell.find('input,select').attr('type');
 
@@ -239,7 +239,7 @@ function TablaDinamicaVacia(tablaID) {
 
                 //Para verificar los input de tipo archivo
                 //if (tipo == 'file' && numeroFila > 0) {
-                //    debugger
+                //    
                 //    let archivo = $cell.find('input')[0].files[0];
                 //    if (archivo.length == 0)
                 //        elementoVacio = true;
@@ -291,7 +291,7 @@ function filaVacia(idTemplate) {
 function DetallesPendientes(ids) {
     let flag = false;
     $.each(ids, function (index, value) {
-        debugger
+        
         var objetos = $("#" + value).find("input,select");
         for (var i = 0; i < objetos.length; i++) {
             let elemento = $(objetos[i]);
@@ -308,7 +308,7 @@ function DetallesPendientes(ids) {
 // Convierte un listado en una tabla HTML
 function ListToTableHTML(listado, contenedorID, tablaID) {
     try {
-        debugger
+        
         //var rows = [{ "firstName": "John", "last Name": "Doe", "age": "46" },{ "firstName": "James", "last Name": "Blanc", "age": "24" }];
         var html = '<table id="' + tablaID + '" class="table table-bordered table-hover">';
         html += '<tr>';
@@ -339,7 +339,7 @@ function ListToTableHTML(listado, contenedorID, tablaID) {
 }
 
 function EliminarFilaTabla(elemento) {
-    debugger
+    
     var row = elemento.parentNode.parentNode;
 
     var IDElemento = $(row).find("td:first").html();

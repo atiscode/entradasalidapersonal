@@ -30,7 +30,7 @@
     //    Pace.restart();
     //});
 
-    debugger
+    
 
     // Validando que existen grids en el documento
     var grids = document.getElementsByClassName('mvc-grid');
@@ -43,7 +43,7 @@
 
         // Para acciones de click sobre la fila del Grid
         document.addEventListener('rowclick', function (e) {
-            debugger
+            
             if (e.target.dataset.id != null) {
                 console.log(e.target.dataset.id);
             }
@@ -51,7 +51,7 @@
 
         // Evento cuando finaliza la carga del grid
         document.addEventListener('reloadend', function (e) {
-            debugger
+            
             var elementos = CantidadElementosGrid();
                 
             //if (elementos > 1)
@@ -63,7 +63,7 @@
             console.log('grid reloadend: ', e.detail.grid);
             //console.log(elementosSeleccionadosGrid)
 
-            debugger
+            
             $("#cargando-grid").removeClass("preloader-grid");
             $("#cargando-grid").remove();
             var parametrosGrid = e.detail.grid.query["parameters"][0]; // Parametros
@@ -113,7 +113,7 @@
         });
     }
 
-    //debugger  mvc-grid-value mvc-grid-apply mvc-grid-cancel
+    //  mvc-grid-value mvc-grid-apply mvc-grid-cancel
     ////Validar que los Grids tengan filtros de búsqueda
     //var filtrosBusqueda = document.getElementById('GridSearchGeneral');
     //if (filtrosBusqueda !== null) {

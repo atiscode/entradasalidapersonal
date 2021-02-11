@@ -83,7 +83,7 @@
         var urlAccionListado = '@Url.Action("Index","Rol")';
 
         $("#editar").click(function () {
-            debugger
+            
             var flag = validarCamposRequeridosFormularioCompleto("form-rol");
             if (flag)
                 guardar();
@@ -92,13 +92,13 @@
         })
 
         function guardar() {
-            debugger
+            
             var data_form = JSON.stringify({ "rol": $('#form-rol').serializeObject(), "perfiles": getPerfiles() })
             _Guardar(data_form, urlAccionEditar, urlAccionListado)
         }
 
         function getChecked() {
-            debugger
+            
             var nodes = $('#idsPerfiles_guardar').tree('getChecked');
             var s = '';
             for (var i = 0; i < nodes.length; i++) {
@@ -109,7 +109,7 @@
         }
 
         function getPerfiles() {
-            debugger
+            
             var idsOpcionesMenu = [];
             var opciones = $("#idsPerfiles_guardar").val();
             //opciones = opciones.split(',');

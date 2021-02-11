@@ -1,5 +1,5 @@
 ﻿function ConfirmarEliminacion_(id, urlAccion) {
-    debugger;
+    
     swal({
         title: "Estás seguro de eliminar?",
         text: "Podrían exister registros dependientes!",
@@ -14,7 +14,6 @@
 }
 
 function ConfirmarSeleccionEmpresa_(parametros, urlAccion) {
-    debugger;
     swal({
         title: "¿Estás seguro de seleccionar esta empresa?",
         text: "Se creará un caso para el registro seleccionada. El cliente podría tener varias empresas!",
@@ -29,14 +28,14 @@ function ConfirmarSeleccionEmpresa_(parametros, urlAccion) {
 }
 
 function _seleccionarEmpresa(parametros, urlAccion) {
-    debugger
+    
     $.ajax({
         type: 'POST',
         url: urlAccion,
         data: parametros,
         dataType: 'json',
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
             if (result.Estado) {
                 swal(result.Respuesta, { icon: "success" }).then((value) => {
@@ -51,7 +50,7 @@ function _seleccionarEmpresa(parametros, urlAccion) {
             //location.reload();
         },
         error: function (result) {
-            debugger
+            
             console.log(result)
             swal("No se pudo realizar la acción!", "Consulte con el administrador o verifique los permisos de su cuenta.", "info").then((value) => {
                 location.reload();
@@ -61,7 +60,7 @@ function _seleccionarEmpresa(parametros, urlAccion) {
 }
 
 function ConfirmarAnularPrefactura_(id, urlAccion) {
-    debugger;
+    
     swal({
         title: "Estás seguro de anular el Presupuesto?",
         text: "",
@@ -76,7 +75,7 @@ function ConfirmarAnularPrefactura_(id, urlAccion) {
 }
 
 function ConfirmarPresupuesto_(id, urlAccion) {
-    debugger;
+    
     swal({
         title: "¿Desea Generar el Presupuesto?", 
         icon: "warning",
@@ -90,7 +89,7 @@ function ConfirmarPresupuesto_(id, urlAccion) {
 }
 
 function ConfirmarFactura_(id, urlAccion) {
-    debugger;
+    
     swal({
         title: "¿Desea Generar la Factura?",
         icon: "warning",
@@ -104,7 +103,7 @@ function ConfirmarFactura_(id, urlAccion) {
 }
 
 function ConfirmarCambioEstado(id, urlAccion, estado) {
-    debugger;
+    
     var titulo;
     if (estado === "Activo") {
         titulo = "¿Estás seguro de inactivar el registro?";
@@ -113,7 +112,7 @@ function ConfirmarCambioEstado(id, urlAccion, estado) {
     if (estado === "Inactivo") {
         titulo = "¿Estás seguro de activar el registro?";
     }
-    debugger;
+    
     swal({
         title: titulo,
         text: "Podrían exister registros dependientes!",
@@ -128,14 +127,14 @@ function ConfirmarCambioEstado(id, urlAccion, estado) {
 }
 
 function _eliminar(id, urlAccion) {
-    debugger
+    
     $.ajax({
         type: 'POST',
         url: urlAccion,
         data: { id: id },
         dataType: 'json',
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
             if (result.Estado) {
                 swal(result.Respuesta, { icon: "success" }).then((value) => {
@@ -150,7 +149,7 @@ function _eliminar(id, urlAccion) {
             //location.reload();
         },
         error: function (result) {
-            debugger
+            
             console.log(result)
             swal("No se pudo realizar la acción!", "Consulte con el administrador o verifique los permisos de su cuenta.", "info").then((value) => {
                 location.reload();
@@ -160,14 +159,14 @@ function _eliminar(id, urlAccion) {
 }
 
 function _presupuesto(id, urlAccion) {
-    debugger
+    
     $.ajax({
         type: 'POST',
         url: urlAccion,
         data: { id: id },
         dataType: 'json',
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
             if (result.Estado) {
                 swal(result.Respuesta, { icon: "success" }).then((value) => {
@@ -182,7 +181,7 @@ function _presupuesto(id, urlAccion) {
             //location.reload();
         },
         error: function (result) {
-            debugger
+            
             console.log(result)
             swal("No se pudo realizar la acción!", "Consulte con el administrador o verifique los permisos de su cuenta.", "info").then((value) => {
                 location.reload();
@@ -192,14 +191,14 @@ function _presupuesto(id, urlAccion) {
 } 
 
 function _facturar(id, urlAccion) {
-    debugger
+    
     $.ajax({
         type: 'POST',
         url: urlAccion,
         data: { id: id },
         dataType: 'json',
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
             if (result.Estado) {
                 swal(result.Respuesta, { icon: "success" }).then((value) => {
@@ -214,7 +213,7 @@ function _facturar(id, urlAccion) {
             //location.reload();
         },
         error: function (result) {
-            debugger
+            
             console.log(result)
             swal("No se pudo realizar la acción!", "Consulte con el administrador o verifique los permisos de su cuenta.", "info").then((value) => {
                 location.reload();
@@ -224,7 +223,7 @@ function _facturar(id, urlAccion) {
 }
 
 function _GuardarGeneral(data, urlAccion, urlListado) {
-    debugger
+    
     $.ajax({
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
@@ -232,7 +231,7 @@ function _GuardarGeneral(data, urlAccion, urlListado) {
         url: urlAccion,
         data: data,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
 
             //$("#cerrar-modal").trigger("click");
@@ -253,7 +252,7 @@ function _GuardarGeneral(data, urlAccion, urlListado) {
 
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -263,7 +262,7 @@ function _GuardarGeneral(data, urlAccion, urlListado) {
 }
 
 function _GuardarSinVolverListado(data, urlAccion) {
-    debugger
+    
     $.ajax({
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
@@ -271,7 +270,7 @@ function _GuardarSinVolverListado(data, urlAccion) {
         url: urlAccion,
         data: data,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
 
             if (result.Estado) {
@@ -284,7 +283,7 @@ function _GuardarSinVolverListado(data, urlAccion) {
             recargarGrids()
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -293,7 +292,7 @@ function _GuardarSinVolverListado(data, urlAccion) {
 }
 
 function _GuardarGenerico(data, urlAccion) {
-    debugger
+    
     $.ajax({
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
@@ -301,7 +300,7 @@ function _GuardarGenerico(data, urlAccion) {
         url: urlAccion,
         data: data,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
 
             if (result.Estado) {
@@ -318,7 +317,7 @@ function _GuardarGenerico(data, urlAccion) {
             }, 500);
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -327,7 +326,7 @@ function _GuardarGenerico(data, urlAccion) {
 }
 
 function _GuardarGenericoLoading(data, urlAccion, urlListado) {
-    debugger
+    
     $("#preloader").show();
     $.ajax({
         contentType: 'application/json; charset=utf-8',
@@ -336,7 +335,7 @@ function _GuardarGenericoLoading(data, urlAccion, urlListado) {
         url: urlAccion,
         data: data,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
 
             if (result.Estado) {
@@ -356,7 +355,7 @@ function _GuardarGenericoLoading(data, urlAccion, urlListado) {
 
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -365,7 +364,7 @@ function _GuardarGenericoLoading(data, urlAccion, urlListado) {
 }
 
 function _GuardarPrefacturasLoading(data, urlAccion, urlListado) {
-    debugger
+    
     $("#preloader").show();
     $.ajax({
         contentType: 'application/json; charset=utf-8',
@@ -374,7 +373,7 @@ function _GuardarPrefacturasLoading(data, urlAccion, urlListado) {
         url: urlAccion,
         data: data,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
 
             if (result.Estado) {
@@ -392,7 +391,7 @@ function _GuardarPrefacturasLoading(data, urlAccion, urlListado) {
             }, 350);
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -401,7 +400,7 @@ function _GuardarPrefacturasLoading(data, urlAccion, urlListado) {
 }
 
 function DescargarArchivosActas(_data, urlAccion, urlAccionDescarga) {
-    debugger
+    
     $("#preloader").show();
     $.ajax({
         type: 'POST',
@@ -409,7 +408,7 @@ function DescargarArchivosActas(_data, urlAccion, urlAccionDescarga) {
         data: _data,
         dataType: 'json',
         success: function (result) {
-            debugger
+            
             var archivos = result.PathsArchivos;
             result = result.Resultado;
 
@@ -439,7 +438,7 @@ function DescargarArchivosActas(_data, urlAccion, urlAccionDescarga) {
         },
         error: function (xhr, textStatus, errorThrown) {
             $("#preloader").hide();
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -448,7 +447,7 @@ function DescargarArchivosActas(_data, urlAccion, urlAccionDescarga) {
 }
 
 function DescargarArchivos(_data, urlAccion, urlAccionDescarga) {
-    debugger
+    
     $("#preloader").show();
     $.ajax({
         type: 'POST',
@@ -456,7 +455,7 @@ function DescargarArchivos(_data, urlAccion, urlAccionDescarga) {
         data: _data,
         dataType: 'json',
         success: function (result) {
-            debugger
+            
             var archivos = result.PathsArchivos;
             result = result.Resultado;
 
@@ -486,7 +485,7 @@ function DescargarArchivos(_data, urlAccion, urlAccionDescarga) {
         },
         error: function (xhr, textStatus, errorThrown) {
             $("#preloader").hide();
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -496,7 +495,7 @@ function DescargarArchivos(_data, urlAccion, urlAccionDescarga) {
 
 
     function _Guardar2(data, urlAccion, urlListado) {
-        debugger
+        
         $.ajax({
             contentType: false, // Not to set any content header
             //dataType: 'json',
@@ -505,7 +504,7 @@ function DescargarArchivos(_data, urlAccion, urlAccionDescarga) {
             data: data,
             processData: false, // Not to process data
             success: function (result) {
-                debugger
+                
                 result = result.Resultado;
 
                 if (result.Estado) {
@@ -528,7 +527,7 @@ function DescargarArchivos(_data, urlAccion, urlAccionDescarga) {
                 }
             },
             error: function (xhr, textStatus, errorThrown) {
-                debugger
+                
                 toastr.error("Codigo: " + xhr.status)
                 toastr.error("Tipo: " + textStatus)
                 toastr.error("Detalle: " + errorThrown.message)
@@ -538,7 +537,7 @@ function DescargarArchivos(_data, urlAccion, urlAccionDescarga) {
 
 
 function _Guardar(data, urlAccion, urlListado) {
-    debugger
+    
     $.ajax({
         contentType: 'application/json; charset=utf-8',
         //contentType: false,
@@ -548,7 +547,7 @@ function _Guardar(data, urlAccion, urlListado) {
         url: urlAccion,
         data: data,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
 
             if (result.Estado) {
@@ -571,7 +570,7 @@ function _Guardar(data, urlAccion, urlListado) {
             }
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -580,7 +579,7 @@ function _Guardar(data, urlAccion, urlListado) {
 }
 
 function _GuardarCotizador(data, urlAccion, urlListado, cotizacion = false, urlCotizador = '') {
-    debugger
+    
     $.ajax({
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
@@ -588,7 +587,7 @@ function _GuardarCotizador(data, urlAccion, urlListado, cotizacion = false, urlC
         url: urlAccion,
         data: data,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
 
             if (result.Estado) {
@@ -656,7 +655,7 @@ function _GuardarCotizador(data, urlAccion, urlListado, cotizacion = false, urlC
             }
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -665,7 +664,7 @@ function _GuardarCotizador(data, urlAccion, urlListado, cotizacion = false, urlC
 }
 
 function _GuardarModal(data, urlAccion) {
-    debugger
+    
     $.ajax({
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
@@ -673,7 +672,7 @@ function _GuardarModal(data, urlAccion) {
         url: urlAccion,
         data: data,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
 
             if (result.Estado) {
@@ -688,7 +687,7 @@ function _GuardarModal(data, urlAccion) {
             }
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -697,7 +696,7 @@ function _GuardarModal(data, urlAccion) {
 }
 
 function _SaveData(data, urlAccion) {
-    debugger
+    
     return $.ajax({
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
@@ -705,7 +704,7 @@ function _SaveData(data, urlAccion) {
         url: urlAccion,
         data: data,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
             if (result.Estado) {
                 $("#btn-cerrar-modal").trigger("click");
@@ -718,7 +717,7 @@ function _SaveData(data, urlAccion) {
             }
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -727,7 +726,7 @@ function _SaveData(data, urlAccion) {
 }
 
 function _GuardarModalStatusCodigoCotizacion(data, urlAccion) {
-    debugger
+    
     $.ajax({
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
@@ -735,7 +734,7 @@ function _GuardarModalStatusCodigoCotizacion(data, urlAccion) {
         url: urlAccion,
         data: data,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
             if (result.Estado) {
                 //$("#cerrar-modal").trigger("click");
@@ -752,7 +751,7 @@ function _GuardarModalStatusCodigoCotizacion(data, urlAccion) {
             }
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -785,7 +784,7 @@ function _GetDetalles(id, urlAccion) {
 
 // Renderizar formulario de Creación
 function _GetCreate(parametros, urlAccion, modalID = 'contenido-modal') {
-    debugger
+    
     mostrarIconoCargando(modalID);
     $.ajax({
         url: urlAccion,
@@ -794,7 +793,7 @@ function _GetCreate(parametros, urlAccion, modalID = 'contenido-modal') {
         data: parametros,
         cache: false,
         success: function (data) {
-            debugger
+            
             setTimeout(function () {
                 let mainModal = $("#" + modalID).find('#main-Modal');
                 $(mainModal).html(data);
@@ -806,7 +805,7 @@ function _GetCreate(parametros, urlAccion, modalID = 'contenido-modal') {
             modalReady = true;
         },
         error: function (result) {
-            debugger
+            
             console.log(result)
             swal("¡Error!", result.Respuesta, "error").then((value) => {
                 //location.reload();
@@ -818,7 +817,7 @@ function _GetCreate(parametros, urlAccion, modalID = 'contenido-modal') {
 
 // Renderizar formulario de Creación
 function _PostCreate(parametros, urlAccion, modalID = 'contenido-modal') {
-    debugger
+    
     mostrarIconoCargando(modalID);
     $.ajax({
         url: urlAccion,
@@ -826,7 +825,7 @@ function _PostCreate(parametros, urlAccion, modalID = 'contenido-modal') {
         dataType: "html",
         data: parametros,
         success: function (data) {
-            debugger
+            
             setTimeout(function () {
                 let mainModal = $("#" + modalID).find('#main-Modal');
                 $(mainModal).html(data);
@@ -835,7 +834,7 @@ function _PostCreate(parametros, urlAccion, modalID = 'contenido-modal') {
             }, 500);
         },
         error: function (result) {
-            debugger
+            
             console.log(result)
         }
     });
@@ -859,7 +858,7 @@ function CargaMasivaData(archivo, urlAccion, gridErroresID) {
         data: fileData,
         async: false,
         success: function (result) {
-            debugger
+            
             LoadProgressBar(result, gridErroresID);
             //$('#seccion-cargas-masivas-contenido').css('cursor', 'context-menu');
             //$("#procesar-carga").attr('disabled', 'disabled');
@@ -873,7 +872,7 @@ function CargaMasivaData(archivo, urlAccion, gridErroresID) {
 }
 
 function AdjuntarArchivo(archivo, urlAccion, data_form = null) {
-    debugger
+    
     var fileUpload = archivo;
     var fileData = new FormData();
 
@@ -888,11 +887,11 @@ function AdjuntarArchivo(archivo, urlAccion, data_form = null) {
     }
 
 
-    debugger
+    
     // Permite enviar otros objetos en la peticion
     if (data_form !== null) {
         for (var nombre in data_form) {
-            debugger
+            
             fileData.append(nombre, JSON.stringify({ [nombre]: data_form[nombre] }));
         }
     }
@@ -908,14 +907,14 @@ function AdjuntarArchivo(archivo, urlAccion, data_form = null) {
 }
  
 function EliminarArchivoAdjunto(path, urlAccion, seccionArchivosID, componenteArchivosID) {
-    debugger
+    
     $.ajax({
         type: 'POST',
         url: urlAccion,
         data: { pathArchivo: path },
         dataType: 'json',
         success: function (result) {
-            debugger
+            
             var resultado = result.Resultado;
 
             if (resultado.Estado) {
@@ -995,7 +994,7 @@ function LoadProgressBar(result, gridErroresID) {
 }
 
 function mostrarIconoCargando(modalID) {
-    debugger
+    
     var mainModal = $("#" + modalID).find('#main-Modal');
     $(mainModal).html("")
 
@@ -1004,7 +1003,7 @@ function mostrarIconoCargando(modalID) {
 }
 
 function ocultarIconoCargando(modalID) {
-    debugger
+    
     var zonaCargandoContenido = $("#" + modalID).find('#zonaCargandoContenido');
     $(zonaCargandoContenido).html("")
     //$('#zonaCargandoContenido').html("")
@@ -1038,7 +1037,7 @@ function _GuardarAdjuntarArchivo(archivo, urlAccion, urlListado, data_form, form
         fileData.append(files3[i].name, files3[i]);
     }
 
-    debugger
+    
 
     fileData.append('solicitud', JSON.stringify(data_form.solicitud));
     fileData.append('codigoUsuario', data_form.codigoUsuario);
@@ -1046,7 +1045,7 @@ function _GuardarAdjuntarArchivo(archivo, urlAccion, urlListado, data_form, form
     fileData.append('camposPersonalizados', JSON.stringify(data_form.camposPersonalizados));
     fileData.append('listadoUrlSoporte', JSON.stringify(data_form.listadoUrlSoporte));
 
-    debugger
+    
     $.ajax({
         url: urlAccion,
         type: "POST",
@@ -1055,7 +1054,7 @@ function _GuardarAdjuntarArchivo(archivo, urlAccion, urlListado, data_form, form
         data: fileData,
         async: false,
         success: function (result) {
-            debugger
+            
             result = result.Resultado;
 
             if (result.Estado) {
@@ -1072,7 +1071,7 @@ function _GuardarAdjuntarArchivo(archivo, urlAccion, urlListado, data_form, form
 
         },
         error: function (xhr, textStatus, errorThrown) {
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -1081,7 +1080,7 @@ function _GuardarAdjuntarArchivo(archivo, urlAccion, urlListado, data_form, form
 }
 
 function DescargarArchivosFicha(_data, urlAccion, urlAccionDescarga) {
-    debugger
+    
     $("#preloader").show();
     $.ajax({
         type: 'POST',
@@ -1089,7 +1088,7 @@ function DescargarArchivosFicha(_data, urlAccion, urlAccionDescarga) {
         data: _data,
         dataType: 'json',
         success: function (result) {
-            debugger
+            
             var archivos = result.PathsArchivos;
             result = result.Resultado;
 
@@ -1119,7 +1118,7 @@ function DescargarArchivosFicha(_data, urlAccion, urlAccionDescarga) {
         },
         error: function (xhr, textStatus, errorThrown) {
             $("#preloader").hide();
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -1128,7 +1127,7 @@ function DescargarArchivosFicha(_data, urlAccion, urlAccionDescarga) {
 }
 
 function DescargarArchivosGeneral(_data, urlAccion, urlAccionDescarga) {
-    debugger
+    
     $("#preloader").show();
     $.ajax({
         type: 'POST',
@@ -1136,7 +1135,7 @@ function DescargarArchivosGeneral(_data, urlAccion, urlAccionDescarga) {
         data: _data,
         dataType: 'json',
         success: function (result) {
-            debugger
+            
             var archivos = result.PathsArchivos;
             result = result.Resultado;
 
@@ -1166,7 +1165,7 @@ function DescargarArchivosGeneral(_data, urlAccion, urlAccionDescarga) {
         },
         error: function (xhr, textStatus, errorThrown) {
             $("#preloader").hide();
-            debugger
+            
             toastr.error("Codigo: " + xhr.status)
             toastr.error("Tipo: " + textStatus)
             toastr.error("Detalle: " + errorThrown.message)
@@ -1175,7 +1174,7 @@ function DescargarArchivosGeneral(_data, urlAccion, urlAccionDescarga) {
 }
  
 function _GuardarPermisos(data, urlAccion, sucess, error) {
-    debugger
+    
     $.ajax({
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
