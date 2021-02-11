@@ -3,11 +3,8 @@ using EntradaSalidaRRHH.DAL.Modelo;
 using EntradaSalidaRRHH.Repositorios;
 using EntradaSalidaRRHH.UI.Helper;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EntradaSalidaRRHH.UI.Controllers
@@ -33,33 +30,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
         public ActionResult Create(Usuario formulario)
         {
             try
-            {
-                //#region Búsqueda de archivos adjuntos en directorio
-                //Catalogo catalogo = CatalogoDAL.ConsultarCatalogo(formulario.IdEmpresa.Value);
-
-                ////El nombre del archivo de acumulación de décimos tiene que ser igual al código del catálogo de la empresa seleccionada.
-                //string nombreArchivo = catalogo.CodigoCatalogo;
-
-                //if (string.IsNullOrEmpty(nombreArchivo))
-                //    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = string.Format(Mensajes.MensajeErrorParametrizacionArchivoEmpresaDirectorio, catalogo) } }, JsonRequestBehavior.AllowGet);
-
-                ////SI LA RUTA EN DISCO NO EXISTE LOS ARCHIVOS SE ALMACENAN EN LA CARPETA MISMO DEL PROYECTO
-                //string rutaBase = basePathRepositorioDocumentos + "\\RRHH\\Documentos\\AcumulacionDecimos";
-
-                //nombreArchivo += ".docx";
-                //string pathServidor = Path.Combine(rutaBase, nombreArchivo);
-
-                //if (!Directory.Exists(pathServidor))
-                //    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = string.Format(Mensajes.MensajeErrorArchivoNoEncontrado, nombreArchivo) } }, JsonRequestBehavior.AllowGet);
-
-                //string rutaBaseDocumentosIngreso = basePathRepositorioDocumentos + "\\RRHH\\Documentos\\Otros";
-                //string nombreArchivoDocumentoIngreso = "Formulario Documentos de Ingreso.xlsx";
-                //string pathDocumentosIngreso = Path.Combine(rutaBaseDocumentosIngreso, nombreArchivoDocumentoIngreso);
-
-                //if (!Directory.Exists(pathDocumentosIngreso))
-                //    return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = string.Format(Mensajes.MensajeErrorArchivoNoEncontrado, nombreArchivoDocumentoIngreso) } }, JsonRequestBehavior.AllowGet);
-                //#endregion
-
+            {                
                 Catalogo catalogo = CatalogoDAL.ConsultarCatalogo(formulario.IdEmpresa.Value);
 
                 //El nombre del archivo de acumulación de décimos tiene que ser igual al código del catálogo de la empresa seleccionada.
@@ -77,13 +48,20 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 string pathServidor = Path.Combine(rutaBase, nombreArchivo);
 
                 //SI LA RUTA EN DISCO NO EXISTE LOS ARCHIVOS SE ALMACENAN EN LA CARPETA MISMO DEL PROYECTO
-                string ruta = AppDomain.CurrentDomain.BaseDirectory + "Documentos/AcumulacionDecimos/" + nombreArchivo;
+                string ruta = AppDomain.CurrentDomain.BaseDirectory + "Documentos/DocumentosIngreso/AcumulacionDecimos/" + nombreArchivo;
 
                 // En caso de que no exista el directorio, crearlo.
                 bool directorio = Directory.Exists(pathServidor);
 
-                string rutaBaseDocumentosIngreso = AppDomain.CurrentDomain.BaseDirectory + "Documentos/Otros/";
-                string pathDocumentosIngreso = Path.Combine(rutaBaseDocumentosIngreso, "Formulario Documentos de Ingreso.pdf");
+                string rutaBaseDocumentosIngreso = AppDomain.CurrentDomain.BaseDirectory + "Documentos/DocumentosIngreso/";
+
+                // Obtener los archivos del directorio
+                DirectoryInfo directorioDocumentosIngreso = new DirectoryInfo(rutaBaseDocumentosIngreso);
+                FileInfo[] archivos = directorioDocumentosIngreso.GetFiles("*.*");
+                foreach (FileInfo file in archivos)
+                {
+                    pathServidor = pathServidor + ";" + file.FullName;                    
+                }
 
                 bool existeUsuario = UsuarioDAL.VerificarCorreoUsuarioExistente(formulario.Mail);
 
@@ -103,15 +81,11 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 //Siempre que el usuario haya sido creado con éxito.
                 if (Resultado.Estado || existeUsuario)
                 {
-                    string enlace = GetUrlSitio(Url.Action("NuevoIngreso", "FichaIngreso", new { usuarioID = Resultado.EntidadID }));//Url.Action("NuevoIngreso", "FichaIngreso", new { usuarioID = Resultado.EntidadID }, Request.Url.Scheme);
+                    string enlace = GetUrlSitio(Url.Action("NuevoIngreso", "FichaIngreso", new { usuarioID = Resultado.EntidadID }));
 
                     string body = GetEmailTemplate("TemplateBienvenida");
                     body = body.Replace("@ViewBag.EnlaceDirecto", enlace);
-                    body = body.Replace("@ViewBag.EnlaceSecundario", enlace);
-
-                    //Adjuntar tambien el archivo de Documentos Ingreso
-                    if (!string.IsNullOrEmpty(pathServidor))
-                        pathServidor += ";" + pathDocumentosIngreso;
+                    body = body.Replace("@ViewBag.EnlaceSecundario", enlace);                    
 
                     var notificacion = NotificacionesDAL.CrearNotificacion(new Notificaciones
                     {
@@ -124,12 +98,11 @@ namespace EntradaSalidaRRHH.UI.Controllers
                         AsuntoCorreo = "BIENVENIDA",
                         NombreArchivoPlantillaCorreo = TemplateNotificaciones,
                         CuerpoCorreo = body,
-                        AdjuntosCorreo = pathServidor,//ruta,
+                        AdjuntosCorreo = pathServidor,
                         FechaEnvioCorreo = DateTime.Now,
-                        //DetalleEstadoEjecucionNotificacion = string.Empty,
                         Empresa = catalogo.NombreCatalogo,
                         Canal = CanalNotificaciones,
-                        Tipo = "BIENVENIDA",
+                        Tipo = "BIENVENIDA"
                     });
                 }
 
