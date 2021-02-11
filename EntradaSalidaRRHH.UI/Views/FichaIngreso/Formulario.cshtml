@@ -158,6 +158,10 @@
                     $("#CiudadResidencia").append("<option value=" + this.Value + ">" + this.Text + "</option>");
                     $("#LugarNacimiento").append("<option value=" + this.Value + ">" + this.Text + "</option>");
                 });
+                $("#Ciudad").trigger("chosen:updated");
+                $("#CiudadResidencia").trigger("chosen:updated");
+                $("#LugarNacimiento").trigger("chosen:updated");
+
             });
         });
 
@@ -238,6 +242,7 @@
         $(document).ready(function () {
 
             $("#CiudadResidencia").chosen();
+            $("#LugarNacimiento").chosen();
             $("#Ciudad").chosen();
             $("#Pais").chosen();
 
