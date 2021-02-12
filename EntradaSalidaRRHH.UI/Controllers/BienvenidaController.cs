@@ -84,8 +84,14 @@ namespace EntradaSalidaRRHH.UI.Controllers
                     string enlace = GetUrlSitio(Url.Action("NuevoIngreso", "FichaIngreso", new { usuarioID = Resultado.EntidadID }));
 
                     string body = GetEmailTemplate("TemplateBienvenida");
+
+                    var fechaMañana = DateTime.Now.AddDays(1).Date.ToString();
+                    var fechaOchoDias = DateTime.Now.AddDays(7).Date.ToString();
+
                     body = body.Replace("@ViewBag.EnlaceDirecto", enlace);
-                    body = body.Replace("@ViewBag.EnlaceSecundario", enlace);                    
+                    body = body.Replace("@ViewBag.EnlaceSecundario", enlace);
+                    body = body.Replace("@ViewBag.fechaMañana", fechaMañana);
+                    body = body.Replace("@ViewBag.fechaOchoDias", fechaOchoDias);
 
                     var notificacion = NotificacionesDAL.CrearNotificacion(new Notificaciones
                     {
