@@ -276,6 +276,7 @@
     <Content Include="Content\img\default-50x50.gif" />
     <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\img\favicon2.ico" />
+    <Content Include="Content\img\generic-image-file-icon-hi.png" />
     <Content Include="Content\img\icons.png" />
     <Content Include="Content\img\loader-grid.gif" />
     <Content Include="Content\img\loader.gif" />
