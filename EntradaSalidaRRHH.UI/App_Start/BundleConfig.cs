@@ -42,7 +42,7 @@ namespace EntradaSalidaRRHH.UI.App_Start
                 .Include("~/Content/js/adminlte.js")
                 .Include("~/Content/js/init.js")
                 //search list
-                .Include("~/Scripts/chosen.jquery.min.js")
+                .Include("~/Scripts/chosen.jquery.js")
                 );
             
 
