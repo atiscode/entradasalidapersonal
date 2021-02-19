@@ -18,6 +18,40 @@ GO
 	Descripción: "Estado Civil: Aumentar en el catálogo 
 	""Unión de Hecho"""
 *****************************************************/
+DECLARE @CatalogoPadre INT
+SELECT @CatalogoPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = 'ESTADO-CIVIL-01'
 INSERT INTO adm.Catalogo (CodigoCatalogo, NombreCatalogo, DescripcionCatalogo, IdCatalogoPadre, EstadoCatalogo,IdEmpresa,Eliminado)
-VALUES (NULL,'UNIÓN DE HECHO','UNIÓN DE HECHO', 123, 1, 1, 0)
+VALUES (NULL,'UNIÓN DE HECHO','UNIÓN DE HECHO', @CatalogoPadre, 1, 1, 0)
 GO
+/*****************  Tarea 18  ************************
+	Proyecto: RRHH									*
+	Fecha: 19/feb/2021
+	Descripción: Referencia: Crear este nuevo campo 
+		en Dirección (obligatorio)
+*****************************************************/
+ALTER TABLE FichaIngreso ADD Referencia VARCHAR(100)
+GO
+
+/*****************  Tarea 19  ************************
+	Proyecto: RRHH									*
+	Fecha: 19/feb/2021
+	Descripción: Sector: Crear este nuevo campo 
+		en Dirección (obligatorio)
+*****************************************************/
+ALTER TABLE FichaIngreso ADD Sector VARCHAR(100)
+GO
+/*****************  Tarea 25  ************************
+	Proyecto: RRHH									*
+	Fecha: 19/feb/2021
+	Descripción: Tipo de Estudio: El Catálogo debe
+		contener Bachiller/Tercer Nivel/Postgrado
+*****************************************************/
+DECLARE @CatalogoPadre INT
+SELECT @CatalogoPadre= IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = 'TIPO-ESTUDIO-01'
+
+
+UPDATE adm.Catalogo SET NombreCatalogo = 'TERCER NIVEL', DescripcionCatalogo = 'TERCER NIVEL' 
+WHERE IdCatalogoPadre = @CatalogoPadre AND NombreCatalogo = 'UNIVERSITARIO'
+
+UPDATE adm.Catalogo SET NombreCatalogo = 'POSTGRADO', DescripcionCatalogo = 'POSTGRADO' 
+WHERE IdCatalogoPadre = @CatalogoPadre AND NombreCatalogo = 'CUARTO NIVEL'
