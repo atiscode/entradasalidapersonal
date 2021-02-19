@@ -19,7 +19,7 @@
                     <div class="alert"></div>
 
                     <div id='img_contain'>
-                        <img style="width: 150px; height: 150px; cursor:pointer;" id="blah" align='middle' src="@(cabecera.Foto != null ? string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(cabecera.Foto) ) : "/Content/img/generic-image-file-icon-hi.png" )" alt="your image" title='' />
+                        <img style="width: 150px; height: 150px; cursor:pointer;" id="blah" align='middle' src="@(cabecera.Foto != null ? string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(cabecera.Foto) ) : "../../Content/img/generic-image-file-icon-hi.png" )" alt="your image" title='' />
                     </div>
                     <div class="custom-file">
                         <input type="file" class="imgInp custom-file-input" id="Foto" name="Foto" aria-describedby="inputGroupFileAddon01" accept="image/x-png,image/gif,image/jpeg">

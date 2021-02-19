@@ -688,6 +688,32 @@ namespace EntradaSalidaRRHH.DAL.Metodos
 
         }
 
+        public static IEnumerable<SelectListItem> ObtenerCatalogoAños (string seleccionado = null)
+        {
+            List<SelectListItem> ListadoCatalogo = new List<SelectListItem>();
+            try
+            {
+                var añoActual = DateTime.Now.Year;
+                for (var año = añoActual; año >= 1970; año--)
+                {
+                    ListadoCatalogo.Add(new SelectListItem { Text = año.ToString(), Value = año.ToString() }); ;
+                }
+
+                if(!string.IsNullOrEmpty(seleccionado))
+                {
+                    if (ListadoCatalogo.FirstOrDefault(s => s.Value == seleccionado.ToString()) != null)
+                        ListadoCatalogo.FirstOrDefault(s => s.Value == seleccionado.ToString()).Selected = true;
+                }
+
+                return ListadoCatalogo;
+            }
+            catch (Exception ex)
+            {
+                return ListadoCatalogo;
+            }
+
+        }
+
 
 
         public static IEnumerable<SelectListItem> ConsultarCatalogoPorPadre(int id, string codigo)

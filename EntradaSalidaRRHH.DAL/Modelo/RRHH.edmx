@@ -103,6 +103,7 @@
           <Property Name="Ciudad" Type="int" />
           <Property Name="Pais" Type="int" />
           <Property Name="FichaIngresoID" Type="int" Nullable="false" />
+          <Property Name="Finalizado" Type="bit" />
         </EntityType>
         <EntityType Name="DetalleExperiencias">
           <Key>
@@ -505,6 +506,7 @@
           <Property Name="Ciudad" Type="Int32" />
           <Property Name="Pais" Type="Int32" />
           <Property Name="FichaIngresoID" Type="Int32" Nullable="false" />
+          <Property Name="Finalizado" Type="Boolean" />
         </EntityType>
         <EntityType Name="DetalleExperiencias">
           <Key>
@@ -1861,6 +1863,7 @@
           <EntitySetMapping Name="DetalleEstudios">
             <EntityTypeMapping TypeName="RRHHModel.DetalleEstudios">
               <MappingFragment StoreEntitySet="DetalleEstudios">
+                <ScalarProperty Name="Finalizado" ColumnName="Finalizado" />
                 <ScalarProperty Name="IDDetalleEstudios" ColumnName="IDDetalleEstudios" />
                 <ScalarProperty Name="TipoEstudio" ColumnName="TipoEstudio" />
                 <ScalarProperty Name="Institucion" ColumnName="Institucion" />

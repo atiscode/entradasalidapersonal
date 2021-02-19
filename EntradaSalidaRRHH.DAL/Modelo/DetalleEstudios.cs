@@ -22,5 +22,6 @@ namespace EntradaSalidaRRHH.DAL.Modelo
         public Nullable<int> Ciudad { get; set; }
         public Nullable<int> Pais { get; set; }
         public int FichaIngresoID { get; set; }
+        public Nullable<bool> Finalizado { get; set; }
     }
 }

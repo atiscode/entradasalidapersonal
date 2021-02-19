@@ -55,3 +55,13 @@ WHERE IdCatalogoPadre = @CatalogoPadre AND NombreCatalogo = 'UNIVERSITARIO'
 
 UPDATE adm.Catalogo SET NombreCatalogo = 'POSTGRADO', DescripcionCatalogo = 'POSTGRADO' 
 WHERE IdCatalogoPadre = @CatalogoPadre AND NombreCatalogo = 'CUARTO NIVEL'
+GO
+/*****************  Tarea 25  ************************
+	Proyecto: RRHH									*
+	Fecha: 19/feb/2021
+	Descripción: Generar un check junto al campo Año 
+	de Finalización que permita escoger entre las 
+	opciones de Finalizado y En Curso, este chek 
+	debe habilitarse siempre y cuando se escoja el 
+	año actual
+*****************************************************/
