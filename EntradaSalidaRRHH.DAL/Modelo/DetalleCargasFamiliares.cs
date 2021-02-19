@@ -20,5 +20,6 @@ namespace EntradaSalidaRRHH.DAL.Modelo
         public Nullable<int> Genero { get; set; }
         public Nullable<System.DateTime> FechaNacimiento { get; set; }
         public int FichaIngresoID { get; set; }
+        public Nullable<int> Parentesco { get; set; }
     }
 }

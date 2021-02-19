@@ -66,6 +66,7 @@
           <Property Name="Genero" Type="int" />
           <Property Name="FechaNacimiento" Type="datetime" />
           <Property Name="FichaIngresoID" Type="int" Nullable="false" />
+          <Property Name="Parentesco" Type="int" />
         </EntityType>
         <EntityType Name="DetalleCodificacionEquipo">
           <Key>
@@ -493,6 +494,7 @@
           <Property Name="Genero" Type="Int32" />
           <Property Name="FechaNacimiento" Type="DateTime" Precision="3" />
           <Property Name="FichaIngresoID" Type="Int32" Nullable="false" />
+          <Property Name="Parentesco" Type="Int32" />
         </EntityType>
         <EntityType Name="DetalleEstudios">
           <Key>
@@ -1851,6 +1853,7 @@
           <EntitySetMapping Name="DetalleCargasFamiliares">
             <EntityTypeMapping TypeName="RRHHModel.DetalleCargasFamiliares">
               <MappingFragment StoreEntitySet="DetalleCargasFamiliares">
+                <ScalarProperty Name="Parentesco" ColumnName="Parentesco" />
                 <ScalarProperty Name="IDDetalleCargasFamiliares" ColumnName="IDDetalleCargasFamiliares" />
                 <ScalarProperty Name="Nombres" ColumnName="Nombres" />
                 <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />

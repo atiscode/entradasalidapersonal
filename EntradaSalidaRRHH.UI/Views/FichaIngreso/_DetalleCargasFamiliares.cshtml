@@ -20,6 +20,7 @@
                                 <th data-override="Nombres">Nombres</th>
                                 <th data-override="Apellidos">Apellidos</th>
                                 <th data-override="Genero">Género</th>
+                                <th data-override="Parentesco">Parentesco</th>
                                 <th data-override="FechaNacimiento">Fecha de Nacimiento</th>
                             </tr>
                         </thead>
@@ -27,21 +28,23 @@
                             <tr id="templateCargasFamiliares">
                                 <td><input type="text" class="form-control idObjeto" value="0" name="IDDetalleCargasFamiliares[]" /></td>
 
-                                <td><input type="text" class="form-control" placeholder="Nombres" name="Nombres[]" maxlength="150" onkeypress="return soloLetras(event)"/></td>
+                                <td><input type="text" class="form-control" placeholder="Nombres" name="Nombres[]" maxlength="150" onkeypress="return soloLetras(event)" /></td>
 
-                                <td><input type="text" class="form-control" placeholder="Apellidos" name="Apellidos[]" maxlength="150" onkeypress="return soloLetras(event)"/></td>
+                                <td><input type="text" class="form-control" placeholder="Apellidos" name="Apellidos[]" maxlength="150" onkeypress="return soloLetras(event)" /></td>
 
                                 <td>
                                     @Html.DropDownList("Genero", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("GENERO-01"), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion" })
                                 </td>
-
+                                <td>
+                                    @Html.DropDownList("Parentesco", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CARGA-FAM"), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion" })
+                                </td>
 
                                 <td>
                                     <div class="input-group date">
                                         <div class="input-group-addon" title="Seleccionar o digitar la fecha.">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="FechaNacimiento"  class="form-control pull-right datepicker" value="@System.DateTime.Now.ToString("dd/MM/yyyy")" required>
+                                        <input type="text" name="FechaNacimiento" class="form-control pull-right datepicker" value="@System.DateTime.Now.ToString("dd/MM/yyyy")" required>
                                     </div>
                                 </td>
 
@@ -53,26 +56,29 @@
                             </tr>
                             @foreach (var item in detalles)
                             {
-                                <tr id="templateCargasFamiliares-@item.IDDetalleCargasFamiliares">
-                                    <td>
-                                        <input type="text" class="form-control" value="@item.IDDetalleCargasFamiliares" name="IDDetalleActaCondicionesGenerales[]" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" value="@item.Nombres" name="Nombres[]" maxlength="150" onkeypress="return soloLetras(event)"/>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" value="@item.Apellidos" name="Apellidos[]" maxlength="150" onkeypress="return soloLetras(event)" />
-                                    </td>
-                                    <td >
-                                        @Html.DropDownList("Genero[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("GENERO-01", (item.Genero ?? 0).ToString()), new { @class = "form-control" })
-                                    </td>
+                        <tr id="templateCargasFamiliares-@item.IDDetalleCargasFamiliares">
+                            <td>
+                                <input type="text" class="form-control" value="@item.IDDetalleCargasFamiliares" name="IDDetalleActaCondicionesGenerales[]" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" value="@item.Nombres" name="Nombres[]" maxlength="150" onkeypress="return soloLetras(event)" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" value="@item.Apellidos" name="Apellidos[]" maxlength="150" onkeypress="return soloLetras(event)" />
+                            </td>
+                            <td>
+                                @Html.DropDownList("Genero[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("GENERO-01", (item.Genero ?? 0).ToString()), new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList("Parentesco[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CARGA-FAM", (item.Parentesco ?? 0).ToString()), new { @class = "form-control" })
+                            </td>
 
-                                    <td>
-                                        <input type="text" name="FechaNacimiento[]" class="form-control pull-right datepicker campo-requerido" value="@((item.FechaNacimiento ?? DateTime.Now).ToString("dd/MM/yyyy"))">
-                                    </td>
+                            <td>
+                                <input type="text" name="FechaNacimiento[]" class="form-control pull-right datepicker campo-requerido" value="@((item.FechaNacimiento ?? DateTime.Now).ToString("dd/MM/yyyy"))">
+                            </td>
 
-                                    <td id="accion"><button type="button" onclick="eliminarFila(this)" id="eliminar-@item.IDDetalleCargasFamiliares" class="eliminarFila btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
-                                </tr>
+                            <td id="accion"><button type="button" onclick="eliminarFila(this)" id="eliminar-@item.IDDetalleCargasFamiliares" class="eliminarFila btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+                        </tr>
                             }
                         </tbody>
                     </table>
