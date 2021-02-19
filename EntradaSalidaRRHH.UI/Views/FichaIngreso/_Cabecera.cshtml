@@ -298,9 +298,9 @@
                         <div class="row  fila-seccion">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label class="etiqueta-seccion control-label col-md-3">Conjunto Residencial: <span class="requerido"> *</span></label>
+                                    <label class="etiqueta-seccion control-label col-md-3">Conjunto Residencial: </label>
                                     <div class="col-md-9">
-                                        @Html.Editor("DireccionConjuntoResidencial", new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 150, @Value = cabecera.DireccionConjuntoResidencial, required = "" } })
+                                        @Html.Editor("DireccionConjuntoResidencial", new { htmlAttributes = new { @class = "form-control", maxlength = 150, @Value = cabecera.DireccionConjuntoResidencial } })
                                     </div>
                                 </div>
                             </div>
@@ -309,6 +309,28 @@
                                     <label class="etiqueta-seccion control-label col-md-4">Número de Casa: </label>
                                     <div class="col-md-8">
                                         @Html.Editor("DireccionNumeroCasa", new { htmlAttributes = new { @class = "form-control", @Value = cabecera.DireccionNumeroCasa, maxlength = 50 } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row  fila-seccion">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-2">Referencia: <span class="requerido"> *</span></label>
+                                    <div class="col-md-10">
+                                        @Html.Editor("Referencia", new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 100, @Value = cabecera.Referencia, required = "" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row  fila-seccion">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="etiqueta-seccion control-label col-md-2">Sector: <span class="requerido"> *</span></label>
+                                    <div class="col-md-10">
+                                        @Html.Editor("Sector", new { htmlAttributes = new { @class = "form-control campo-requerido", maxlength = 100, @Value = cabecera.Sector, required = "" } })
                                     </div>
                                 </div>
                             </div>

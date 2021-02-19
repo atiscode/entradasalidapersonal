@@ -179,6 +179,8 @@
           <Property Name="TelefonoContactoEmergencia" Type="varchar" MaxLength="15" />
           <Property Name="CelularContactoEmergencia" Type="varchar" MaxLength="15" />
           <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Referencia" Type="varchar" MaxLength="100" />
+          <Property Name="Sector" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Ingreso">
           <Key>
@@ -579,6 +581,8 @@
           <Property Name="CelularContactoEmergencia" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="TipoCuenta" Type="Int32" />
+          <Property Name="Referencia" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Sector" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Ingreso">
           <Key>
@@ -1921,6 +1925,8 @@
           <EntitySetMapping Name="FichaIngreso">
             <EntityTypeMapping TypeName="RRHHModel.FichaIngreso">
               <MappingFragment StoreEntitySet="FichaIngreso">
+                <ScalarProperty Name="Sector" ColumnName="Sector" />
+                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
                 <ScalarProperty Name="TipoCuenta" ColumnName="TipoCuenta" />
                 <ScalarProperty Name="IDFichaIngreso" ColumnName="IDFichaIngreso" />
                 <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
