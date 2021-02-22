@@ -74,6 +74,7 @@
 
         var contador = 0;
         $(document).ready(function () {
+            $('.js-example-basic-single').select2();
             $('.agregarFila').click(function (e) {
 
                 var template = $(this).closest("tr");
@@ -158,9 +159,6 @@
                     $("#CiudadResidencia").append("<option value=" + this.Value + ">" + this.Text + "</option>");
                     $("#LugarNacimiento").append("<option value=" + this.Value + ">" + this.Text + "</option>");
                 });
-                $("#Ciudad").trigger("chosen:updated");
-                $("#CiudadResidencia").trigger("chosen:updated");
-                $("#LugarNacimiento").trigger("chosen:updated");
 
             });
         });
@@ -243,25 +241,79 @@
 
     </script>
     <script>
-        $(document).ready(function () {
+        $("#AnioFinalizacion").change(function () {
+            
+            var item = $(this);
+            MostrarEstadoFinalizacion(item);               
+        })
 
-            $("#CiudadResidencia").chosen();
-            $("#LugarNacimiento").chosen();
-            $("#Ciudad").chosen();
-            $("#Pais").chosen();
-            $("#ParentescoContactoEmergencia").chosen();
-            $("[name ='Pais[]']").chosen();
-            $("[name ='Pais']").chosen();
-            $("[name ='TipoEstudio']").chosen();
-            $("[name ='TipoEstudio[]']").chosen();
-            $("[name ='Institucion[]']").chosen();
-            $("[name ='Institucion[]']").chosen();
-            $("[name ='Titulo[]']").chosen();
-            $("[name ='AnioFinalizacion[]']").chosen();
-            $("[name ='AnioFinalizacion']").chosen();
-            $("[name ='Cargo[]']").chosen();
+        $("[name='AnioFinalizacion[]'").change(function () {            
+            var item = $(this);
+            MostrarEstadoFinalizacion(item);
+        })
+
+        function MostrarEstadoFinalizacion(item, año, añoActual) {
+            var año = parseInt(item.val());
+            var añoActual = new Date().getFullYear();
+            if (año < añoActual) {
+                item.closest("td").next().find("select").val("True");
+                item.closest("td").next().find("select").prop("disabled", true);
+                item.closest("td").next().find("select").trigger('change');
+            }
+            if (año === añoActual) {
+                item.closest("td").next().find("select").prop("disabled", false);
+            }
+        }
+
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2({width: "resolve"});
 
             $("#FechaNacimiento").trigger("change");
+
+            $("#Pais").select2({
+                //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)
+                minimumInputLength: 0, //for listing all records > set 0
+                maximumInputLength: 20, //only allow terms up to 20 characters long
+                multiple: false,
+                placeholder: '@Etiquetas.TituloComboVacio',
+                allowClear: true,
+                tags: false, //prevent free text entry
+                "language": {
+                    "noResults": function () {
+                        return '@Mensajes.MensajeNoDataListado';
+                    },
+                    "searching": function () {
+                        return '@Mensajes.MensajeBuscandoListado';
+                    }
+                },
+                //width: "100%",
+                ajax: {
+                    url: '@Url.Action("GetCatalogos", "Catalogo")',
+                    dataType: 'json',
+                    delay: 100,
+                    data: function (params) {
+                        return {
+                            query: params.term, //search term
+                            codigo: 'PAI-01',
+                            page: params.page,
+                        };
+                    },
+                    processResults: function (data, page) {
+                        var newData = [];
+                        $.each(data, function (index, item) {
+                            newData.push({
+                                //id part present in data
+                                id: item.Value,
+                                //string to be displayed
+                                text: item.Text
+                            });
+                        });
+                        return { results: newData };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function (markup) { return markup; }
+            });
 
             $("#Institucion").select2({
                 //language: "tr",//don't forget to add language script (select2/js/i18n/tr.js)

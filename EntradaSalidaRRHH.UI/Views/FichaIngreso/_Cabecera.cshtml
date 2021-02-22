@@ -19,12 +19,10 @@
                     <div class="alert"></div>
 
                     <div id='img_contain'>
-                        <img style="width: 150px; height: 150px; cursor:pointer;" id="blah" align='middle' src="@(cabecera.Foto != null ? string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(cabecera.Foto) ) : "../../Content/img/generic-image-file-icon-hi.png" )" alt="your image" title='' />
+                        <img style="width: 150px; height: 150px; cursor:pointer;" id="blah" align='middle' src="@(cabecera.Foto != null ? string.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(cabecera.Foto) ) : @Url.Content("~/Content/img/generic-image-file-icon-hi.png") )" alt="your image" title='' />
                     </div>
                     <div class="custom-file">
                         <input type="file" class="imgInp custom-file-input" id="Foto" name="Foto" aria-describedby="inputGroupFileAddon01" accept="image/x-png,image/gif,image/jpeg">
-
-                        @*<label class="custom-file-label" for="Foto">Seleccionar foto.</label>*@
                     </div>
                     <div style="text-align: center;">
                         <span>
@@ -98,7 +96,7 @@
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-4">País: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
-                                @Html.DropDownList("Pais", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PAI-01", (Usuario.Pais ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                @Html.DropDownList("Pais", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PAI-01", (Usuario.Pais ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                             </div>
                         </div>
                     </div>
@@ -106,29 +104,19 @@
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-4">Ciudad ó Estado de Nacimiento: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
-                                @Html.DropDownList("Ciudad", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (Usuario.Ciudad ?? 0).ToString())@*CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CIUDAD-01", (Usuario.Ciudad ?? 0).ToString())*@, Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                @Html.DropDownList("Ciudad", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (Usuario.Ciudad ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                             </div>
                         </div>
                     </div>
                 </div>
 
-                @*<div class="row  fila-seccion">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="etiqueta-seccion control-label col-md-2">Área o Departamento: <span class="requerido"> *</span></label>
-                                <div class="col-md-10">
-                                    @Html.DropDownList("Departamento", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("DTO-01", (Usuario.Departamento ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
 
                 <div class="row fila-seccion">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-4">Género: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
-                                @Html.DropDownList("Genero", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("GENERO-01", (cabecera.Genero ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                @Html.DropDownList("Genero", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("GENERO-01", (cabecera.Genero ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
 
                             </div>
                         </div>
@@ -137,7 +125,7 @@
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-4">Tipo de Sangre: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
-                                @Html.DropDownList("TipoSangre", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-SANGRE-01", (cabecera.TipoSangre ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                @Html.DropDownList("TipoSangre", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-SANGRE-01", (cabecera.TipoSangre ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                             </div>
                         </div>
                     </div>
@@ -166,7 +154,7 @@
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-4">Ciudad de Residencia: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
-                                @Html.DropDownList("CiudadResidencia", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (cabecera.CiudadResidencia ?? 0).ToString())@*CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CIUDAD-01", (cabecera.CiudadResidencia ?? 0).ToString())*@, Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                @Html.DropDownList("CiudadResidencia", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (cabecera.CiudadResidencia ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                             </div>
                         </div>
                     </div>
@@ -178,7 +166,7 @@
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-4">Banco: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
-                                @Html.DropDownList("Banco", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("BANCO-01", (cabecera.Banco ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                @Html.DropDownList("Banco", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("BANCO-01", (cabecera.Banco ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                                 <div>
                                     <span class="requerido" id="mensaje-banco-default" hidden="hidden">Por favor, es necesario aperturar una cuenta en el Banco del Pichincha.</span>
                                 </div>
@@ -201,7 +189,7 @@
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-2">Lugar de Nacimiento: <span class="requerido"> *</span></label>
                             <div class="col-md-10">
-                                @Html.DropDownList("LugarNacimiento", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (cabecera.LugarNacimiento ?? 0).ToString())@*CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("CIUDAD-01", (cabecera.LugarNacimiento ?? 0).ToString())*@, Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                @Html.DropDownList("LugarNacimiento", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (cabecera.LugarNacimiento ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                             </div>
                         </div>
                     </div>
@@ -213,7 +201,7 @@
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-4">Tipo Cuenta: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
-                                @Html.DropDownList("TipoCuenta", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-CUENTA-BAN", (cabecera.TipoCuenta ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                @Html.DropDownList("TipoCuenta", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-CUENTA-BAN", (cabecera.TipoCuenta ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                             </div>
                         </div>
                     </div>
@@ -221,7 +209,7 @@
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-4">Estado Civil: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
-                                @Html.DropDownList("EstadoCivil", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("ESTADO-CIVIL-01", (cabecera.EstadoCivil ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                @Html.DropDownList("EstadoCivil", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("ESTADO-CIVIL-01", (cabecera.EstadoCivil ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                             </div>
                         </div>
                     </div>
@@ -247,7 +235,7 @@
                         <div class="form-group">
                             <label class="etiqueta-seccion control-label col-md-4">Nacionalidad: <span class="requerido"> *</span></label>
                             <div class="col-md-8">
-                                @Html.DropDownList("Nacionalidad", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("NACIONALIDAD-01", (cabecera.Nacionalidad ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                @Html.DropDownList("Nacionalidad", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("NACIONALIDAD-01", (cabecera.Nacionalidad ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                             </div>
                         </div>
                     </div>
@@ -400,7 +388,7 @@
                                 <div class="form-group">
                                     <label class="etiqueta-seccion control-label col-md-2">Parentesco: <span class="requerido"> *</span></label>
                                     <div class="col-md-10">
-                                        @Html.DropDownList("ParentescoContactoEmergencia", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PARENTESCO-01", (cabecera.ParentescoContactoEmergencia ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                        @Html.DropDownList("ParentescoContactoEmergencia", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PARENTESCO-01", (cabecera.ParentescoContactoEmergencia ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                                     </div>
                                 </div>
                             </div>

@@ -714,7 +714,28 @@ namespace EntradaSalidaRRHH.DAL.Metodos
 
         }
 
+        public static IEnumerable<SelectListItem> ObtenerCatalogoEstado(string seleccionado = null)
+        {
+            List<SelectListItem> ListadoCatalogo = new List<SelectListItem>();
+            try
+            {
+                ListadoCatalogo.Add(new SelectListItem { Text = "FINALIZADO", Value = "True" }); 
+                ListadoCatalogo.Add(new SelectListItem { Text = "EN CURSO", Value = "False" }); 
 
+                if (!string.IsNullOrEmpty(seleccionado))
+                {
+                    if (ListadoCatalogo.FirstOrDefault(s => s.Value == seleccionado.ToString()) != null)
+                        ListadoCatalogo.FirstOrDefault(s => s.Value == seleccionado.ToString()).Selected = true;
+                }
+
+                return ListadoCatalogo;
+            }
+            catch (Exception ex)
+            {
+                return ListadoCatalogo;
+            }
+
+        } 
 
         public static IEnumerable<SelectListItem> ConsultarCatalogoPorPadre(int id, string codigo)
         {

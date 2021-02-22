@@ -28,8 +28,7 @@
                                     <a title="Agregar nuevo título al listado." style="cursor: pointer" onclick="AgregarSubCatalogo('TITULO-ESTUDIO-01')"><i class="fa fa-plus"></i></a>
                                 </th>
                                 <th data-override="AnioFinalizacion">Año Finalización</th>
-                                <th data-override="Finalizado" hidden>Finalizado</th>
-                                <th data-override="Finalizado" hidden>En Curso</th>
+                                <th data-override="Finalizado" name="col-finalizado">Finalizado</th>
                                 <th data-override="Pais">País</th>
                             </tr>
                         </thead>
@@ -38,29 +37,26 @@
                                 <td><input type="text" class="form-control idObjeto" value="0" name="IDDetalleEstudios[]" /></td>
 
                                 <td>
-                                    @Html.DropDownList("TipoEstudio", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-ESTUDIO-01"), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion" })
+                                    @Html.DropDownList("TipoEstudio", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-ESTUDIO-01"), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion js-example-basic-single" })
                                 </td>
 
 
                                 <td>
-                                    @Html.DropDownList("Institucion", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("INSTITUCION-ESTUDIO-01"), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion js-example-basic-single" })
+                                    @Html.DropDownList("Institucion", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("INSTITUCION-ESTUDIO-01"), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion js-example-basic-single", style="max-width:400px;" })
                                 </td>
 
                                 <td>
-                                    @Html.DropDownList("Titulo", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TITULO-ESTUDIO-01"), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion seleccion js-example-basic-single" })
+                                    @Html.DropDownList("Titulo", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TITULO-ESTUDIO-01"), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion seleccion js-example-basic-single", style = "max-width:400px;" })
                                 </td>
 
                                 <td>
-                                    @Html.DropDownList("AnioFinalizacion", (List<SelectListItem>)CatalogoDAL.ObtenerCatalogoAños((Etiquetas.TituloComboVacio).ToString()), new { @class = "form-control seleccion seleccion js-example-basic-single" })
+                                    @Html.DropDownList("AnioFinalizacion", (List<SelectListItem>)CatalogoDAL.ObtenerCatalogoAños(), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion seleccion js-example-basic-single" })
                                 </td>
-                                <td name="col-finalizado" hidden>
-                                    @Html.RadioButton("Finalizado", "false")
-                                </td>
-                                <td name="col-encurso" hidden>
-                                    @Html.RadioButton("Finalizado", "true")
+                                <td name="col-finalizado">
+                                    @Html.DropDownList("Finalizado", (List<SelectListItem>)CatalogoDAL.ObtenerCatalogoEstado(), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion seleccion js-example-basic-single" })
                                 </td>
                                 <td>
-                                    @Html.DropDownList("Pais", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PAI-01"), Etiquetas.TituloComboVacio, new { @class = "form-control seleccion seleccion-ciudad estudios-pais" })
+                                    @Html.DropDownList("PaisEstudios", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PAI-01"), Etiquetas.TituloComboVacio, new { @class = "form-control js-example-basic-single seleccion seleccion-ciudad estudios-pais" })
                                 </td>
 
                                 <td id="accion">
@@ -74,27 +70,24 @@
                                 <input type="text" class="form-control" value="@item.IDDetalleEstudios" name="IDDetalleActaCondicionesGenerales[]" />
                             </td>
                             <td>
-                                @Html.DropDownList("TipoEstudio[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-ESTUDIO-01", (item.TipoEstudio ?? 0).ToString()), new { @class = "form-control" })
+                                @Html.DropDownList("TipoEstudio[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-ESTUDIO-01", (item.TipoEstudio ?? 0).ToString()), new { @class = "form-control js-example-basic-single" })
                             </td>
 
                             <td>
-                                @Html.DropDownList("Institucion[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("INSTITUCION-ESTUDIO-01", (item.TipoEstudio ?? 0).ToString()), new { @class = "form-control" })
+                                @Html.DropDownList("Institucion[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("INSTITUCION-ESTUDIO-01", (item.TipoEstudio ?? 0).ToString()), new { @class = "form-control js-example-basic-single", style = "max-width:400px;" })
                             </td>
                             <td>
-                                @Html.DropDownList("Titulo[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TITULO-ESTUDIO-01", (item.Titulo ?? 0).ToString()), new { @class = "form-control" })
+                                @Html.DropDownList("Titulo[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TITULO-ESTUDIO-01", (item.Titulo ?? 0).ToString()), new { @class = "form-control js-example-basic-single", style = "max-width:400px;" })
                             </td>
                             <td>
-                                @Html.DropDownList("AnioFinalizacion[]", (List<SelectListItem>)CatalogoDAL.ObtenerCatalogoAños((item.AnioFinalizacion ?? 0).ToString()), new { @class = "form-control" })
+                                @Html.DropDownList("AnioFinalizacion[]", (List<SelectListItem>)CatalogoDAL.ObtenerCatalogoAños((item.AnioFinalizacion ?? 0).ToString()), new { @class = "form-control js-example-basic-single" })
 
                             </td>
-                            <td name="col-finalizado" hidden>
-                                @Html.RadioButton("Finalizado[" + item.IDDetalleEstudios+"]", "True", item.Finalizado)
-                            </td>
-                            <td name="col-encurso" hidden>
-                                @Html.RadioButton("Finalizado[" + item.IDDetalleEstudios+"]", "False", item.Finalizado)
+                            <td name="col-finalizado">
+                                @Html.DropDownList("Finalizado[]", (List<SelectListItem>)CatalogoDAL.ObtenerCatalogoEstado(item.Finalizado.ToString()), new { @class = "form-control seleccion seleccion js-example-basic-single" })
                             </td>
                             <td>
-                                @Html.DropDownList("Pais[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PAI-01", (item.Pais ?? 0).ToString()), new { @class = "form-control estudios-pais" })
+                                @Html.DropDownList("Pais[]", (List<SelectListItem>)CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("PAI-01", (item.Pais ?? 0).ToString()), new { @class = "form-control estudios-pais js-example-basic-single" })
                             </td>
                             <td id="accion"><button type="button" onclick="eliminarFila(this)" id="eliminar-@item.TipoEstudio" class="eliminarFila btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
                         </tr>
