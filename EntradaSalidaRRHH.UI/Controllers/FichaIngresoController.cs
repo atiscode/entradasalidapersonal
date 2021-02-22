@@ -116,12 +116,13 @@ namespace EntradaSalidaRRHH.UI.Controllers
         }
 
         [Autenticado]
-        public ActionResult Formulario(int? id, int? usuarioID)
+        public ActionResult Formulario(int? id, int? usuarioID, bool readOnly = false)
         {
 
             ViewBag.TituloPanel = Etiquetas.TituloPanelFormularioFichaIngreso;
             ViewBag.UsuarioID = usuarioID ?? 0;
             ViewBag.interno = true; // Para saber que Layout va a utilizar el usuario.
+            ViewBag.Readonly = readOnly;
 
             try
             {

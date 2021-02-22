@@ -26,7 +26,7 @@
     }
 </style>
 
-<div class="panel">
+<div id="form-container" class="panel">
 
     <div class="panel-heading-create custom-header-panel">
         <h4>@ViewBag.TituloPanel <div class="pull-right"> @System.DateTime.Now.ToString("yyyy/MM/dd")</div></h4>
@@ -50,10 +50,13 @@
         @Html.Partial("_DetalleExperiencias", new ViewDataDictionary { { "TituloPanelDetalle", "Experiencias" }, { "ListadoDetalleExperiencias", Model.Experiencias } })
         @Html.Partial("_DetalleCargasFamiliares", new ViewDataDictionary { { "TituloPanelDetalle", "Cargas Familiares" }, { "ListadoDetalleCargasFamiliares", Model.CargasFamiliares } })
 
-        <div class="row fila-seccion">
+    <div class="row fila-seccion">
+        @if (ViewBag.Readonly != true)
+        {
             <div class="col-xs-6" style="text-align: right;">
                 <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
             </div>
+        }
             <div class="col-xs-6" style="text-align: left;">
                 @*<input id="regresar" type="button" value="Regresar" class="btn btn-default" />*@
                 @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
@@ -75,7 +78,11 @@
         var contador = 0;
         $(document).ready(function () {
             $('.js-example-basic-single').select2();
-            $('.agregarFila').click(function (e) {
+
+            if ("@ViewBag.Readonly" == "True") {
+                $('#form-container').find('input, textarea, button, select').attr('disabled', 'disabled');
+            }
+                $('.agregarFila').click(function (e) {
 
                 var template = $(this).closest("tr");
                 var idTemplate = $(template).attr('id')
@@ -201,7 +208,9 @@
         });
 
         $('#blah').click(function () {
-            $("#Foto").click();
+            if ("@ViewBag.Readonly" != "True") {
+                $("#Foto").click();
+            }
         });
 
         function readURL(input) {
@@ -237,7 +246,7 @@
                 'keyboard': false
             });
             return;
-        }        
+        }
 
     </script>
     <script>

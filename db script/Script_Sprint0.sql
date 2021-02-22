@@ -87,5 +87,46 @@ GO
 	debe habilitarse siempre y cuando se escoja el 
 	año actual
 *****************************************************/
+ALTER TABLE DetalleEstudios ADD FINALIZADO BIT
+GO
+DECLARE @AñoActual INT = YEAR(GETDATE())
+UPDATE DetalleEstudios SET Finalizado = 1 WHERE AnioFinalizacion < @AñoActual
+UPDATE DetalleEstudios SET Finalizado = 0 WHERE AnioFinalizacion = @AñoActual
+GO
+/*****************  Tarea 33  ************************
+	Proyecto: RRHH									*
+	Fecha: 22/feb/2021
+	Descripción: Generar un nuevo botón que permita 
+	únicamente visualizar la ficha de ingreso, esto 
+	es para el caso del usuario de la Doctora que 
+	ella necesita ver los datos del nuevo empleado.
+*****************************************************/
+DECLARE @Rol VARCHAR(20) = 'MEDICO'
+DECLARE @Perfil VARCHAR(20) = 'VISUALIZADOR FICHA INGRESO'
+DECLARE @RolId INT
+DECLARE @PerfilId INT
+DECLARE @MenuId INT
 
+INSERT INTO adm.Rol VALUES(@Rol, 'ROL QUE PERMITE VISUALIZACION DE USUARIOS',1)
+INSERT INTO adm.Perfil VALUES(@Perfil,'VISUALIZACION FICHA INGRESO',1)
 
+SELECT @RolId = IdRol FROM adm.Rol WHERE Nombre = @Rol
+SELECT @PerfilId = IdPerfil FROM adm.Perfil WHERE NombrePerfil = @Perfil
+
+INSERT INTO  adm.RolPerfil VALUES (@RolId, @PerfilId)
+
+SELECT @MenuId = IdMenu FROM adm.Menu WHERE NombreMenu = 'Ficha de Ingreso'
+
+INSERT INTO adm.PerfilMenu VALUES (@PerfilId, @MenuId)
+
+DECLARE @PadreAccionSistema VARCHAR(50) = 'ACCIONES-SIST-01'
+DECLARE @VisualizarAccionSistema VARCHAR(50)= 'ACCIONES-SIST-VISUALIZAR-REGISTRO'
+DECLARE @IdPadre INT
+DECLARE @IdVisualizarAccion INT
+SELECT @IdPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @PadreAccionSistema
+
+INSERT INTO adm.Catalogo VALUES(@VisualizarAccionSistema,'VISUALIZAR REGISTRO','_IndexGrid',@IdPadre,1,1,0)
+
+SELECT @IdVisualizarAccion = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @VisualizarAccionSistema 
+
+INSERT INTO adm.RolMenuPermiso VALUES (@RolId, @PerfilId, @MenuId,@IdVisualizarAccion,1,1,GETDATE(), GETDATE(),1)
