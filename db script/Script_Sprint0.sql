@@ -130,3 +130,18 @@ INSERT INTO adm.Catalogo VALUES(@VisualizarAccionSistema,'VISUALIZAR REGISTRO','
 SELECT @IdVisualizarAccion = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @VisualizarAccionSistema 
 
 INSERT INTO adm.RolMenuPermiso VALUES (@RolId, @PerfilId, @MenuId,@IdVisualizarAccion,1,1,GETDATE(), GETDATE(),1)
+
+GO
+/*****************  Tarea 39  ************************
+	Proyecto: RRHH									*
+	Fecha: 23/feb/2021
+	Descripción: En campo tipo de ingreso agregar 
+	honorarios y pasantia.
+*****************************************************/
+DECLARE @CatalogoPadre INT
+SELECT @CatalogoPadre= IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = 'TIPO-INGRE-01'
+
+DECLARE @NombreCatalogo1 VARCHAR(20) = 'HONORARIOS'
+INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo1, 'INGRESO POR HONORARIOS', @CatalogoPadre, 1,1,0)
+DECLARE @NombreCatalogo2 VARCHAR(20) = 'PASANTIA'
+INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo2, 'INGRESO POR PASANTIAS', @CatalogoPadre, 1,1,0)
