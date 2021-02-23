@@ -145,3 +145,19 @@ DECLARE @NombreCatalogo1 VARCHAR(20) = 'HONORARIOS'
 INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo1, 'INGRESO POR HONORARIOS', @CatalogoPadre, 1,1,0)
 DECLARE @NombreCatalogo2 VARCHAR(20) = 'PASANTIA'
 INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo2, 'INGRESO POR PASANTIAS', @CatalogoPadre, 1,1,0)
+GO
+
+/*****************  Tarea 38  ************************
+	Proyecto: RRHH									*
+	Fecha: 23/feb/2021
+	Descripción: En campo empresa cambiar: APS PTV 
+		por  Kickoff / outiside box por OPINO.
+*****************************************************/
+DECLARE @CatalogoPadre INT
+SELECT @CatalogoPadre= IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = 'EMP-01'
+
+DECLARE @NombreCatalogo1 VARCHAR(20) = 'ATIS PTV'
+UPDATE adm.Catalogo SET CodigoCatalogo ='KICKOFF', NombreCatalogo = 'KICKOFF', DescripcionCatalogo = 'KICKOFF' WHERE NombreCatalogo = @NombreCatalogo1
+
+DECLARE @NombreCatalogo2 VARCHAR(20) = 'OUTSIDE THE BOX '
+UPDATE adm.Catalogo SET CodigoCatalogo = 'OPINO', NombreCatalogo = 'OPINO', DescripcionCatalogo = 'OPINO' WHERE NombreCatalogo = @NombreCatalogo2
