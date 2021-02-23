@@ -34,7 +34,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 Catalogo catalogo = CatalogoDAL.ConsultarCatalogo(formulario.IdEmpresa.Value);
 
                 //El nombre del archivo de acumulación de décimos tiene que ser igual al código del catálogo de la empresa seleccionada.
-                string nombreArchivo = catalogo.CodigoCatalogo;
+                string nombreArchivo = "AcumulacionDecimos_"+ catalogo.CodigoCatalogo;
 
                 if (string.IsNullOrEmpty(nombreArchivo))
                     return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = "El código de catálogo es requerido para la empresa " + catalogo } }, JsonRequestBehavior.AllowGet);
