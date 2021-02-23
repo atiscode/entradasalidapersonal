@@ -489,7 +489,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
         //Para catálogos dependientes que tienen varios niveles
         public static IEnumerable<SelectListItem> ListadoCatalogosPorCodigoId(string codigo, int id, string seleccionado = null)
         {
-            List<SelectListItem> listado = new List<SelectListItem> { new SelectListItem { Text = Etiquetas.TituloComboVacio, Value = string.Empty } };
+            var listado = new List<SelectListItem>();
             try
             {
                 listado.AddRange(db.ConsultarCatalogosCodigoIdPadre(codigo, id).OrderBy(c => c.NombreCatalogo).Select(c => new SelectListItem

@@ -15,7 +15,7 @@
     var urlAccionGuardar = '@Url.Action("Create")';
     var urlAccionEditar = '@Url.Action("Edit")';
 
-    $(document).ready(function () {
+    $(document).ready(function () {        
         $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
     });
 
@@ -67,15 +67,6 @@
             });
         });
     });
-    @*$("#Departamento").change(function () {
-        
-        $("#Area").empty();
-        $.getJSON('@Url.Action("GetArea", "Usuario")', { id: $('#Departamento').val() }, function (data) {
-            $.each(data, function () {
-                $("#Area").append("<option value=" + this.Value + ">" + this.Text + "</option>");
-            });
-        });
-    });*@
 
     //Cuando elijo la persona debe cargar la empresa a la que fue ingresado previamente
     $("#FichaIngresoID").change(function () {
@@ -144,7 +135,7 @@
                             <div class="form-group">
                                 <label class="etiqueta-seccion control-label col-md-4">Departamento:<span class="requerido"> *</span></label>
                                 <div class="col-md-8">
-                                    @Html.DropDownList("Departamento", CatalogoDAL.ListadoCatalogosPorCodigoId("DEPARTAMENTO", (Model.Empresa ?? 0), (Model.Departamento ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                    @Html.DropDownList("Departamento", CatalogoDAL.ListadoCatalogosPorCodigoId("DEPARTAMENTO", (Model.Empresa ?? 0), (Model.Departamento ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                                 </div>
                             </div>
                         </div>
@@ -152,7 +143,7 @@
                             <div class="form-group">
                                 <label class="etiqueta-seccion control-label col-md-4">Area:<span class="requerido"> *</span></label>
                                 <div class="col-md-8">
-                                    @Html.DropDownList("Area", CatalogoDAL.ListadoCatalogosPorCodigoId("ÁREA", (Model.Empresa ?? 0), (Model.Area ?? 0).ToString()), new { @class = "form-control campo-requerido", required = "" })
+                                    @Html.DropDownList("Area", CatalogoDAL.ListadoCatalogosPorCodigoId("ÁREA", (Model.Empresa ?? 0), (Model.Area ?? 0).ToString()), new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                                 </div>
                             </div>
                         </div>
@@ -176,7 +167,7 @@
                             <div class="form-group">
                                 <label class="etiqueta-seccion control-label col-md-2">Cargo: <span class="requerido"> *</span></label>
                                 <div class="col-md-10">
-                                    @Html.DropDownList("Cargo", CatalogoDAL.ListadoCatalogosPorCodigoId("CARGO", (Model.Empresa ?? 0), (Model.Cargo ?? 0).ToString()), new { @class = "form-control campo-requerido", required = "" })
+                                    @Html.DropDownList("Cargo", CatalogoDAL.ListadoCatalogosPorCodigoId("CARGO", (Model.Empresa ?? 0), (Model.Cargo ?? 0).ToString()), new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                                 </div>
                             </div>
                         </div>
@@ -188,7 +179,7 @@
                             <div class="form-group">
                                 <label class="etiqueta-seccion control-label col-md-2">Jefe Directo:<span class="requerido"> *</span></label>
                                 <div class="col-md-10">
-                                    @Html.DropDownList("JefeDirecto", CatalogoDAL.ListadoCatalogosPorCodigoId("JEFE", (Model.Empresa ?? 0), (Model.JefeDirecto ?? 0).ToString()), new { @class = "form-control campo-requerido", required = "" })
+                                    @Html.DropDownList("JefeDirecto", CatalogoDAL.ListadoCatalogosPorCodigoId("JEFE", (Model.Empresa ?? 0), (Model.JefeDirecto ?? 0).ToString()), new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                                 </div>
                             </div>
                         </div>
