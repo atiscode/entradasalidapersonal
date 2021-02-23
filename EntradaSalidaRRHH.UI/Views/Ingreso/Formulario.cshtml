@@ -37,31 +37,32 @@
                                 </div>
                             </div>
                             <div class="row fila-seccion">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="etiqueta-seccion control-label col-md-4">Tipo Ingreso:<span class="requerido"> *</span></label>
-                                        <div class="col-md-8">
-                                            @Html.DropDownList("TipoIngreso", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-INGRE-01", (Model.TipoIngreso ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
-                                        </div>
-                                    </div>
-                                </div>
+                                
+                            </div>
+                            <div class="row fila-seccion">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="etiqueta-seccion control-label col-md-4">Empresa:<span class="requerido"> *</span></label>
                                         <div class="col-md-8">
-
                                             @Html.DropDownList("Empresa", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("EMP-01", empresaSeleccion), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row fila-seccion">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="etiqueta-seccion control-label col-md-4">Departamento:<span class="requerido"> *</span></label>
                                         <div class="col-md-8">
                                             @Html.DropDownList("Departamento", CatalogoDAL.ListadoCatalogosPorCodigoId("DEPARTAMENTO", (Model.Empresa ?? 0), (Model.Departamento ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row fila-seccion">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-4">Tipo Ingreso:<span class="requerido"> *</span></label>
+                                        <div class="col-md-8">
+                                            @Html.DropDownList("TipoIngreso", CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("TIPO-INGRE-01", (Model.TipoIngreso ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido", required = "" })
                                         </div>
                                     </div>
                                 </div>
@@ -73,9 +74,7 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
 
                             <div class="row  fila-seccion">
                                 <div class="col-md-12">
@@ -137,21 +136,21 @@
                                    }
                                })
                                             @*<div class="input-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-at"></i>
-                                                    </div>
-                                                   @Html.Editor("CorreoAsignado", new
-                                              {
-                                                  htmlAttributes = new
-                                                  {
-                                                      @class = "form-control email campo-requerido",
-                                                      maxlength = 200,
-                                                      @Value = Model.CorreoAsignado
-                                                  }
-                                              })
-                                                </div>
-                                            </div>*@
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-at"></i>
+                                </div>
+                               @Html.Editor("CorreoAsignado", new
+                          {
+                              htmlAttributes = new
+                              {
+                                  @class = "form-control email campo-requerido",
+                                  maxlength = 200,
+                                  @Value = Model.CorreoAsignado
+                              }
+                          })
+                            </div>
+                        </div>*@
 
 
                                         </div>
@@ -166,16 +165,16 @@
                                         <label class="etiqueta-seccion control-label col-md-4">Sueldo:<span class="requerido"> *</span></label>
                                         <div class="col-md-8">
                                             @*<div class="input-group">
-                                                <span class="input-group-addon">US$</span>
-                                                @Html.Editor("Sueldo", new { htmlAttributes = new { @class = "form-control input-bloqueado valores-alineacion mask", @Value = Model.Sueldo } })
-                                            </div>*@
+                            <span class="input-group-addon">US$</span>
+                            @Html.Editor("Sueldo", new { htmlAttributes = new { @class = "form-control input-bloqueado valores-alineacion mask", @Value = Model.Sueldo } })
+                        </div>*@
 
                                             <div class="input-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-usd"></i>
                                                     </div>
-                                                    <input name="Sueldo" id="Sueldo" class="campo-decimal-manual-1 form-control campo-requerido" value="@Model.Sueldo" type="text"  maxlength="18"/>
+                                                    <input name="Sueldo" id="Sueldo" class="campo-decimal-manual-1 form-control campo-requerido" value="@Model.Sueldo" type="text" maxlength="18" />
                                                 </div>
                                             </div>
 
@@ -186,7 +185,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="etiqueta-seccion control-label col-md-4">Reemplazo:</label>
-                                        <div class="col-md-8"  onkeypress="return soloLetras(event)">
+                                        <div class="col-md-8" onkeypress="return soloLetras(event)">
 
                                             @Html.Editor("PersonaReemplazante", new
                                {
@@ -233,10 +232,10 @@
         </form>
 
         @*<div class="row fila-seccion">
-            <div class="col-lg-12" style="text-align: center;">
-                <input id="guardar" type="button" value="Guardar" class="btn btn-warning" />
-            </div>
-        </div>*@
+                <div class="col-lg-12" style="text-align: center;">
+                    <input id="guardar" type="button" value="Guardar" class="btn btn-warning" />
+                </div>
+            </div>*@
 
         <div class="row fila-seccion">
             <div class="col-xs-6" style="text-align: right;">
@@ -269,7 +268,7 @@
     });
 
     $("#guardar").click(function () {
-        
+
         var flag = validarCamposRequeridosFormularioCompleto("form-ingreso");
         if (flag)
             guardar();
@@ -278,7 +277,7 @@
     })
 
     function guardar() {
-        
+
         let formulario = $('#form-ingreso').serializeObject()
         let accion = $("#IDIngreso").val() == 0 ? urlAccionGuardar : urlAccionEditar;
 
@@ -288,7 +287,7 @@
     }
 
     $("#Empresa").change(function () {
-        
+
             $("#Departamento").empty();
             $.getJSON('@Url.Action("GetDepartamento", "Usuario")', { id: $('#Empresa').val() }, function (data) {
             $.each(data, function () {
@@ -301,7 +300,7 @@
                 $("#Area").append("<option value=" + this.Value + ">" + this.Text + "</option>");
             });
         });
-        
+
         $("#Cargo").empty();
         $.getJSON('@Url.Action("GetCargo", "Usuario")', { id: $('#Empresa').val() }, function (data) {
             $.each(data, function () {
@@ -319,7 +318,7 @@
 
     //Cuando elijo la persona debe cargar la empresa a la que fue ingresado previamente
     $("#FichaIngresoID").change(function () {
-        
+
         $("#Area").empty();
 
         if ($('#FichaIngresoID').val() == "") {
@@ -327,7 +326,7 @@
             $("#Departamento").val($("#Departamento option:first").val());
         } else {
         $.getJSON('@Url.Action("GetEmpresaUsuario", "Usuario")', { id: $('#FichaIngresoID').val() }, function (data) {
-            
+
             if (data == 0)
                 $("#Empresa").val($("#Empresa option:first").val());
             else
@@ -337,5 +336,5 @@
 
     });
 
-</script>    
-    }
+    </script>
+}
