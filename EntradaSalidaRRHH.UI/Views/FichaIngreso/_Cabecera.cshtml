@@ -144,7 +144,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <span id="Edad">
+                                <span id="Edad" class="requerido">
 
                                 </span>
                             </div>
@@ -181,20 +181,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-                <div class="row  fila-seccion">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="etiqueta-seccion control-label col-md-2">Lugar de Nacimiento: <span class="requerido"> *</span></label>
-                            <div class="col-md-10">
-                                @Html.DropDownList("LugarNacimiento", (List<SelectListItem>)CatalogoDAL.ListadoCatalogosPorCodigoId("CIUDAD", (Usuario.Pais ?? 0), (cabecera.LugarNacimiento ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                </div>                
 
                 <div class="row  fila-seccion">
                     <div class="col-md-6">
