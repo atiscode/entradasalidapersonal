@@ -7,11 +7,12 @@
 
 
 $(function () {
-
-
+    var d = new Date();
+    var strDate = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate();
     $(".datepicker").datepicker({
         autoclose: true,
         format: 'dd/mm/yyyy',
+        endDate: new Date()
     });
     //$('.js-example-basic-single').select2();
     //$('input[type="checkbox"], input[type="radio"]').iCheck({
