@@ -1296,6 +1296,7 @@
     <Content Include="Views\Base\TemplateEnviosMasivosFocus.cshtml" />
     <Content Include="Views\DocumentosPendientesCobro\Index.cshtml" />
     <Content Include="Views\DocumentosPendientesCobro\_ReporteFinanciero.cshtml" />
+    <Content Include="Views\Base\TemplateFichaIngresada.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

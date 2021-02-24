@@ -23,7 +23,8 @@ using System.Web;
 
 namespace EntradaSalidaRRHH.UI.Controllers
 {
-    public partial class FichaIngresoOverload{
+    public partial class FichaIngresoOverload
+    {
         public FichaIngreso formulario { get; set; }
     }
     public partial class UsuarioOverload
@@ -163,7 +164,35 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 if (id.HasValue)
                 {
                     model = FichaIngresoDAL.ConsultarFichaIngresoDetallada(id.Value);
-                    ViewBag.UsuarioID = model.FichaIngreso.UsuarioID;
+                    ViewBag.UsuarioID = model.FichaIngreso.UsuarioID;                  
+
+
+                    string body = GetEmailTemplate("TemplateFichaIngresada");
+
+                    UsuarioInfo usuarioInfo = UsuarioDAL.ConsultarUsuario(model.FichaIngreso.UsuarioID);
+
+                    var usuario = $"{usuarioInfo.Nombres} {usuarioInfo.Apellidos}";
+                    var identificacion = $"{usuarioInfo.Identificacion}";
+
+                    body = body.Replace("@ViewBag.Usuario", usuario);
+                    body = body.Replace("@ViewBag.Identificacion", identificacion);
+
+                    var notificacion = NotificacionesDAL.CrearNotificacion(new Notificaciones
+                    {
+                        NombreTarea = "Bienvenida",
+                        DescripcionTarea = "Correo de bienvenida a los nuevos usuarios que ingresan a formar parte del corporativo.",
+                        NombreEmisor = nombreCorreoEmisor,
+                        CorreoEmisor = correoEmisor,
+                        ClaveCorreo = claveEmisor,
+                        CorreosDestinarios = "esteban.morejon@qph.com.ec",
+                        AsuntoCorreo = "AVISO INGRESO",
+                        NombreArchivoPlantillaCorreo = TemplateNotificaciones,
+                        CuerpoCorreo = body,
+                        FechaEnvioCorreo = DateTime.Now,
+                        Canal = CanalNotificaciones,
+                        Tipo = "AVISO INGRESO"
+                    });
+
                 }
                 return View("Formulario", model);
             }
