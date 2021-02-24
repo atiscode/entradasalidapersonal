@@ -159,7 +159,6 @@
             $("#CiudadResidencia").empty();
             $("#LugarNacimiento").empty();
 
-            LugarNacimiento
             $.getJSON('@Url.Action("GetCiudad")', { id: $('#Pais').val() }, function (data) {
                 $.each(data, function () {
                     $("#Ciudad").append("<option value=" + this.Value + ">" + this.Text + "</option>");

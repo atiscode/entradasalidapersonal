@@ -190,7 +190,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             try
             {
                 //Solo listar los usuarios que ya tengan fichas de ingreso
-                ListadoCatalogo.AddRange(db.ListadoIngresoUsuarioDesvinculacion().Where(s => s.TieneFichaIngreso == 1).Select(c => new SelectListItem
+                ListadoCatalogo.AddRange(db.ListadoIngresoUsuarioDesvinculacion().Where(s => s.TieneFichaIngreso == 1 && s.TieneIngreso == 0).Select(c => new SelectListItem
                 {
                     Text = c.NombresApellidos.ToString() + " - " + c.Identificacion,
                     Value = c.IDFichaIngreso.ToString()
