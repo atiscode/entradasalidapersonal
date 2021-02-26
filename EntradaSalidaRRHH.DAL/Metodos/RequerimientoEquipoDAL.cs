@@ -133,6 +133,35 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             }
         }
 
+        public static RespuestaTransaccion ActualizarRequerimientoEquipoSimple(RequerimientoEquipo objeto)
+        {
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                   
+                    // assume Entity base class have an Id property for all items
+                    var entity = db.RequerimientoEquipo.Find(objeto.IDRequerimientoEquipo);
+                    if (entity == null)
+                    {
+                        return new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeTransaccionFallida };
+                    }
+
+                    db.Entry(entity).CurrentValues.SetValues(objeto);
+                    db.SaveChanges();                  
+                   
+                    transaction.Commit();
+
+                    return new RespuestaTransaccion { Estado = true, Respuesta = Mensajes.MensajeTransaccionExitosa };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeTransaccionFallida + " ;" + ex.Message.ToString() };
+                }
+            }
+        }
+
         public static RespuestaTransaccion EliminarRequerimientoEquipo(int id)
         {
             using (var transaction = db.Database.BeginTransaction())

@@ -16,6 +16,7 @@ namespace EntradaSalidaRRHH.DAL.Modelo
         public int IDRequerimientoEquipo { get; set; }
         public System.DateTime FechaSolicitud { get; set; }
         public int UsuarioID { get; set; }
+        public Nullable<int> Tracking { get; set; }
         public bool EstadoRequerimientoEquipo { get; set; }
         public string Equipos { get; set; }
         public string IDsEquipos { get; set; }

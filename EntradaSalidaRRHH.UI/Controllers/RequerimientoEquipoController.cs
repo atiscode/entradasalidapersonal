@@ -19,6 +19,7 @@ using System.IO;
 using System.Configuration;
 using System.Drawing;
 using OfficeOpenXml.Drawing;
+using System.Net;
 
 namespace EntradaSalidaRRHH.UI.Controllers
 {
@@ -175,6 +176,44 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
             ViewBag.RequerimientoAprobado = aprobado;
             return PartialView(model);
+        }
+
+        [HttpPost]
+        public ActionResult _CambiarTracking(int idTracking, int idRequerimientoEquipo)
+        {
+            var requerimientoExistente = RequerimientoEquipoDAL.ConsultarRequerimientoEquipo(idRequerimientoEquipo);
+            Response.StatusCode = (int) HttpStatusCode.OK;
+            string mensaje = null;
+            var result = new RespuestaTransaccion();
+
+            if (requerimientoExistente == null)
+            {
+                Response.StatusCode = (int) HttpStatusCode.BadRequest;
+                mensaje = "No existe el requerimiento.";
+            }
+
+            var tracking = CatalogoDAL.ConsultarCatalogo(idTracking);
+
+            if (tracking == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                mensaje = "No existe el catálogo.";
+            }
+
+            if(Response.StatusCode == (int)HttpStatusCode.OK)
+            {
+                requerimientoExistente.Tracking = tracking.IdCatalogo;
+                result = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoSimple(requerimientoExistente);
+
+                if (!result.Estado)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                }
+
+                mensaje = result.Respuesta;
+            }
+
+            return Json(mensaje, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]

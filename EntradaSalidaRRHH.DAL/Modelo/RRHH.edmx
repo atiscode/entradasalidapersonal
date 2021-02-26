@@ -219,6 +219,7 @@
           <Property Name="Asignado" Type="bit" Nullable="false" />
           <Property Name="FechaAsignacion" Type="datetime" />
           <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Tracking" Type="int" />
         </EntityType>
         <EntityType Name="RequerimientoEquipoHerramientasAdicionales">
           <Key>
@@ -623,6 +624,7 @@
           <Property Name="Asignado" Type="Boolean" Nullable="false" />
           <Property Name="FechaAsignacion" Type="DateTime" Precision="3" />
           <Property Name="FechaEstimadaEntregaEquipos" Type="DateTime" Precision="3" />
+          <Property Name="Tracking" Type="Int32" />
         </EntityType>
         <EntityType Name="RequerimientoEquipoHerramientasAdicionales">
           <Key>
@@ -1185,6 +1187,7 @@
           <Property Type="Int32" Name="IDRequerimientoEquipo" Nullable="false" />
           <Property Type="DateTime" Name="FechaSolicitud" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="UsuarioID" Nullable="false" />
+          <Property Type="Int32" Name="Tracking" Nullable="true" />
           <Property Type="Boolean" Name="EstadoRequerimientoEquipo" Nullable="false" />
           <Property Type="String" Name="Equipos" Nullable="true" />
           <Property Type="String" Name="IDsEquipos" Nullable="true" />
@@ -1985,6 +1988,7 @@
           <EntitySetMapping Name="RequerimientoEquipo">
             <EntityTypeMapping TypeName="RRHHModel.RequerimientoEquipo">
               <MappingFragment StoreEntitySet="RequerimientoEquipo">
+                <ScalarProperty Name="Tracking" ColumnName="Tracking" />
                 <ScalarProperty Name="FechaEstimadaEntregaEquipos" ColumnName="FechaEstimadaEntregaEquipos" />
                 <ScalarProperty Name="FechaAsignacion" ColumnName="FechaAsignacion" />
                 <ScalarProperty Name="Asignado" ColumnName="Asignado" />
@@ -2439,6 +2443,7 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="RRHHModel.RequerimientoEquipoInfo">
                 <ScalarProperty Name="IDRequerimientoEquipo" ColumnName="IDRequerimientoEquipo" />
+                <ScalarProperty Name="Tracking" ColumnName="Tracking" />
                 <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
                 <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
                 <ScalarProperty Name="EstadoRequerimientoEquipo" ColumnName="EstadoRequerimientoEquipo" />

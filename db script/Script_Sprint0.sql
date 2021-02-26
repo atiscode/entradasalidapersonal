@@ -166,7 +166,8 @@ GO
 /*****************  Tarea 4  ************************
 	Proyecto: RRHH									*
 	Fecha: 23/feb/2021
-	Descripción:Bancos: Cargar los todos los bancos
+	Descripción:
+	Bancos: Cargar los todos los bancos
 *****************************************************/
 
 DECLARE @IdPadre INT
@@ -632,3 +633,129 @@ INSERT INTO adm.Catalogo VALUES (NULL,'COOP. DE A. Y C. EL BUEN SEMBRADOR LTDA.'
 INSERT INTO adm.Catalogo VALUES (NULL,'COAC SINDICATO DE CHOFERES PROFESIONALES DE YANTZA','COAC SINDICATO DE CHOFERES PROFESIONALES DE YANTZA',@IdPadre,1,1,0)
 INSERT INTO adm.Catalogo VALUES (NULL,'COOP. DE A. Y C. 5 DE MAYO DE SANTA MARTHA DE CUBA','COOP. DE A. Y C. 5 DE MAYO DE SANTA MARTHA DE CUBA',@IdPadre,1,1,0)
 INSERT INTO adm.Catalogo VALUES (NULL,'CITIBANK FSB','CITIBANK FSB',@IdPadre,1,1,0)
+GO
+/*****************************************************/
+/***********SPRINT 1: ASIGNACION EQUIPOS**************/
+/*****************************************************/
+
+/*****************  Tarea 47  ************************
+	Proyecto: RRHH									
+	Fecha: 25/feb/2021
+	Descripción: Es necesario generar estados que 
+		permitan a RRHH ver el estado en el cual se 
+		encuentra la compra del equipo, este estado
+		debe irlo ingresando Compras (Liz). TRACKING
+*****************************************************/
+ALTER TABLE RequerimientoEquipo ADD Tracking INT NULL
+
+DECLARE @CatalogoPadre VARCHAR(20) = 'TRACK-01'
+DECLARE @IdCatalogoPadre INT
+
+INSERT INTO adm.Catalogo VALUES(@CatalogoPadre, 'TRACKING REQUERIMIENTO','NOMBRE DEL ESTADO DE TRACKING DEL REQUERIMIENTO DE EQUIPOS',NULL,1,1,0)
+
+SELECT @IdCatalogoPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @CatalogoPadre
+
+
+DECLARE @NombreCatalogo1 VARCHAR(20) = 'SOLICITADO'
+INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo1, @NombreCatalogo1, @IdCatalogoPadre, 1,1,0)
+
+DECLARE @NombreCatalogo2 VARCHAR(20) = 'COMPRADO'
+INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo2, @NombreCatalogo2, @IdCatalogoPadre, 1,1,0)
+GO
+ALTER VIEW [dbo].[vwRequerimientoEquipo] AS  
+SELECT RE.[IDRequerimientoEquipo]  
+      ,RE.[FechaSolicitud]  
+      ,RE.[UsuarioID]  
+	  ,RE.Tracking
+   ,RE.UsuarioSolicitanteID  
+   --,'' AS NombresSolicitante  
+   ,([adm].NombresCompletosUsuario(RE.UsuarioSolicitanteID)) as NombresSolicitante  
+  
+  
+   ,RE.[Estado] AS EstadoRequerimientoEquipo  
+   ,(CASE WHEN RE.[Estado] = 0 THEN 'ELIMINADO' ELSE 'ACTIVO' END) AS TextoEstadoRequerimientoEquipo  
+        
+      ,(dbo.[ObtenerEquiposByRequerimientoEquipo] (RE.[IDRequerimientoEquipo])) as Equipos     
+   ,(dbo.[ObtenerEquiposIDsByRequerimientoEquipo] (RE.[IDRequerimientoEquipo])) as IDsEquipos  
+     ,(dbo.[ObtenerProveedorEquiposByRequerimientoEquipo] (RE.[IDRequerimientoEquipo])) as ProveedorEquipos     
+   ,(dbo.[ObtenerCostoEquiposByRequerimientoEquipo] (RE.[IDRequerimientoEquipo])) as CostoEquipos  
+  
+      ,([dbo].[ObtenerHerramientasAdicionalesByRequerimientoEquipo] (RE.[IDRequerimientoEquipo])) as HerramientasAdicionales     
+   ,([dbo].[ObtenerHerramientasAdicionalesIDsByRequerimientoEquipo] (RE.[IDRequerimientoEquipo])) as IDsHerramientasAdicionales  
+  
+  
+   --SUGERENCIA DE EQUIPOS  
+      ,([dbo].[ObtenerEquipoSugeridosByCargo] (U.[Cargo])) as EquiposSugeridosCargoUsuario    
+   ,([dbo].[ObtenerEquipoSugeridosIDsByCargo] (U.[Cargo])) as IDsEquiposSugeridosCargoUsuario   
+  
+  
+   ,RE.FechaEstimadaEntregaEquipos  
+  
+   ,RE.Asignado  
+   ,RE.FechaAsignacion  
+    ,I.CredencialAcceso  
+   ,(CASE WHEN RE.Asignado = 1 THEN 'ASIGNADO' ELSE 'PENDIENTE' END) AS TextoAsignadoRequerimientoEquipo  
+   ,RE.Aprobado  
+   ,RE.FechaAprobacion  
+   ,(CASE WHEN RE.Aprobado = 1 THEN 'APROBADO'   
+       WHEN RE.Aprobado = 0 THEN 'PENDIENTE'  
+    ELSE '' END) AS TextoAprobadoRequerimientoEquipo  
+   --USUARIO  
+      ,U.[Identificacion]  
+      ,U.[Nombres]  
+      ,U.[Apellidos]  
+      ,U.[NombresApellidos]  
+      ,U.[Username]  
+      ,U.[Area]  
+      ,U.[TextoCatalogoArea]  
+      ,U.[Departamento]  
+      ,U.[TextoCatalogoDepartamento]  
+      ,U.[Cargo]  
+      ,U.[TextoCatalogoCargo]  
+      ,U.[IdEmpresa]  
+      ,U.[NombreEmpresa]  
+      ,U.[Pais]  
+      ,U.[TextoCatalogoPais]  
+      ,U.[Ciudad]  
+      ,U.[TextoCatalogoCiudad]  
+      ,U.[Direccion]  
+      ,U.[Mail]  
+   ,U.[MailCorporativo]  
+     
+      ,U.[Clave]  
+      ,U.[Telefono]  
+      ,U.[Celular]  
+      ,U.[IdRol]  
+      ,U.[NombreRol]  
+      ,U.[DescripcionRol]  
+      ,U.[EstadoRol]  
+      ,U.[TextoEstadoRol]  
+      ,U.[EstadoUsuario]  
+      ,U.[TextoEstadoUsuario]  
+     ,U.[Activo]  
+  --FICHA INGRESO  
+  ,FI.[FechaIngreso] --GETDATE() AS FechaIngreso-  
+  --Ingreso  
+  ,I.[JefeDirecto]  
+  ,[adm].[NombreCatalogo](I.JefeDirecto) as TextoCatalogoJefeDirecto  
+  ,I.[PersonaReemplazante]  
+  ,I.[TipoIngreso]  
+  ,[adm].[NombreCatalogo](I.[TipoIngreso]) as TextoCatalogoTipoIngreso  
+      ,I.[CorreoAsignado]  
+      ,I.[Sueldo]  
+   ,I.[TipoContrato]  
+   ,[adm].[NombreCatalogo](I.[TipoContrato]) as TextoCatalogoTipoContrato  
+   ,I.[GrupoCorreo]  
+   ,[adm].[NombreCatalogo](I.GrupoCorreo) as TextoCatalogoGrupoCorreo  
+  
+   ,CAST((CASE WHEN CODE.IDCodificacionEquipo IS NOT NULL THEN 1 ELSE 0 END) AS BIT) AS TieneCodificacion  
+  
+  FROM [dbo].[RequerimientoEquipo] RE  
+   LEFT JOIN [adm].vwUsuario U ON U.IdUsuario = RE.UsuarioID  
+   --LEFT JOIN [dbo].vwFichaIngreso FI ON U.IdUsuario = RE.UsuarioID  
+  LEFT JOIN [dbo].vwFichaIngreso FI ON FI.UsuarioID = RE.UsuarioID  
+   LEFT JOIN [dbo].Ingreso I ON I.FichaIngresoID = FI.IDFichaIngreso  
+  -- PARA VERIFICAR CODIFICACIONES  
+  LEFT  JOIN dbo.CodificacionEquipo CODE ON CODE.RequerimientoEquipoID = RE.IDRequerimientoEquipo  
+   where  RE.[Estado] = 1  
+ GO

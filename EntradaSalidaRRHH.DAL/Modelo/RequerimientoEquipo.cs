@@ -25,5 +25,6 @@ namespace EntradaSalidaRRHH.DAL.Modelo
         public bool Asignado { get; set; }
         public Nullable<System.DateTime> FechaAsignacion { get; set; }
         public Nullable<System.DateTime> FechaEstimadaEntregaEquipos { get; set; }
+        public Nullable<int> Tracking { get; set; }
     }
 }

@@ -44,14 +44,14 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 //SI LA RUTA EN DISCO NO EXISTE LOS ARCHIVOS SE ALMACENAN EN LA CARPETA MISMO DEL PROYECTO
                 string rutaBase = basePath + "\\RRHH\\Documentos\\AcumulacionDecimos";
 
-                nombreArchivo += ".pdf";
-                string pathServidor = Path.Combine(rutaBase, nombreArchivo);
+                nombreArchivo += ".docx";
+                //string pathServidor = Path.Combine(rutaBase, nombreArchivo);
 
                 //SI LA RUTA EN DISCO NO EXISTE LOS ARCHIVOS SE ALMACENAN EN LA CARPETA MISMO DEL PROYECTO
                 string ruta = AppDomain.CurrentDomain.BaseDirectory + "Documentos/DocumentosIngreso/AcumulacionDecimos/" + nombreArchivo;
 
                 // En caso de que no exista el directorio, crearlo.
-                bool directorio = Directory.Exists(pathServidor);
+                //bool directorio = Directory.Exists(pathServidor);
 
                 string rutaBaseDocumentosIngreso = AppDomain.CurrentDomain.BaseDirectory + "Documentos/DocumentosIngreso/";
 
@@ -60,7 +60,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 FileInfo[] archivos = directorioDocumentosIngreso.GetFiles("*.*");
                 foreach (FileInfo file in archivos)
                 {
-                    pathServidor = pathServidor + ";" + file.FullName;                    
+                    ruta = ruta + ";" + file.FullName;                    
                 }
 
                 bool existeUsuario = UsuarioDAL.VerificarCorreoUsuarioExistente(formulario.Mail);
@@ -104,7 +104,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                         AsuntoCorreo = "BIENVENIDA",
                         NombreArchivoPlantillaCorreo = TemplateNotificaciones,
                         CuerpoCorreo = body,
-                        AdjuntosCorreo = pathServidor,
+                        AdjuntosCorreo = ruta,
                         FechaEnvioCorreo = DateTime.Now,
                         Empresa = catalogo.NombreCatalogo,
                         Canal = CanalNotificaciones,

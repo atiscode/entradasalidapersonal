@@ -11,7 +11,7 @@
 
 @section ViewSpecificJavascript {
     <script>
-        
+
         var urlAccionCrear = '@Url.Action("_SeleccionarUsuario")';
         var idGrid = "grid-RequerimientoEquipo";
 
@@ -20,11 +20,50 @@
         var urlAccionReporteExcel = '@Url.Action("DescargarReporteFormatoExcel")';
         var urlAccionReportePDF = '@Url.Action("DescargarReporteFormatoPDF")';
         var urlAccionReporteCSV = '@Url.Action("DescargarReporteFormatoCSV")';
+        var trackingSeteado = 0;
 
-        $(document).ready(function () {
-            
-            recargarGridByID(idGrid);
+        $(document).ready(function () {            
+            recargarGridByID(idGrid);            
         })
+
+        
+
+        function PreCambioTracking(dropdown) {
+            $('#' + dropdown.id).data('anteriorTracking', $('#' + dropdown.id).val());          
+        }
+
+        function CambiarTracking(dropdown) { 
+            var idRequerimientoEquipo = dropdown.id.replace('Tracking', '');
+            var idTracking = $('#' + dropdown.id).find(":selected").val();
+            var url = '@Url.Action("_CambiarTracking", "RequerimientoEquipo")?idTracking=' + idTracking + '&idRequerimientoEquipo=' + idRequerimientoEquipo;
+            var trackingSeleccionado = $('#' + dropdown.id)[0].selectedIndex;
+
+            $("#preloader").show();
+            if (trackingSeleccionado !== 0) {                
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    error: function (error) {
+                        $('#' + dropdown.id)[0].selectedIndex = 0;
+                        $("#preloader").hide();
+                        toastr.error(error.statusText);
+                    },
+                    success: function (result) {
+                        $("#preloader").hide();
+                        toastr.success("Tracking Actualizado!")
+                    },
+                    async: true,
+                    processData: false
+                });
+            } else {
+                var anteriorTracking = $('#' + dropdown.id).data('anteriorTracking');
+                $('#' + dropdown.id).val(anteriorTracking);                
+                $("#preloader").hide();
+                toastr.error("No se puede dejar vacío el Tracking");
+            }
+        }
 
         function CrearRegistro() {
             //location.href = urlAccionCrear;
@@ -55,12 +94,12 @@
         $(document).keyup(callBackBusqueda);
 
         function callBackBusqueda(e) {
-            
+
             busquedaGrid(idGrid);
         }
 
         $('#contenido-modal').on('hidden.bs.modal', function () {
-            
+
             RecargarDatosGrid()
         })
     </script>

@@ -76,7 +76,16 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="row  fila-seccion reemplazo" style="display: none">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="etiqueta-seccion control-label col-md-2">Reemplaza a: </label>
+                                        <div class="col-md-10">
+                                            @Html.Editor("PersonaReemplazante", new { htmlAttributes = new { @class = "form-control", maxlength = 200, @Value = Model.PersonaReemplazante } })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row  fila-seccion">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -228,7 +237,23 @@
     $(document).ready(function () {
         $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
         $('.js-example-basic-single').select2();
+        VerificarReemplazo();
     });
+
+        $("#TipoIngreso").on("change", VerificarReemplazo);
+
+        function VerificarReemplazo() { 
+            
+            var tipoContrato = $("#TipoIngreso").find("option:selected").text();            
+
+            if (tipoContrato === "REEMPLAZO") {
+                $(".reemplazo").show();
+            } else {
+                $(".reemplazo").hide();
+                $("#PersonaReemplazante").val("");
+            }            
+        }
+
 
     $("#guardar").click(function () {
 
