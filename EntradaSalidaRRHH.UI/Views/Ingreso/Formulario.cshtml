@@ -244,9 +244,9 @@
 
         function VerificarReemplazo() { 
             
-            var tipoContrato = $("#TipoIngreso").find("option:selected").text();            
+            var tipoIngreso = $("#TipoIngreso").find("option:selected").text();            
 
-            if (tipoContrato === "REEMPLAZO") {
+            if (tipoIngreso === "REEMPLAZO") {
                 $(".reemplazo").show();
             } else {
                 $(".reemplazo").hide();

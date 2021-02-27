@@ -759,3 +759,12 @@ SELECT RE.[IDRequerimientoEquipo]
   LEFT  JOIN dbo.CodificacionEquipo CODE ON CODE.RequerimientoEquipoID = RE.IDRequerimientoEquipo  
    where  RE.[Estado] = 1  
  GO
+/*****************  Tarea 51  ************************
+	Proyecto: RRHH									
+	Fecha: 25/feb/2021
+	Descripción: Agregar en campo tipo de contrato
+	"Servicios Prestados"
+*****************************************************/
+ DECLARE @IdPadre INT
+SELECT @IdPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = 'TIPO-CONTR-01'
+INSERT INTO adm.Catalogo VALUES (NULL, 'SERVICIOS PRESTADOS','SERVICIOS PRESTADOS', @IdPadre,1,1,0)
