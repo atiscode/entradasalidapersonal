@@ -7,6 +7,7 @@ namespace EntradaSalidaRRHH.DAL.Modelo
 {
     public class IngresoReporteBasico
     {
+        public string NombresApellidosUsuario { get; set; }
         public string TextoCatalogoTipoIngreso { get; set; }
         public string TextoCatalogoEmpresa { get; set; }
         public string TextoCatalogoArea { get; set; }

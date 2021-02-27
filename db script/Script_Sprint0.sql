@@ -768,3 +768,4 @@ SELECT RE.[IDRequerimientoEquipo]
  DECLARE @IdPadre INT
 SELECT @IdPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = 'TIPO-CONTR-01'
 INSERT INTO adm.Catalogo VALUES (NULL, 'SERVICIOS PRESTADOS','SERVICIOS PRESTADOS', @IdPadre,1,1,0)
+GO

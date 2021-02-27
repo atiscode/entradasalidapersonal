@@ -193,9 +193,7 @@
           <Property Name="Empresa" Type="int" />
           <Property Name="Area" Type="int" />
           <Property Name="Departamento" Type="int" />
-          <Property Name="Cargo" Type="int" />
           <Property Name="GrupoCorreo" Type="int" />
-          <Property Name="JefeDirecto" Type="int" />
           <Property Name="TipoContrato" Type="int" />
           <Property Name="PersonaReemplazante" Type="varchar" MaxLength="200" />
           <Property Name="CorreoAsignado" Type="nvarchar" MaxLength="200" />
@@ -203,6 +201,8 @@
           <Property Name="CredencialAcceso" Type="varchar" MaxLength="200" />
           <Property Name="FichaIngresoID" Type="int" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="JefeDirecto" Type="int" />
+          <Property Name="Cargo" Type="int" />
         </EntityType>
         <EntityType Name="RequerimientoEquipo">
           <Key>

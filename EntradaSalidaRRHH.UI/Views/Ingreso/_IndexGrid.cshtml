@@ -6,6 +6,7 @@
         .Grid(Model)
         .Build(columns =>
         {
+            columns.Add(model => model.NombresApellidosUsuario).Titled("Nombre").RawNamed("TextoCatalogoNombre").AppendCss("celda-grande");
             columns.Add(model => model.TextoCatalogoTipoIngreso).Titled("Tipo de Ingreso").RawNamed("TextoCatalogoTipoIngreso").AppendCss("celda-grande");
             columns.Add(model => model.TextoCatalogoEmpresa).Titled("Empresa").RawNamed("TextoCatalogoEmpresa").AppendCss("celda-grande");
             columns.Add(model => model.TextoCatalogoArea).Titled("Área").RawNamed("TextoCatalogoArea").AppendCss("celda-grande");

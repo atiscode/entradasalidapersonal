@@ -176,6 +176,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             {
                 listado = ListadoIngreso().Select(s => new IngresoReporteBasico
                 {
+                    NombresApellidosUsuario = s.NombresApellidosUsuario,
                     TextoCatalogoTipoIngreso = s.TextoCatalogoTipoIngreso,
                     TextoCatalogoEmpresa = s.TextoCatalogoEmpresa,
                     TextoCatalogoArea = s.TextoCatalogoArea,

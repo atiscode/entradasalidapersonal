@@ -25,7 +25,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
     [Autenticado]
     public class IngresoController : BaseController
     {
-        private List<string> columnasReportesBasicos = new List<string> { "TIPO DE INGRESO", "EMPRESA", "ÁREA", "DEPARTAMENTO", "PERSONA A LA QUE REEMPLAZA" };
+        private List<string> columnasReportesBasicos = new List<string> { "NOMBRE", "TIPO DE INGRESO", "EMPRESA", "ÁREA", "DEPARTAMENTO", "PERSONA A LA QUE REEMPLAZA" };
 
         // GET: Ingreso
         public ActionResult Index()
