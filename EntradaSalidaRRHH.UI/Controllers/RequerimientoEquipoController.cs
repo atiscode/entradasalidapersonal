@@ -140,7 +140,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 var ingreso = IngresoDAL.ListadoIngreso().Where(s => s.UsuarioID == usuarioID).FirstOrDefault();
                 model.CredencialAcceso = ingreso != null ? ingreso.CredencialAcceso : string.Empty;
 
-                ViewBag.EquiposSugeridos  = RequerimientoEquipoDAL.ObtenerEquipoSugeridosByCargo(informacionUsuario.Cargo ?? 0);
+                ViewBag.EquiposSugeridos = RequerimientoEquipoDAL.ObtenerEquipoSugeridosByCargo(informacionUsuario.Cargo ?? 0);
 
                 ViewBag.Asignado = false;
 
@@ -182,14 +182,14 @@ namespace EntradaSalidaRRHH.UI.Controllers
         public ActionResult _CambiarTracking(int idTracking, int idRequerimientoEquipo)
         {
             var requerimientoExistente = RequerimientoEquipoDAL.ConsultarRequerimientoEquipo(idRequerimientoEquipo);
-            Response.StatusCode = (int) HttpStatusCode.OK;
-            string mensaje = null;
+            Response.StatusCode = (int)HttpStatusCode.OK;
+
             var result = new RespuestaTransaccion();
 
             if (requerimientoExistente == null)
             {
-                Response.StatusCode = (int) HttpStatusCode.BadRequest;
-                mensaje = "No existe el requerimiento.";
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                result.Respuesta = "No existe el requerimiento.";
             }
 
             var tracking = CatalogoDAL.ConsultarCatalogo(idTracking);
@@ -197,23 +197,44 @@ namespace EntradaSalidaRRHH.UI.Controllers
             if (tracking == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                mensaje = "No existe el catálogo.";
+                result.Respuesta = "No existe el catálogo.";
             }
 
-            if(Response.StatusCode == (int)HttpStatusCode.OK)
+            if (Response.StatusCode == (int)HttpStatusCode.OK)
             {
                 requerimientoExistente.Tracking = tracking.IdCatalogo;
                 result = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoSimple(requerimientoExistente);
 
-                if (!result.Estado)
-                {
-                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                }
+                var usuario = UsuarioDAL.ConsultarUsuario(requerimientoExistente.UsuarioSolicitanteID);
+                
+                string body = GetEmailTemplate("TemplateCambioTracking");
 
-                mensaje = result.Respuesta;
+                string[] roles = { "COORDINADOR RRHH", "COORDINADOR HELP DESK" };
+
+                var usuariosDestinatarios = UsuarioDAL.ObtenerMailCorporativosPorRoles(roles);
+
+                body = body.Replace("@ViewBag.Usuario", usuario.NombresApellidos);
+                body = body.Replace("@ViewBag.Tracking", tracking.NombreCatalogo);
+
+                NotificacionesDAL.CrearNotificacion(new Notificaciones
+                {
+                    NombreTarea = "Tracking Requerimiento",
+                    DescripcionTarea = "Notificación de cambio de Tracking para los requerimientos de equipos.",
+                    NombreEmisor = nombreCorreoEmisor,
+                    CorreoEmisor = correoEmisor,
+                    ClaveCorreo = claveEmisor,
+                    CorreosDestinarios = string.Join(";",usuariosDestinatarios),
+                    AsuntoCorreo = "TRACKING REQUERIMIENTO",
+                    NombreArchivoPlantillaCorreo = TemplateNotificaciones,
+                    CuerpoCorreo = body,
+                    FechaEnvioCorreo = DateTime.Now,
+                    Canal = CanalNotificaciones,
+                    Tipo = "BIENVENIDA"
+                });
+
             }
 
-            return Json(mensaje, JsonRequestBehavior.DenyGet);
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]

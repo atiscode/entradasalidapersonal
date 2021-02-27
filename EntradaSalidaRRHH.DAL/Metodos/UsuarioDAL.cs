@@ -214,6 +214,26 @@ namespace EntradaSalidaRRHH.DAL.Metodos
                 return new List<UsuarioInfo>();
             }
         }
+
+        public static List<string> ObtenerMailCorporativosPorRoles(string [] rolesNombres)
+        {
+            try
+            {
+                IQueryable<Usuario> usuarios = db.Usuario;
+                IQueryable<Rol> roles = db.Rol.Where(t => rolesNombres.Contains(t.Nombre));
+
+                var result = from u in usuarios
+                             join r in roles on u.IdRol equals r.IdRol
+                             select u.MailCorporativo;
+
+                return result.ToList(); ;
+            }
+            catch (Exception e)
+            {
+                return new List<string>();
+            }
+        }
+
         public static UsuarioInfo ConsultarUsuario(int id)
         {
             try

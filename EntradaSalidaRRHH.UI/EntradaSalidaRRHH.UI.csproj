@@ -1297,6 +1297,7 @@
     <Content Include="Views\DocumentosPendientesCobro\Index.cshtml" />
     <Content Include="Views\DocumentosPendientesCobro\_ReporteFinanciero.cshtml" />
     <Content Include="Views\Base\TemplateFichaIngresada.cshtml" />
+    <Content Include="Views\Base\TemplateCambioTracking.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
