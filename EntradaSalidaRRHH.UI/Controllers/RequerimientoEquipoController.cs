@@ -223,6 +223,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                     NombreEmisor = nombreCorreoEmisor,
                     CorreoEmisor = correoEmisor,
                     ClaveCorreo = claveEmisor,
+                    AdjuntosCorreo = "",
                     CorreosDestinarios = string.Join(";",usuariosDestinatarios),
                     AsuntoCorreo = "TRACKING REQUERIMIENTO",
                     NombreArchivoPlantillaCorreo = TemplateNotificaciones,

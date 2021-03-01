@@ -23,6 +23,7 @@
                                 <th data-override="Factura">Factura</th>
                                 <th data-override="EquipoID">Equipo</th>
                                 <th data-override="SerieEquipo">Serie Equipo</th>
+                                <th data-override="Codigo">Código</th>
                                 <th data-override="FechaCompra">Fecha de Compra</th>
                                 <th data-override="Observaciones">Observaciones</th>
                                 <th data-override="Adjunto">Adjunto</th>
@@ -56,9 +57,9 @@
                                         <input title="@item.SerieEquipo" type="text" class="form-control" value="@item.SerieEquipo" name="SerieEquipo[]" maxlength="50" />
                                     </td>
 
-                                    @*<td>
-                                        <input type="text" class="form-control" value="@item.FechaCompra" name="FechaCompra[]" />
-                                    </td>*@
+                                    <td>
+                                        <input title="@item.Codigo" type="text" class="form-control" value="@item.Codigo" name="SerieEquipo[]" maxlength="50" required/>
+                                    </td>
                                     <td>
                                         <input title="@item.FechaCompra.ToString("dd/MM/yyyy")" type="text" name="FechaCompra[]" class="form-control pull-right datepicker campo-requerido" value="@(item.FechaCompra.ToString("dd/MM/yyyy"))">
                                     </td>
