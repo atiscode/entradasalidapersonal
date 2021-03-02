@@ -769,3 +769,46 @@ SELECT RE.[IDRequerimientoEquipo]
 SELECT @IdPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = 'TIPO-CONTR-01'
 INSERT INTO adm.Catalogo VALUES (NULL, 'SERVICIOS PRESTADOS','SERVICIOS PRESTADOS', @IdPadre,1,1,0)
 GO
+/*****************  Tarea 53  ************************
+	Proyecto: RRHH									
+	Fecha: 02/mar/2021
+	Descripción: Agregar permisos y catalogos en 
+	base de datos para nuevo modulo, crear SP
+*****************************************************/
+DECLARE @NombreMenu VARCHAR(50) = 'NUEVO'
+DECLARE @MenuPadre INT 
+DECLARE @OrdenMenu INT
+
+SELECT @MenuPadre = IdMenu FROM adm.Menu WHERE NombreMenu = 'Gestión'
+SELECT @OrdenMenu = MAX(OrdenMenu)+1 FROM adm.Menu
+
+INSERT INTO adm.Menu VALUES ('Modificación de Equipos', 'ModificacionEquipo/Index', 1, @MenuPadre, @OrdenMenu)
+
+GO
+
+DECLARE @CodigoCatalogoPadre VARCHAR(50) = 'ACCIONES-SIST-01'
+DECLARE @CodigoNuevoCatalogo VARCHAR(50) = 'ACCIONES-SIST-MOD-EQUIPOS'
+DECLARE @Rol VARCHAR(50) = 'ADMINISTRADOR DEL SISTEMA'
+DECLARE @Perfil VARCHAR(50) = 'ADMINISTRADOR'
+DECLARE @Menu VARCHAR(50)= 'Modificación de Equipos'
+DECLARE @IdRol INT, @IdPerfil INT, @IdMenu INT,@IdPadre INT
+DECLARE @Catalogos TABLE (ID INT)
+
+SELECT @IdPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @CodigoCatalogoPadre
+
+INSERT INTO @Catalogos
+SELECT IdCatalogo FROM adm.Catalogo 
+WHERE IdCatalogoPadre = @IdPadre AND 
+CodigoCatalogo IN ('ACCIONES-SIST-BUSQUEDA','ACCIONES-SIST-ACTUALIZAR','ACCIONES-SIST-DESCARGAR','ACCIONES-SIST-REPORTES-BASICOS')
+
+
+SELECT @IdRol = IdRol FROM adm.Rol WHERE Nombre = @Rol
+SELECT @IdPerfil = IdPerfil FROM adm.Perfil WHERE NombrePerfil = @Perfil
+SELECT @IdMenu = IdMenu FROM adm.Menu WHERE NombreMenu = @Menu
+
+INSERT INTO adm.RolMenuPermiso 
+SELECT @IdRol, @IdPerfil, @IdMenu, Id, 1, 1, GETDATE(), GETDATE(), 1 
+FROM @Catalogos
+
+INSERT INTO adm.PerfilMenu
+VALUES (@IdPerfil, @IdMenu)

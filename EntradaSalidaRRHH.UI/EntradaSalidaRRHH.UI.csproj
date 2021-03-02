@@ -1322,6 +1322,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManejoPermisosController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\ModificacionEquipoController.cs" />
     <Compile Include="Controllers\NotificacionController.cs" />
     <Compile Include="Controllers\ParametrosController.cs" />
     <Compile Include="Controllers\PerfilesController.cs" />
@@ -1472,6 +1473,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ModificacionEquipo\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntradaSalidaRRHH.DAL\EntradaSalidaRRHH.DAL.csproj">
