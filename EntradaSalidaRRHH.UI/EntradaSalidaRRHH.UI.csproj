@@ -1298,6 +1298,12 @@
     <Content Include="Views\DocumentosPendientesCobro\_ReporteFinanciero.cshtml" />
     <Content Include="Views\Base\TemplateFichaIngresada.cshtml" />
     <Content Include="Views\Base\TemplateCambioTracking.cshtml" />
+    <Content Include="Views\ModificacionEquipo\Index.cshtml" />
+    <Content Include="Views\ModificacionEquipo\Formulario.cshtml" />
+    <Content Include="Views\ModificacionEquipo\_IndexGrid.cshtml" />
+    <Content Include="Views\ModificacionEquipo\_Cabecera.cshtml" />
+    <Content Include="Views\ModificacionEquipo\_Detalles.cshtml" />
+    <Content Include="Views\ModificacionEquipo\_InformacionEquipo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1473,7 +1479,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ModificacionEquipo\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntradaSalidaRRHH.DAL\EntradaSalidaRRHH.DAL.csproj">

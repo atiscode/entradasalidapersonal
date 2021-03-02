@@ -1,0 +1,31 @@
+﻿@model IEnumerable<IngresosInfo>
+@{
+    var acciones = (List<string>)ViewBag.AccionesUsuario;
+}
+@(Html
+            .Grid(Model)
+            .Build(columns =>
+            {
+                columns.Add(model => model.NombresApellidosUsuario).Titled("Usuario").RawNamed("NombresApellidos").AppendCss("celda-grande");
+                columns.Add(model => model.TextoCatalogoEmpresa).Titled("Empresa").RawNamed("Empresa").AppendCss("celda-grande");
+                columns.Add(model => model.TextoCatalogoCargo).Titled("Cargo").RawNamed("Cargo").AppendCss("celda-grande");
+                columns.Add(model => model.TextoCatalogoDepartamento).Titled("Departamento").RawNamed("Departamento").AppendCss("celda-grande");
+
+                columns.Add(model =>
+                "<button style='background-color:#00AD8E;border-color: #00AD8E;' class='btn btn-success  " + ControlPermisos.GestionBontonesGrid(acciones, "ACCIONES-SIST-ACTUALIZAR") + " ' onclick='location.href=\"" + @Url.Action("GestionarAsignacion", "ModificacionEquipo", new { id = model.UsuarioID }) + "\"' id='editar' data-id=\"" + model.UsuarioID + "\"><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>"
+                ).AppendCss("celda-pequenia").Encoded(false);
+
+            })
+            .RowAttributed(model => new { data_id = model.UsuarioID })
+            .Empty(Mensajes.MensajeNoDataListado)
+            .Id("grid-ModificacionEquipo")
+            .UsingProcessingMode(GridProcessingMode.Manual)
+            .Pageable(pager =>
+            {
+                pager.TotalRows = ViewBag.TotalPaginas;
+                pager.RowsPerPage = 10;
+            })
+            .Filterable()
+            .Sortable())
+
+
