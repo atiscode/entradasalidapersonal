@@ -17,13 +17,14 @@
                 <div class="col-md-12">
                     <table class="table table-responsive" id="tbl-Detalles">
                         <thead>
-                            <tr>                             
+                            <tr>
                                 <th data-override="IDRequerimientoEquipo">IDRequerimientoEquipo</th>
                                 <th data-override="IDEquipo" hidden>IdEquipo</th>
                                 <th data-override="Equipo">Equipo</th>
                                 <th data-override="TipoEquipo">Tipo de Equipo</th>
                                 <th data-override="FechaModificacion">Fecha de Modificación</th>
                                 <th data-override="Estado">Estado</th>
+                                <th data-override="Observaciones">Observaciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,6 +54,10 @@
                                         </div>
                                     </div>
                                 </td>
+                                <td>
+                                    <input id="Observaciones_@item.IDRequerimientoEquipoUsuario" title="@item.Observaciones" type="text" class="form-control" value="@item.Observaciones" name="TipoEquipo[]" maxlength="50" required />
+                                </td>
+
                             </tr>
                                     contador++;
                             }

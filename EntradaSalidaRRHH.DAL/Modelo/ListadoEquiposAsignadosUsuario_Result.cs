@@ -22,5 +22,6 @@ namespace EntradaSalidaRRHH.DAL.Modelo
         public Nullable<int> Estado { get; set; }
         public string NombreCatalogo { get; set; }
         public Nullable<System.DateTime> FechaModificacion { get; set; }
+        public string Observaciones { get; set; }
     }
 }

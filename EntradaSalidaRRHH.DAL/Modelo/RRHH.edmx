@@ -230,6 +230,7 @@
           <Property Name="RequerimientoEquipoID" Type="int" Nullable="false" />
           <Property Name="Estado" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
+          <Property Name="Observaciones" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="RequerimientoEquipoUsuario">
           <Key>
@@ -240,6 +241,7 @@
           <Property Name="RequerimientoEquipoID" Type="int" Nullable="false" />
           <Property Name="Estado" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
+          <Property Name="Observaciones" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="SugerenciaEquiposCargo">
           <Key>
@@ -642,6 +644,7 @@
           <Property Name="RequerimientoEquipoID" Type="Int32" Nullable="false" />
           <Property Name="Estado" Type="Int32" />
           <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="RequerimientoEquipoUsuario">
           <Key>
@@ -652,6 +655,7 @@
           <Property Name="RequerimientoEquipoID" Type="Int32" Nullable="false" />
           <Property Name="Estado" Type="Int32" />
           <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SugerenciaEquiposCargo">
           <Key>
@@ -1852,6 +1856,7 @@
           <Property Type="Int32" Name="Estado" Nullable="true" />
           <Property Type="String" Name="NombreCatalogo" Nullable="true" MaxLength="150" />
           <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2031,6 +2036,7 @@
           <EntitySetMapping Name="RequerimientoEquipoHerramientasAdicionales">
             <EntityTypeMapping TypeName="RRHHModel.RequerimientoEquipoHerramientasAdicionales">
               <MappingFragment StoreEntitySet="RequerimientoEquipoHerramientasAdicionales">
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
                 <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="IDRequerimientoEquipoHerramientasAdicionales" ColumnName="IDRequerimientoEquipoHerramientasAdicionales" />
@@ -2042,6 +2048,7 @@
           <EntitySetMapping Name="RequerimientoEquipoUsuario">
             <EntityTypeMapping TypeName="RRHHModel.RequerimientoEquipoUsuario">
               <MappingFragment StoreEntitySet="RequerimientoEquipoUsuario">
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
                 <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="IDRequerimientoEquipoUsuario" ColumnName="IDRequerimientoEquipoUsuario" />
@@ -3255,6 +3262,7 @@
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="NombreCatalogo" ColumnName="NombreCatalogo" />
                 <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

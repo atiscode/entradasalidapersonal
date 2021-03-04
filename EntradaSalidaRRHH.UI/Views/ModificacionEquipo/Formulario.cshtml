@@ -115,8 +115,9 @@
             var idEquipo = $('#IDEquipo_' + idRequerimientoEquipo).val();
             var idEstado = $('#' + dropdown.id).find(":selected").val();
             var tipoEquipo = $('#' + dropdown.id).attr("tipo");
+            var observaciones = $('#Observaciones_' + idRequerimientoEquipo).val();
             var idUsuario = $("#IdUsuario").val();
-            var url = '@Url.Action("_CambiarEstado", "ModificacionEquipo")?idUsuario=' + idUsuario + '&idEstado=' + idEstado + '&idRequerimientoEquipo=' + idRequerimientoEquipo + "&tipoEquipo=" + tipoEquipo + "&idEquipo=" + idEquipo;
+            var url = '@Url.Action("_CambiarEstado", "ModificacionEquipo")?idUsuario=' + idUsuario + '&idEstado=' + idEstado + '&idRequerimientoEquipo=' + idRequerimientoEquipo + "&tipoEquipo=" + tipoEquipo + "&idEquipo=" + idEquipo + "&observaciones=" + observaciones;
             var tipoSeleccionado = $('#' + dropdown.id)[0].selectedIndex;
 
             $("#preloader").show();

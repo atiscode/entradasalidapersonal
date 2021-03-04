@@ -107,17 +107,17 @@ namespace EntradaSalidaRRHH.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult _CambiarEstado(int idUsuario, int idEstado, int idRequerimientoEquipo, string tipoEquipo, int idEquipo)
+        public ActionResult _CambiarEstado(int idUsuario, int idEstado, int idRequerimientoEquipo, string tipoEquipo, int idEquipo, string observaciones)
         {
             var respuesta = new RespuestaTransaccion();
             switch (tipoEquipo)
             {
                 case TipoEquipoEnum.Equipo:
-                    respuesta = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoUsuario(idRequerimientoEquipo, idEstado);
+                    respuesta = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoUsuario(idRequerimientoEquipo, idEstado, observaciones);
                     break;
 
                 case TipoEquipoEnum.HerramientaAdicional:
-                    respuesta = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoHerramientaAdicional(idRequerimientoEquipo, idEstado);
+                    respuesta = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoHerramientaAdicional(idRequerimientoEquipo, idEstado, observaciones);
                     break;
             }           
 
