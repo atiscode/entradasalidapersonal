@@ -1,15 +1,8 @@
-﻿@model CodificacionEquipoCompleta
+﻿@model EquiposUsuario
 
 @{
     ViewBag.Title = "Formulario";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    CodificacionEquipoInfo cabecera = Model.Codificacion;
-
-    List<string> listadoEquipos = ViewBag.EquiposRequeridos;
-
-    int requerimientoEquipoID = (int)ViewBag.requerimientoID;
-
     var usuario = UsuarioDAL.ConsultarUsuario((int)ViewBag.UsuarioID);
     var informacionIngreso = IngresoDAL.ConsultarIngresoByUsuarioID((int)ViewBag.UsuarioID);
 }
@@ -55,10 +48,7 @@
 
         <form action="#" id="form-CodificacionEquipo" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
 
-            @Html.Hidden("IDCodificacionEquipo", cabecera.IDCodificacionEquipo)
-            @Html.Hidden("RequerimientoEquipoID", requerimientoEquipoID)
-            @Html.Hidden("UsuarioCodificadorID", cabecera.UsuarioCodificadorID)
-            @Html.Hidden("FechaCodificacionEquipo", DateTime.Now)
+            @Html.Hidden("IdUsuario", informacionIngreso.UsuarioID)
             @Html.Hidden("Estado", true)
 
         </form>
@@ -67,13 +57,10 @@
             @Html.Partial("_Cabecera", new ViewDataDictionary { { "DatosUsuario", usuario }, { "InformacionIngreso", informacionIngreso } })
         </form>
 
-        @Html.Partial("_Detalles", new ViewDataDictionary { { "TituloPanelDetalle", "Detalles" }, { "ListadoDetalles", Model.Detalles }, { "EquiposRequeridos", listadoEquipos } })
+            @Html.Partial("_Detalles", new ViewDataDictionary { { "TituloPanelDetalle", "Detalles" }, { "ListadoDetalles", Model.Equipos } })
 
-        <div class="row fila-seccion">
-            <div class="col-xs-6" style="text-align: right;">
-                <input id="guardar" type="button" value="Guardar" class="btn btn-default" />
-            </div>
-            <div class="col-xs-6" style="text-align: left;">
+        <div class="row fila-seccion">           
+            <div class="col-xs-6 col-md-offset-5" style="text-align: left;">
                 @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
@@ -83,8 +70,7 @@
 
 @section ViewSpecificJavascript {
     <script>
-        var urlAccionGuardar = '@Url.Action("CreateCodificacion")';
-        var urlAccionEditar = '@Url.Action("Edit")';
+        var urlAccionGuardar = '@Url.Action("Post")';
         var urlAccionListado = '@Url.Action("Index")';
         var urlAccionInformacionEquipo = '@Url.Action("_InformacionEquipo")';
 
@@ -101,7 +87,7 @@
 
         $(document).ready(function () {
             $('.agregarFila').click(function (e) {
-                
+
                 var template = $(this).closest("tr");
                 var idTemplate = $(template).attr('id')
 
@@ -120,22 +106,59 @@
             });
         })
 
-        function guardar() {
-            
+        function PreCambioEstado(dropdown) {
+            $('#' + dropdown.id).data('estadoAnterior', $('#' + dropdown.id).val());
+        }
 
-            var cabecera = $('#form-CodificacionEquipo').serializeObject()
+        function CambiarEstado(dropdown) {
+            var idRequerimientoEquipo = dropdown.id.replace('Estado', '');
+            var idEstado = $('#' + dropdown.id).find(":selected").val();
+            var tipoEquipo = $('#' + dropdown.id).attr("tipo");
+            var idUsuario = $("#IdUsuario").val();
+            var url = '@Url.Action("_CambiarEstado", "ModificacionEquipo")?idUsuario=' + idUsuario + '&idEstado=' + idEstado + '&idRequerimientoEquipo=' + idRequerimientoEquipo + "&tipoEquipo=" + tipoEquipo;
+            var tipoSeleccionado = $('#' + dropdown.id)[0].selectedIndex;
+
+            $("#preloader").show();
+            if (tipoSeleccionado !== 0) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    error: function (error) {
+                        $('#' + dropdown.id)[0].selectedIndex = 0;
+                        $("#preloader").hide();
+                        toastr.error(error.statusText);
+                    },
+                    success: function (result) {
+                        $("#preloader").hide();
+                        toastr.success("Asignación Actualizada!")
+                    },
+                    async: true,
+                    processData: false
+                });
+            } else {
+                var estadoAnterior = $('#' + dropdown.id).data('estadoAnterior');
+                $('#' + dropdown.id).val(estadoAnterior);
+                $("#preloader").hide();
+                toastr.error("No se puede dejar vacía la asignación.");
+            }
+        }
+
+        function guardar() {
+
+
+            var cabecera = $('#form-ModificacionEquipo').serializeObject()
 
             var detalles = GetListadoTablaDinamica("tbl-Detalles", false)
 
-            let accion = $("#IDCodificacionEquipo").val() == 0 ? urlAccionGuardar : urlAccionEditar;
-
             var data_form = JSON.stringify({ "formulario": cabecera, "detalles": detalles, "archivos": archivosAdjuntos })
-            _Guardar(data_form, accion, urlAccionListado)
+            _Guardar(data_form, urlAccionGuardar, urlAccionListado)
         }
 
         function convertToBase64CodificacionCompleta(element) {
             //Read File
-            
+
             var id = parseInt($(element).attr('id'));
 
             var selectedFile = document.getElementById(id).files;
@@ -159,7 +182,7 @@
         }
 
         function convertToBase64(element) {
-            
+
             var id = parseInt($(element).attr('id'));
             var f = $(element)[0].files[0]; // FileList object
 
@@ -187,8 +210,8 @@
         }
 
         $("#guardar").click(function () {
-            
-            var flag = validarCamposRequeridosFormularioCompleto("form-CodificacionEquipo");
+
+            var flag = validarCamposRequeridosFormularioCompleto("form-ModificacionEquipo");
             let validacion = TablaDinamicaVacia("tbl-Detalles");
 
             if (flag && !validacion)
@@ -198,7 +221,7 @@
         })
 
         $(".informacion-equipo").click(function (e) {
-            
+
             let elemento = $(e.currentTarget);
 
             var fila = elemento.closest("tr"); // fila

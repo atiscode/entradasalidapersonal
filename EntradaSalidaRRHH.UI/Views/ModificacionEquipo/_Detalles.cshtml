@@ -1,13 +1,12 @@
 ﻿@{
-    List<DetalleCodificacionEquipoInfo> detalles = (List<DetalleCodificacionEquipoInfo>)ViewBag.ListadoDetalles;
-    List<string> equiposRequeridos = (List<string>)ViewBag.EquiposRequeridos;
+    List<ListadoEquiposAsignadosUsuario_Result> detalles = (List<ListadoEquiposAsignadosUsuario_Result>)ViewBag.ListadoDetalles;
     int contador = 0;
 }
 
 <div class="col-lg-12">
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 id="texto-informacion-principal" class="box-title">@ViewBag.TituloPanelDetalle <span class="requerido"> *</span></h3>
+            <h3 id="texto-informacion-principal" class="box-title">@ViewBag.TituloPanelDetalle </h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -18,68 +17,39 @@
                 <div class="col-md-12">
                     <table class="table table-responsive" id="tbl-Detalles">
                         <thead>
-                            <tr>
-                                <th data-override="IDDetalleCodificacionEquipo">ID</th>
-                                <th data-override="Factura">Factura</th>
-                                <th data-override="EquipoID">Equipo</th>
-                                <th data-override="SerieEquipo">Serie Equipo</th>
-                                <th data-override="Codigo">Código</th>
-                                <th data-override="FechaCompra">Fecha de Compra</th>
-                                <th data-override="Observaciones">Observaciones</th>
-                                <th data-override="Adjunto">Adjunto</th>
+                            <tr>                             
+                                <th data-override="IDRequerimientoEquipo">Equipo</th>
+                                <th data-override="Equipo">Equipo</th>
+                                <th data-override="TipoEquipo">Tipo de Equipo</th>
+                                <th data-override="FechaModificacion">Fecha de Modificación</th>
+                                <th data-override="Estado">Estado</th>
                             </tr>
                         </thead>
                         <tbody>
                            
                             @foreach (var item in detalles)
                             {
-                                <tr id="templateDetalles-@item.IDDetalleCodificacionEquipo">
-                                    <td>
-                                        <input type="text" class="form-control" value="@item.IDDetalleCodificacionEquipo" name="IDDetalleCodificacionEquipo[]" />
-                                    </td>
-
-                                    <td>
-                                        <input title="@item.Factura" type="text" class="form-control" value="@item.Factura" name="Factura[]" maxlength="50"/>
-                                    </td>
-
-                                    <td>
-                                        <div class="input-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <a class="informacion-equipo" style="cursor: pointer" title="Ver detalles." @*data-backdrop="static" data-toggle="modal" data-target="#contenido-modal"*@> <i class="fa fa-info" aria-hidden="true"></i></a>
-                                                </div>
-                                                @Html.DropDownList("EquipoID", (List<SelectListItem>)EquipoDAL.ObtenerListadoEquipos(item.EquipoID.ToString(), " WHERE CodigoCatalogoTipo in ('CELULAR-01', 'COMPUTADOR-01', 'ENSERES-01' , 'ACCESORIOS-01') ")@*.Where(s => equiposRequeridos.Contains(s.Value)).ToList()*@, null, new { @class = "form-control seleccion", disabled = "disabled" })
-                                            </div>
+                            <tr id="templateDetalles-@item.IDRequerimientoEquipoUsuario">
+                                <td>
+                                    <input type="text" class="form-control" value="@item.IDRequerimientoEquipo" name="IDRequerimientoEquipo[]" />
+                                </td>
+                                <td>
+                                    <input title="@item.Equipo" type="text" class="form-control" value="@item.Equipo" name="Equipo[]" maxlength="50" required disabled="disabled"/>
+                                </td>
+                                <td>
+                                    <input title="@item.TipoEquipo" type="text" class="form-control" value="@item.TipoEquipo" name="TipoEquipo[]" maxlength="50" required disabled="disabled"/>
+                                </td>
+                                <td>
+                                    <input title="@(item.FechaModificacion?.ToString("dd/MM/yyyy"))" type="text" name="FechaModificacion[]" class="form-control pull-right datepicker campo-requerido" value="@(item.FechaModificacion?.ToString("dd/MM/yyyy"))" disabled="disabled">
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <div class="input-group">                                            
+                                            @Html.DropDownList("Estado" + item.IDRequerimientoEquipoUsuario, CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("ESTADO-ASIGNACION-EQUIPOS", (item.Estado ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control tracking-select", onchange = "CambiarEstado(this);", onfocus= "PreCambioEstado(this);", tipo = item.TipoEquipo})
                                         </div>
-                                    </td>
-
-                                    <td>
-                                        <input title="@item.SerieEquipo" type="text" class="form-control" value="@item.SerieEquipo" name="SerieEquipo[]" maxlength="50" />
-                                    </td>
-
-                                    <td>
-                                        <input title="@item.Codigo" type="text" class="form-control" value="@item.Codigo" name="SerieEquipo[]" maxlength="50" required/>
-                                    </td>
-                                    <td>
-                                        <input title="@item.FechaCompra.ToString("dd/MM/yyyy")" type="text" name="FechaCompra[]" class="form-control pull-right datepicker campo-requerido" value="@(item.FechaCompra.ToString("dd/MM/yyyy"))">
-                                    </td>
-                                    <td>
-                                        <input title="@item.Observaciones" type="text" class="form-control" maxlength="300" value="@item.Observaciones" name="Observaciones[]" />
-                                    </td>
-
-                                    <td style="text-align: center;">
-                                        <input style="display: none;" type="text"  value="@(string.IsNullOrEmpty(item.Adjunto) ? "0" : item.Adjunto)" name="Adjunto[]" class="form-control"/>
-                                        <div class="upload-btn-wrapper">
-                                            <button class="btn-adjuntos"><i class="fa fa-cloud-upload" aria-hidden="true"></i></button>
-                                            <input type="file" id="@contador" @*value="@item.Adjunto"*@ class="form-control adjuntos-archivo" onchange="convertToBase64(this);" accept="application/pdf" />
-                                        </div>
-                                    </td>
-
-                                    <td id="accion">
-                                        @*<button type="button" onclick="eliminarFila(this)" id="eliminar-@item.IDDetalleCodificacionEquipo" class="eliminarFila btn btn-danger" disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button>*@
-                                        <a style="display: @(!string.IsNullOrEmpty(item.Adjunto) ? "inline-block;" : "none;")" title="Descargar archivo adjunto." class="btn btn-default" href="@Url.Action("DescargarArchivo", "CodificacionEquipo", new { path = item.Adjunto })"> <span class='glyphicon glyphicon-print' aria-hidden='true' style='color:black'></span> </a>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>                                
+                            </tr>
                                     contador++;
                             }
                         </tbody>

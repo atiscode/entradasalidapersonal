@@ -139,6 +139,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Configurations.cs" />
     <Compile Include="Metodos\AprobacionRequerimientoEquipoDAL.cs" />
     <Compile Include="Metodos\AsignacionEquipoDAL.cs" />
     <Compile Include="Metodos\CatalogoDAL.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Modelo\EquiposInfo.cs">
       <DependentUpon>RRHH.tt</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\EquiposUsuario.cs" />
     <Compile Include="Modelo\FichaIngreso.cs">
       <DependentUpon>RRHH.tt</DependentUpon>
     </Compile>
@@ -305,6 +307,9 @@
       <DependentUpon>RRHH.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelo\IngresoUsuarioDesvinculacionInfo.cs">
+      <DependentUpon>RRHH.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\ListadoEquiposAsignadosUsuario_Result.cs">
       <DependentUpon>RRHH.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelo\LogIngresos.cs">

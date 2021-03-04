@@ -684,5 +684,14 @@ namespace EntradaSalidaRRHH.DAL.Modelo
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IngresoUsuarioDesvinculacionInfo>("ListadoIngresoUsuarioDesvinculacion");
         }
+    
+        public virtual ObjectResult<ListadoEquiposAsignadosUsuario_Result> ListadoEquiposAsignadosUsuario(Nullable<int> idUsuario)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ListadoEquiposAsignadosUsuario_Result>("ListadoEquiposAsignadosUsuario", idUsuarioParameter);
+        }
     }
 }

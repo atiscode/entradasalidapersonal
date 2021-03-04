@@ -456,6 +456,14 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             return ListadoCatalogo;
         }
 
+        public static List<Catalogo> ListadoCatalogosPorCodigoPadre(string codigoPadre, string codigo)
+        {
+            var catalogoPadre = db.Catalogo.Where(t => t.CodigoCatalogo == codigoPadre).FirstOrDefault();
+            var catalogosHijo = db.Catalogo.Where(t => t.IdCatalogoPadre == catalogoPadre.IdCatalogo && t.CodigoCatalogo == codigo);            
+
+            return catalogosHijo.ToList();
+        }
+
         public static IEnumerable<SelectListItem> ListadoCatalogosPorId(int id)
         {
             var ListadoCatalogo = db.ConsultarCatalogo(id).OrderBy(c => c.NombreCatalogo).Select(c => new SelectListItem

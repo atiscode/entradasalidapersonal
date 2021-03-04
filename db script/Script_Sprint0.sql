@@ -812,3 +812,85 @@ FROM @Catalogos
 
 INSERT INTO adm.PerfilMenu
 VALUES (@IdPerfil, @IdMenu)
+
+GO
+-- CREACION CATALOGOS ESTADO ASIGNACION
+ALTER TABLE RequerimientoEquipoUsuario ADD Estado INT
+ALTER TABLE RequerimientoEquipoHerramientasAdicionales ADD Estado INT
+ALTER TABLE RequerimientoEquipoUsuario ADD FechaModificacion DATETIME
+ALTER TABLE RequerimientoEquipoHerramientasAdicionales ADD FechaModificacion DATETIME
+ALTER TABLE RequerimientoEquipoHerramientasAdicionales ADD Observaciones VARCHAR(100)
+ALTER TABLE RequerimientoEquipoUsuario ADD Observaciones VARCHAR(100)
+
+
+DECLARE @CodigoCatalogoPadre VARCHAR(50) = 'ESTADO-ASIGNACION-EQUIPOS'
+DECLARE @CodigoNuevoCatalogo1 VARCHAR(50) = 'ASIGNADO'
+DECLARE @CodigoNuevoCatalogo2 VARCHAR(50) = 'DEVUELTO'
+DECLARE @IdPadre INT 
+
+INSERT INTO adm.Catalogo VALUES (@CodigoCatalogoPadre, 'ESTADOS DE ASINGACION DE EQUIPOS', 'ESTADO DE EQUIPO ASIGNADO UNA VEZ SE HA APROBADO SU REQUERIMIENTO',NULL,1,1,0)
+SELECT @IdPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @CodigoCatalogoPadre
+
+INSERT INTO adm.Catalogo VALUES (NULL, @CodigoNuevoCatalogo1, @CodigoNuevoCatalogo1, @IdPadre, 1,1,0)
+INSERT INTO adm.Catalogo VALUES (NULL, @CodigoNuevoCatalogo2, @CodigoNuevoCatalogo2, @IdPadre, 1,1,0)
+GO
+/*******************************************/
+/* Procedimiento para obtener equipos y 
+herramientas adicionales para el usuario dado
+********************************************/
+CREATE PROCEDURE ListadoEquiposAsignadosUsuario
+@IdUsuario INT
+AS
+SELECT  
+	re.IDRequerimientoEquipo,	
+	CONCAT(u.Nombres,' ',u.Apellidos) AS NombresApellidos,
+	e.Nombre AS Equipo,
+	'Equipo' AS TipoEquipo,
+	e.IDEquipo,
+	reu.IDRequerimientoEquipoUsuario,
+	reu.Estado,
+	c.NombreCatalogo,
+	reu.FechaModificacion,
+	reu.Observaciones
+FROM RequerimientoEquipo re
+JOIN adm.Usuario u ON re.UsuarioID = u.IdUsuario
+JOIN RequerimientoEquipoUsuario reu ON re.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+JOIN Equipo e ON e.IDEquipo = reu.EquipoID
+LEFT JOIN adm.Catalogo c ON reu.Estado = c.IdCatalogo
+WHERE re.FechaAsignacion IS NOT NULL AND u.IdUsuario = @IdUsuario AND re.Asignado = 1
+UNION ALL
+SELECT
+	rh.IDRequerimientoEquipo,
+	rh.NombresApellidos,
+	rh.TextoCatalogoHerramientaAdicional,
+	'Herramienta Adicional' AS TipoEquipo,
+	rha.HerramientaAdicional,
+	rha.IDRequerimientoEquipoHerramientasAdicionales,
+	rha.Estado,
+	c.NombreCatalogo,
+	rha.FechaModificacion,
+	rha.Observaciones
+FROM vwRequerimientoEquipoHerramientasAdicionales rh
+JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+JOIN RequerimientoEquipoHerramientasAdicionales rha ON rh.IDRequerimientoEquipo = rha.RequerimientoEquipoID
+JOIN Equipo e ON reu.EquipoID = e.IDEquipo
+LEFT JOIN adm.Catalogo c ON rha.Estado = c.IdCatalogo
+WHERE rh.UsuarioID = @IdUsuario AND
+e.IDEquipo IN (
+SELECT MIN(e.IDEquipo) FROM vwRequerimientoEquipoHerramientasAdicionales rh
+JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+JOIN Equipo e ON reu.EquipoID = e.IDEquipo
+WHERE rh.UsuarioID = @IdUsuario)
+
+GO
+/*****************  Tarea 59  ************************
+	Proyecto: RRHH									
+	Fecha: 04/mar/2021
+	Descripción:  Implementar envio correo pruebas
+*****************************************************/
+DECLARE @IdPadre INT
+DECLARE @CatalogoNuevo VARCHAR(50) = 'CORREOS-PRUEBAS'
+INSERT INTO adm.Catalogo VALUES (@CatalogoNuevo, 'CORREOS PRUEBAS PARA APLICACIONES', 'CORREOS PARA EJECUCION DE PRUEBAS DE APLICACION', NULL,1,1,0)
+SELECT @IdPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @CatalogoNuevo
+INSERT INTO adm.Catalogo VALUES (NULL, 'RRHH', 'esteban.morejon@qph.com.ec; carlos.totoy@qph.com.ec', @IdPadre,1,1,0)
+GO

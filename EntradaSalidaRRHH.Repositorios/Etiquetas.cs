@@ -31,7 +31,10 @@ namespace EntradaSalidaRRHH.Repositorios
         // Etiquetas Pantalla Sugerencias Equipos
         public static string TituloPanelFormularioCodificacionEquipos = "Datos Codificación Equipo";
         public static string TituloGridCodificacionEquipos = "Codificación de Equipos";
-        
+        // Etiquetas Pantalla Modificación Equipos
+        public static string TituloPanelFormularioModificacionEquipos = "Datos Equipos";
+        public static string TituloGridModificacionEquipos = "Modificación de Equipos";
+
         // Etiquetas Pantalla Menú
         public static string TituloPanelCreacionMenu = "Datos Menú";
         public static string TituloPanelEdicionMenu = "Datos Menú";

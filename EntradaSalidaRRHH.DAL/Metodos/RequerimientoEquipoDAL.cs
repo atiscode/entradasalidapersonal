@@ -247,6 +247,20 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             }
         }
 
+        public static List<ListadoEquiposAsignadosUsuario_Result> ListadoEquiposAsignadosPorUsuario(int idUsuario)
+        {
+            List<ListadoEquiposAsignadosUsuario_Result> listado = new List<ListadoEquiposAsignadosUsuario_Result>();
+            try
+            {
+                listado = db.ListadoEquiposAsignadosUsuario(idUsuario).ToList();
+                return listado;
+            }
+            catch (Exception)
+            {
+                return listado;
+            }
+        }
+
         public static RequerimientoEquipo ConsultarRequerimientoEquipo(int id)
         {
             RequerimientoEquipo objeto = new RequerimientoEquipo();
@@ -390,6 +404,57 @@ namespace EntradaSalidaRRHH.DAL.Metodos
                 return ListadoCatalogo;
             }
         }
+
+        public static RespuestaTransaccion ActualizarRequerimientoEquipoUsuario(int idRequerimientoEquipoUsuario, int estado)
+        {
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    RequerimientoEquipoUsuario entity = db.RequerimientoEquipoUsuario.Find(idRequerimientoEquipoUsuario);
+                    entity.FechaModificacion = DateTime.UtcNow;
+                    entity.Estado = estado;
+
+                    db.Entry(entity).CurrentValues.SetValues(entity);
+                    db.Entry(entity).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    transaction.Commit();
+                    return new RespuestaTransaccion { Estado = true, Respuesta = Mensajes.MensajeTransaccionExitosa };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeTransaccionFallida + " ;" + ex.Message.ToString() };
+                }
+            }
+        }
+
+        public static RespuestaTransaccion ActualizarRequerimientoEquipoHerramientaAdicional(int idRequerimientoEquipoHerramientasAdicionales, int estado)
+        {
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var entity = db.RequerimientoEquipoHerramientasAdicionales.Find(idRequerimientoEquipoHerramientasAdicionales);
+                    entity.FechaModificacion = DateTime.UtcNow;
+                    entity.Estado = estado;
+
+                    db.Entry(entity).CurrentValues.SetValues(entity);
+                    db.Entry(entity).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    transaction.Commit();
+                    return new RespuestaTransaccion { Estado = true, Respuesta = Mensajes.MensajeTransaccionExitosa };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeTransaccionFallida + " ;" + ex.Message.ToString() };
+                }
+            }
+        }
+
 
     }
 }

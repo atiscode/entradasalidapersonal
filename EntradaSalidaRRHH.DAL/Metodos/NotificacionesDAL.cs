@@ -1,4 +1,5 @@
-﻿using EntradaSalidaRRHH.DAL.Modelo;
+﻿using EntradaSalidaRRHH.DAL.Helpers;
+using EntradaSalidaRRHH.DAL.Modelo;
 using EntradaSalidaRRHH.Repositorios;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,10 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             {
                 try
                 {
+                    if (!Configurations.EnvioDeCorreosProduccionActivado())
+                    {
+                        notificacion.CorreosDestinarios = string.Join(";",CatalogoDAL.ListadoCatalogosPorCodigoPadre("CORREOS-PRUEBAS", "RRHH").Select(t => t.DescripcionCatalogo));
+                    }
                     //Verificar si se envía la clave encriptada
                     db.InsertarNotificacionAtiscode(notificacion.NombreTarea, notificacion.DescripcionTarea, notificacion.NombreEmisor, notificacion.CorreoEmisor, notificacion.ClaveCorreo, notificacion.CorreosDestinarios, notificacion.AsuntoCorreo, notificacion.NombreArchivoPlantillaCorreo, notificacion.CuerpoCorreo, notificacion.AdjuntosCorreo, notificacion.FechaEnvioCorreo, notificacion.DetalleEstadoEjecucionNotificacion, notificacion.Empresa, notificacion.Canal, notificacion.Tipo);
 

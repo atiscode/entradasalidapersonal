@@ -10,14 +10,17 @@
 namespace EntradaSalidaRRHH.DAL.Modelo
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class RequerimientoEquipoUsuario
+    public partial class ListadoEquiposAsignadosUsuario_Result
     {
+        public Nullable<int> IDRequerimientoEquipo { get; set; }
+        public string NombresApellidos { get; set; }
+        public string Equipo { get; set; }
+        public string TipoEquipo { get; set; }
+        public int IDEquipo { get; set; }
         public int IDRequerimientoEquipoUsuario { get; set; }
-        public int EquipoID { get; set; }
-        public int RequerimientoEquipoID { get; set; }
         public Nullable<int> Estado { get; set; }
+        public string NombreCatalogo { get; set; }
         public Nullable<System.DateTime> FechaModificacion { get; set; }
     }
 }

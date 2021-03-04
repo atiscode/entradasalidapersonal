@@ -17,5 +17,7 @@ namespace EntradaSalidaRRHH.DAL.Modelo
         public int IDRequerimientoEquipoHerramientasAdicionales { get; set; }
         public int HerramientaAdicional { get; set; }
         public int RequerimientoEquipoID { get; set; }
+        public Nullable<int> Estado { get; set; }
+        public Nullable<System.DateTime> FechaModificacion { get; set; }
     }
 }

@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using System.Linq.Dynamic;
 using EntradaSalidaRRHH.Repositorios;
 using EntradaSalidaRRHH.UI.Helper;
+using System.Net;
+using EntradaSalidaRRHH.UI.Enums;
 
 namespace EntradaSalidaRRHH.UI.Controllers
 {
@@ -78,6 +80,81 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 // Only grid query values will be available here.
                 return PartialView(await Task.Run(() => listado));
             }
+        }
+
+        [HttpGet]
+        public ActionResult Formulario(int idUsuario)
+        {
+            ViewBag.TituloPanel = Etiquetas.TituloPanelFormularioModificacionEquipos;
+            try
+            {
+                var model = new EquiposUsuario();
+
+                var equiposUsuario = RequerimientoEquipoDAL.ListadoEquiposAsignadosPorUsuario(idUsuario);
+
+                if (equiposUsuario != null)
+                {
+                    model.Equipos = equiposUsuario;
+                }
+
+                ViewBag.UsuarioID = idUsuario;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.EquiposRequeridos = new List<string>();
+                return View(new CodificacionEquipoCompleta());
+            }
+        }
+
+        [HttpPost]
+        public ActionResult _CambiarEstado(int idUsuario, int idEstado, int idRequerimientoEquipo, string tipoEquipo)
+        {
+            var respuesta = new RespuestaTransaccion();
+            switch (tipoEquipo)
+            {
+                case TipoEquipoEnum.Equipo:
+                    respuesta = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoUsuario(idRequerimientoEquipo, idEstado);
+                    break;
+
+                case TipoEquipoEnum.HerramientaAdicional:
+                    respuesta = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoHerramientaAdicional(idRequerimientoEquipo, idEstado);
+                    break;
+            }           
+
+            if (Response.StatusCode == (int)HttpStatusCode.OK)
+            {
+                UsuarioInfo usuario = UsuarioDAL.ConsultarUsuario(idUsuario);
+                
+                string body = GetEmailTemplate("TemplateCambioTracking");
+
+                string[] roles = { "COORDINADOR RRHH", "COORDINADOR HELP DESK" };
+
+                var usuariosDestinatarios = UsuarioDAL.ObtenerMailCorporativosPorRoles(roles);
+
+                body = body.Replace("@ViewBag.Usuario", usuario.NombresApellidos);
+
+                NotificacionesDAL.CrearNotificacion(new Notificaciones
+                {
+                    NombreTarea = "Cambio Estado de Asignación de Equipo",
+                    DescripcionTarea = "Notificación de cambio de Estado de Asignación para el usuario.",
+                    NombreEmisor = nombreCorreoEmisor,
+                    CorreoEmisor = correoEmisor,
+                    ClaveCorreo = claveEmisor,
+                    AdjuntosCorreo = "",
+                    CorreosDestinarios = string.Join(";", usuariosDestinatarios),
+                    AsuntoCorreo = "TRACKING REQUERIMIENTO",
+                    NombreArchivoPlantillaCorreo = TemplateNotificaciones,
+                    CuerpoCorreo = body,
+                    FechaEnvioCorreo = DateTime.Now,
+                    Canal = CanalNotificaciones,
+                    Tipo = "BIENVENIDA"
+                });
+
+            }
+
+            return Json(respuesta, JsonRequestBehavior.DenyGet);
         }
     }
 }

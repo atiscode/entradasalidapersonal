@@ -11,16 +11,55 @@
 
 @section ViewSpecificJavascript {
     <script>
-        
+
         var idGrid = "grid-ModificacionEquipo";
 
         var urlAccionReporteExcel = '@Url.Action("DescargarReporteFormatoExcel")';
         var urlAccionReportePDF = '@Url.Action("DescargarReporteFormatoPDF")';
         var urlAccionReporteCSV = '@Url.Action("DescargarReporteFormatoCSV")';
 
-        $(document).ready(function () {            
+        $(document).ready(function () {
             recargarGridByID(idGrid);
         })
+
+        function PreCambioEstado(dropdown) {
+            $('#' + dropdown.id).data('estadoAnterior', $('#' + dropdown.id).val());
+        }
+
+        function CambiarEstado(dropdown) {
+            var idRequerimientoEquipo = dropdown.id.replace('Estado', '');
+            var idEstado = $('#' + dropdown.id).find(":selected").val();
+            var tipoEquipo = $('#' + dropdown.id).attr("tipo");
+            var idUsuario = $("#IdUsuario").val();
+            var url = '@Url.Action("_CambiarEstado", "ModificacionEquipo")?idUsuario=' + idUsuario + 'id=' + idEstado + '&idRequerimientoEquipo=' + idRequerimientoEquipo + "&tipoEquipo=" + tipoEquipo;
+            var tipoSeleccionado = $('#' + dropdown.id)[0].selectedIndex;
+
+            $("#preloader").show();
+            if (tipoSeleccionado !== 0) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    error: function (error) {
+                        $('#' + dropdown.id)[0].selectedIndex = 0;
+                        $("#preloader").hide();
+                        toastr.error(error.statusText);
+                    },
+                    success: function (result) {
+                        $("#preloader").hide();
+                        toastr.success("Asignación Actualizada!")
+                    },
+                    async: true,
+                    processData: false
+                });
+            } else {
+                var estadoAnterior = $('#' + dropdown.id).data('estadoAnterior');
+                $('#' + dropdown.id).val(estadoAnterior);
+                $("#preloader").hide();
+                toastr.error("No se puede dejar vacía la asignación.");
+            }
+        }
 
         function CrearRegistro() {
             location.href = urlAccionCrear;
@@ -45,7 +84,7 @@
         $(document).keyup(callBackBusqueda);
 
         function callBackBusqueda(e) {
-            
+
             busquedaGrid(idGrid);
         }
     </script>
