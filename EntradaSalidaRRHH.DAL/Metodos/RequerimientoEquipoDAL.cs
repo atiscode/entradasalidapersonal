@@ -247,7 +247,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             }
         }
 
-        public static List<ListadoEquiposAsignadosUsuario_Result> ListadoEquiposAsignadosPorUsuario(int idUsuario)
+        public static List<ListadoEquiposAsignadosUsuario_Result> ListadoEquiposAsignadosPorUsuario(int? idUsuario = null)
         {
             List<ListadoEquiposAsignadosUsuario_Result> listado = new List<ListadoEquiposAsignadosUsuario_Result>();
             try

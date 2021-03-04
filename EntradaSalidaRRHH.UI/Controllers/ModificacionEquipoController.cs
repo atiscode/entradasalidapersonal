@@ -156,5 +156,54 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
             return Json(respuesta, JsonRequestBehavior.DenyGet);
         }
+
+        #region REPORTES BASICOS
+
+        private List<string> columnasReportesBasicos = new List<string> { "USUARIO", "EQUIPO", "TIPO EQUIPO", "FECHA MODIFICACIÓN", "ESTADO", "OBSERVACIONES" };
+        public ActionResult DescargarReporteFormatoExcel()
+        {
+            var collection = ObtenerDatosReporte();
+            var package = GetEXCEL(columnasReportesBasicos, collection.Cast<object>().ToList());
+            return File(package.GetAsByteArray(), XlsxContentType, "Listado.xlsx");
+        }
+
+        public ActionResult DescargarReporteFormatoPDF()
+        {
+            var collection = ObtenerDatosReporte();
+            byte[] buffer = GetPDF(columnasReportesBasicos, collection.Cast<object>().ToList(), "Listado de Asignación de equipos");
+
+            return File(buffer, PDFContentType, "ReportePDF.pdf");
+        }
+
+        public ActionResult DescargarReporteFormatoCSV()
+        {
+            var collection = ObtenerDatosReporte();
+            byte[] buffer = GetCSV(columnasReportesBasicos, collection.Cast<object>().ToList());
+            return File(buffer, CSVContentType, $"Listado.csv");
+        }
+
+        private List<ModificacionEquipoReporteItem> ObtenerDatosReporte()
+        {
+            var dbResultado = RequerimientoEquipoDAL.ListadoEquiposAsignadosPorUsuario();
+            var result = new List<ModificacionEquipoReporteItem>();
+
+            foreach (var item in dbResultado)
+            {
+                result.Add(new ModificacionEquipoReporteItem
+                {
+                    NombresApellidos = item.NombresApellidos ??  "",
+                    Equipo = item.Equipo ?? "",
+                    TipoEquipo = item.TipoEquipo ?? "",
+                    Estado = item.NombreCatalogo ?? "",
+                    FechaModificacion = item.FechaModificacion == null ? "": item.FechaModificacion.Value.ToString("dd/MM/yyyy hh:mm"),
+                    Observaciones = item.Observaciones ?? "",                    
+                });
+            }
+
+            return result;
+
+        }
+
+        #endregion
     }
 }

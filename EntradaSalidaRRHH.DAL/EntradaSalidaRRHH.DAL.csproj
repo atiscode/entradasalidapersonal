@@ -331,6 +331,7 @@
     <Compile Include="Modelo\MenuRutaAccesoInfo.cs">
       <DependentUpon>Administracion.tt</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\ModificacionEquipoReporteItem.cs" />
     <Compile Include="Modelo\MultiSelectJQuery.cs" />
     <Compile Include="Modelo\Notificaciones.cs">
       <DependentUpon>Notificador.tt</DependentUpon>
