@@ -841,47 +841,91 @@ herramientas adicionales para el usuario dado
 CREATE PROCEDURE ListadoEquiposAsignadosUsuario
 @IdUsuario INT
 AS
-SELECT  
-	re.IDRequerimientoEquipo,	
-	CONCAT(u.Nombres,' ',u.Apellidos) AS NombresApellidos,
-	e.Nombre AS Equipo,
-	'Equipo' AS TipoEquipo,
-	e.IDEquipo,
-	reu.IDRequerimientoEquipoUsuario,
-	reu.Estado,
-	c.NombreCatalogo,
-	reu.FechaModificacion,
-	reu.Observaciones
-FROM RequerimientoEquipo re
-JOIN adm.Usuario u ON re.UsuarioID = u.IdUsuario
-JOIN RequerimientoEquipoUsuario reu ON re.IDRequerimientoEquipo = reu.RequerimientoEquipoID
-JOIN Equipo e ON e.IDEquipo = reu.EquipoID
-LEFT JOIN adm.Catalogo c ON reu.Estado = c.IdCatalogo
-WHERE re.FechaAsignacion IS NOT NULL AND u.IdUsuario = @IdUsuario AND re.Asignado = 1
-UNION ALL
-SELECT
-	rh.IDRequerimientoEquipo,
-	rh.NombresApellidos,
-	rh.TextoCatalogoHerramientaAdicional,
-	'Herramienta Adicional' AS TipoEquipo,
-	rha.HerramientaAdicional,
-	rha.IDRequerimientoEquipoHerramientasAdicionales,
-	rha.Estado,
-	c.NombreCatalogo,
-	rha.FechaModificacion,
-	rha.Observaciones
-FROM vwRequerimientoEquipoHerramientasAdicionales rh
-JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
-JOIN RequerimientoEquipoHerramientasAdicionales rha ON rh.IDRequerimientoEquipo = rha.RequerimientoEquipoID
-JOIN Equipo e ON reu.EquipoID = e.IDEquipo
-LEFT JOIN adm.Catalogo c ON rha.Estado = c.IdCatalogo
-WHERE rh.UsuarioID = @IdUsuario AND
-e.IDEquipo IN (
-SELECT MIN(e.IDEquipo) FROM vwRequerimientoEquipoHerramientasAdicionales rh
-JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
-JOIN Equipo e ON reu.EquipoID = e.IDEquipo
-WHERE rh.UsuarioID = @IdUsuario)
-
+IF @IdUsuario IS NULL
+BEGIN
+	SELECT  
+		re.IDRequerimientoEquipo,	
+		CONCAT(u.Nombres,' ',u.Apellidos) AS NombresApellidos,
+		e.Nombre AS Equipo,
+		'Equipo' AS TipoEquipo,
+		e.IDEquipo,
+		reu.IDRequerimientoEquipoUsuario,
+		reu.Estado,
+		c.NombreCatalogo,
+		reu.FechaModificacion,
+		reu.Observaciones
+	FROM RequerimientoEquipo re
+	JOIN adm.Usuario u ON re.UsuarioID = u.IdUsuario
+	JOIN RequerimientoEquipoUsuario reu ON re.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+	JOIN Equipo e ON e.IDEquipo = reu.EquipoID
+	LEFT JOIN adm.Catalogo c ON reu.Estado = c.IdCatalogo
+	WHERE re.FechaAsignacion IS NOT NULL AND re.Asignado = 1
+	UNION ALL
+	SELECT
+		rh.IDRequerimientoEquipo,
+		rh.NombresApellidos,
+		rh.TextoCatalogoHerramientaAdicional,
+		'Herramienta Adicional' AS TipoEquipo,
+		rha.HerramientaAdicional,
+		rha.IDRequerimientoEquipoHerramientasAdicionales,
+		rha.Estado,
+		c.NombreCatalogo,
+		rha.FechaModificacion,
+		rha.Observaciones
+	FROM vwRequerimientoEquipoHerramientasAdicionales rh
+	JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+	JOIN RequerimientoEquipoHerramientasAdicionales rha ON rh.IDRequerimientoEquipo = rha.RequerimientoEquipoID
+	JOIN Equipo e ON reu.EquipoID = e.IDEquipo
+	LEFT JOIN adm.Catalogo c ON rha.Estado = c.IdCatalogo
+	WHERE 
+	e.IDEquipo IN (
+	SELECT MIN(e.IDEquipo) FROM vwRequerimientoEquipoHerramientasAdicionales rh
+	JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+	JOIN Equipo e ON reu.EquipoID = e.IDEquipo)
+END
+ELSE 
+BEGIN
+	SELECT  
+		re.IDRequerimientoEquipo,	
+		CONCAT(u.Nombres,' ',u.Apellidos) AS NombresApellidos,
+		e.Nombre AS Equipo,
+		'Equipo' AS TipoEquipo,
+		e.IDEquipo,
+		reu.IDRequerimientoEquipoUsuario,
+		reu.Estado,
+		c.NombreCatalogo,
+		reu.FechaModificacion,
+		reu.Observaciones
+	FROM RequerimientoEquipo re
+	JOIN adm.Usuario u ON re.UsuarioID = u.IdUsuario
+	JOIN RequerimientoEquipoUsuario reu ON re.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+	JOIN Equipo e ON e.IDEquipo = reu.EquipoID
+	LEFT JOIN adm.Catalogo c ON reu.Estado = c.IdCatalogo
+	WHERE re.FechaAsignacion IS NOT NULL AND u.IdUsuario = @IdUsuario AND re.Asignado = 1
+	UNION ALL
+	SELECT
+		rh.IDRequerimientoEquipo,
+		rh.NombresApellidos,
+		rh.TextoCatalogoHerramientaAdicional,
+		'Herramienta Adicional' AS TipoEquipo,
+		rha.HerramientaAdicional,
+		rha.IDRequerimientoEquipoHerramientasAdicionales,
+		rha.Estado,
+		c.NombreCatalogo,
+		rha.FechaModificacion,
+		rha.Observaciones
+	FROM vwRequerimientoEquipoHerramientasAdicionales rh
+	JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+	JOIN RequerimientoEquipoHerramientasAdicionales rha ON rh.IDRequerimientoEquipo = rha.RequerimientoEquipoID
+	JOIN Equipo e ON reu.EquipoID = e.IDEquipo
+	LEFT JOIN adm.Catalogo c ON rha.Estado = c.IdCatalogo
+	WHERE rh.UsuarioID = @IdUsuario AND
+	e.IDEquipo IN (
+	SELECT MIN(e.IDEquipo) FROM vwRequerimientoEquipoHerramientasAdicionales rh
+	JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+	JOIN Equipo e ON reu.EquipoID = e.IDEquipo
+	WHERE rh.UsuarioID = @IdUsuario)
+END
 GO
 /*****************  Tarea 59  ************************
 	Proyecto: RRHH									
