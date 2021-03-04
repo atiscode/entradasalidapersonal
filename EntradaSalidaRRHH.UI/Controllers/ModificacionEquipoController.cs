@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-//Extensión para Query string dinámico
 using System.Linq.Dynamic;
 using EntradaSalidaRRHH.Repositorios;
-using EntradaSalidaRRHH.UI.Helper;
 using System.Net;
 using EntradaSalidaRRHH.UI.Enums;
 
@@ -109,7 +107,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult _CambiarEstado(int idUsuario, int idEstado, int idRequerimientoEquipo, string tipoEquipo)
+        public ActionResult _CambiarEstado(int idUsuario, int idEstado, int idRequerimientoEquipo, string tipoEquipo, int idEquipo)
         {
             var respuesta = new RespuestaTransaccion();
             switch (tipoEquipo)
@@ -126,14 +124,16 @@ namespace EntradaSalidaRRHH.UI.Controllers
             if (Response.StatusCode == (int)HttpStatusCode.OK)
             {
                 UsuarioInfo usuario = UsuarioDAL.ConsultarUsuario(idUsuario);
+                var equipo = EquipoDAL.ConsultarEquipo(idEquipo);
                 
-                string body = GetEmailTemplate("TemplateCambioTracking");
+                string body = GetEmailTemplate("TemplateReasignacionEquipo");
 
                 string[] roles = { "COORDINADOR RRHH", "COORDINADOR HELP DESK" };
 
                 var usuariosDestinatarios = UsuarioDAL.ObtenerMailCorporativosPorRoles(roles);
 
                 body = body.Replace("@ViewBag.Usuario", usuario.NombresApellidos);
+                body = body.Replace("@ViewBag.Equipo", equipo.Nombre);
 
                 NotificacionesDAL.CrearNotificacion(new Notificaciones
                 {
@@ -144,12 +144,12 @@ namespace EntradaSalidaRRHH.UI.Controllers
                     ClaveCorreo = claveEmisor,
                     AdjuntosCorreo = "",
                     CorreosDestinarios = string.Join(";", usuariosDestinatarios),
-                    AsuntoCorreo = "TRACKING REQUERIMIENTO",
+                    AsuntoCorreo = "REASIGNACION EQUIPO",
                     NombreArchivoPlantillaCorreo = TemplateNotificaciones,
                     CuerpoCorreo = body,
                     FechaEnvioCorreo = DateTime.Now,
                     Canal = CanalNotificaciones,
-                    Tipo = "BIENVENIDA"
+                    Tipo = "REASIGNACIÓN EQUIPO"
                 });
 
             }

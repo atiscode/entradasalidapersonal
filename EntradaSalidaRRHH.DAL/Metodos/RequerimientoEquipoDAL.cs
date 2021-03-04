@@ -139,7 +139,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             {
                 try
                 {
-                   
+
                     // assume Entity base class have an Id property for all items
                     var entity = db.RequerimientoEquipo.Find(objeto.IDRequerimientoEquipo);
                     if (entity == null)
@@ -148,8 +148,8 @@ namespace EntradaSalidaRRHH.DAL.Metodos
                     }
 
                     db.Entry(entity).CurrentValues.SetValues(objeto);
-                    db.SaveChanges();                  
-                   
+                    db.SaveChanges();
+
                     transaction.Commit();
 
                     return new RespuestaTransaccion { Estado = true, Respuesta = Mensajes.MensajeTransaccionExitosa };
@@ -454,7 +454,5 @@ namespace EntradaSalidaRRHH.DAL.Metodos
                 }
             }
         }
-
-
     }
 }

@@ -18,7 +18,8 @@
                     <table class="table table-responsive" id="tbl-Detalles">
                         <thead>
                             <tr>                             
-                                <th data-override="IDRequerimientoEquipo">Equipo</th>
+                                <th data-override="IDRequerimientoEquipo">IDRequerimientoEquipo</th>
+                                <th data-override="IDEquipo" hidden>IdEquipo</th>
                                 <th data-override="Equipo">Equipo</th>
                                 <th data-override="TipoEquipo">Tipo de Equipo</th>
                                 <th data-override="FechaModificacion">Fecha de Modificación</th>
@@ -33,22 +34,25 @@
                                 <td>
                                     <input type="text" class="form-control" value="@item.IDRequerimientoEquipo" name="IDRequerimientoEquipo[]" />
                                 </td>
-                                <td>
-                                    <input title="@item.Equipo" type="text" class="form-control" value="@item.Equipo" name="Equipo[]" maxlength="50" required disabled="disabled"/>
+                                <td hidden>
+                                    <input type="text" class="form-control" value="@item.IDEquipo" name="IDEquipo[]" id="IDEquipo_@item.IDRequerimientoEquipoUsuario" />
                                 </td>
                                 <td>
-                                    <input title="@item.TipoEquipo" type="text" class="form-control" value="@item.TipoEquipo" name="TipoEquipo[]" maxlength="50" required disabled="disabled"/>
+                                    <input title="@item.Equipo" type="text" class="form-control" value="@item.Equipo" name="Equipo[]" maxlength="50" required disabled="disabled" />
+                                </td>
+                                <td>
+                                    <input title="@item.TipoEquipo" type="text" class="form-control" value="@item.TipoEquipo" name="TipoEquipo[]" maxlength="50" required disabled="disabled" />
                                 </td>
                                 <td>
                                     <input title="@(item.FechaModificacion?.ToString("dd/MM/yyyy"))" type="text" name="FechaModificacion[]" class="form-control pull-right datepicker campo-requerido" value="@(item.FechaModificacion?.ToString("dd/MM/yyyy"))" disabled="disabled">
                                 </td>
                                 <td>
                                     <div class="input-group">
-                                        <div class="input-group">                                            
-                                            @Html.DropDownList("Estado" + item.IDRequerimientoEquipoUsuario, CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("ESTADO-ASIGNACION-EQUIPOS", (item.Estado ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control tracking-select", onchange = "CambiarEstado(this);", onfocus= "PreCambioEstado(this);", tipo = item.TipoEquipo})
+                                        <div class="input-group">
+                                            @Html.DropDownList("Estado" + item.IDRequerimientoEquipoUsuario, CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("ESTADO-ASIGNACION-EQUIPOS", (item.Estado ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control tracking-select", onchange = "CambiarEstado(this);", onfocus = "PreCambioEstado(this);", tipo = item.TipoEquipo })
                                         </div>
                                     </div>
-                                </td>                                
+                                </td>
                             </tr>
                                     contador++;
                             }
