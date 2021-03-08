@@ -206,7 +206,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 result = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoSimple(requerimientoExistente);
 
                 var usuario = UsuarioDAL.ConsultarUsuario(requerimientoExistente.UsuarioSolicitanteID);
-                
+
                 string body = GetEmailTemplate("TemplateCambioTracking");
 
                 string[] roles = { "COORDINADOR RRHH", "COORDINADOR HELP DESK" };
@@ -224,7 +224,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                     CorreoEmisor = correoEmisor,
                     ClaveCorreo = claveEmisor,
                     AdjuntosCorreo = "",
-                    CorreosDestinarios = string.Join(";",usuariosDestinatarios),
+                    CorreosDestinarios = string.Join(";", usuariosDestinatarios),
                     AsuntoCorreo = "TRACKING REQUERIMIENTO",
                     NombreArchivoPlantillaCorreo = TemplateNotificaciones,
                     CuerpoCorreo = body,
@@ -248,7 +248,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
             var usuario = UsuarioDAL.ConsultarUsuario(formulario.UsuarioID);
             var destinatarios = PerfilesDAL.ConsultarCorreoNotificacion(9);
-            string enlace = GetUrlSitio(Url.Action("Index", "Login"));
+            string enlace = GetUrlSitio(Url.Action("Index", "RequerimientoEquipo"));
 
             string body = GetEmailTemplate("TemplateComentarioAprobacion");
             body = body.Replace("@ViewBag.EnlaceDirecto", enlace);
@@ -305,7 +305,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
                 var usuario = UsuarioDAL.ConsultarUsuario(formulario.UsuarioID);
                 var destinatarios = PerfilesDAL.ConsultarCorreoNotificacion(13);
-                string enlace = GetUrlSitio(Url.Action("Index", "Login"));
+                string enlace = GetUrlSitio(Url.Action("Index", "RequerimientoEquipo"));
 
                 string body = GetEmailTemplate("TemplateRequerimientoEquipo");
                 body = body.Replace("@ViewBag.EnlaceDirecto", enlace);
@@ -341,7 +341,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                     {
 
                         var destinatarios2 = PerfilesDAL.ConsultarCorreoNotificacion(9);
-                        string enlace1 = GetUrlSitio(Url.Action("Index", "Login"));
+                        string enlace1 = GetUrlSitio(Url.Action("Index", "RequerimientoEquipo"));
 
 
                         string bodyAprobacion = GetEmailTemplate("TemplateSolicitudAprobacion");
@@ -391,10 +391,11 @@ namespace EntradaSalidaRRHH.UI.Controllers
                     formulario.FechaAsignacion = DateTime.Now;
 
                 Resultado = RequerimientoEquipoDAL.ActualizarRequerimientoEquipo(formulario, equipos, herramientasAdicionales);
+
                 var usuario = UsuarioDAL.ConsultarUsuario(formulario.UsuarioID);
                 var destinatarios = PerfilesDAL.ConsultarCorreoNotificacion(15);
 
-                string enlace = GetUrlSitio(Url.Action("Index", "Login"));
+                string enlace = GetUrlSitio(Url.Action("Index", "RequerimientoEquipo"));
 
                 string body = GetEmailTemplate("TemplateAsignacionEquipo");
                 body = body.Replace("@ViewBag.EnlaceDirecto", enlace);
@@ -404,23 +405,35 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
                 if (Resultado.Estado)
                 {
-                    var notificacion = NotificacionesDAL.CrearNotificacion(new Notificaciones
+                    var asignacionResult = new RespuestaTransaccion();
+
+                    if (formulario.Asignado)
                     {
-                        NombreTarea = "Asignación Requerimiento",
-                        DescripcionTarea = "Correo de notificación de asignación de requerimiento de equipo.",
-                        NombreEmisor = nombreCorreoEmisor,
-                        CorreoEmisor = correoEmisor,
-                        ClaveCorreo = claveEmisor,
-                        CorreosDestinarios = destinatarios,
-                        AsuntoCorreo = "NOTIFICACION DE ASIGNACION DE REQUERIMIENTO",
-                        NombreArchivoPlantillaCorreo = TemplateNotificaciones,
-                        CuerpoCorreo = body,
-                        AdjuntosCorreo = "",//ruta,
-                        FechaEnvioCorreo = DateTime.Now,
-                        Empresa = usuario.NombreEmpresa,
-                        Canal = CanalNotificaciones,
-                        Tipo = "ASIGNACION",
-                    });
+                        asignacionResult = RequerimientoEquipoDAL.AsignarEquiposHerramientasAdicionalesPorRequerimiento(formulario);
+                        if (asignacionResult.Estado)
+                        {
+                            var notificacion = NotificacionesDAL.CrearNotificacion(new Notificaciones
+                            {
+                                NombreTarea = "Asignación Requerimiento",
+                                DescripcionTarea = "Correo de notificación de asignación de requerimiento de equipo.",
+                                NombreEmisor = nombreCorreoEmisor,
+                                CorreoEmisor = correoEmisor,
+                                ClaveCorreo = claveEmisor,
+                                CorreosDestinarios = destinatarios,
+                                AsuntoCorreo = "NOTIFICACION DE ASIGNACION DE REQUERIMIENTO",
+                                NombreArchivoPlantillaCorreo = TemplateNotificaciones,
+                                CuerpoCorreo = body,
+                                AdjuntosCorreo = "",//ruta,
+                                FechaEnvioCorreo = DateTime.Now,
+                                Empresa = usuario.NombreEmpresa,
+                                Canal = CanalNotificaciones,
+                                Tipo = "ASIGNACION",
+                            });
+                        }
+                    }
+                    
+
+                    
                 }
                 return Json(new { Resultado = Resultado }, JsonRequestBehavior.AllowGet);
             }

@@ -917,13 +917,14 @@ BEGIN
 	FROM vwRequerimientoEquipoHerramientasAdicionales rh
 	JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
 	JOIN RequerimientoEquipoHerramientasAdicionales rha ON rh.IDRequerimientoEquipo = rha.RequerimientoEquipoID
-	JOIN Equipo e ON reu.EquipoID = e.IDEquipo
+	JOIN Equipo e ON rha.HerramientaAdicional = e.IDEquipo
 	LEFT JOIN adm.Catalogo c ON rha.Estado = c.IdCatalogo
 	WHERE rh.UsuarioID = @IdUsuario AND
 	e.IDEquipo IN (
 	SELECT MIN(e.IDEquipo) FROM vwRequerimientoEquipoHerramientasAdicionales rh
-	JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
-	JOIN Equipo e ON reu.EquipoID = e.IDEquipo
+	JOIN RequerimientoEquipoHerramientasAdicionales reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+	JOIN RequerimientoEquipo re ON re.IDRequerimientoEquipo = reu.RequerimientoEquipoID
+	JOIN Equipo e ON rh.HerramientaAdicional = e.IDEquipo
 	WHERE rh.UsuarioID = @IdUsuario)
 END
 GO
@@ -938,3 +939,25 @@ INSERT INTO adm.Catalogo VALUES (@CatalogoNuevo, 'CORREOS PRUEBAS PARA APLICACIO
 SELECT @IdPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @CatalogoNuevo
 INSERT INTO adm.Catalogo VALUES (NULL, 'RRHH', 'esteban.morejon@qph.com.ec; carlos.totoy@qph.com.ec', @IdPadre,1,1,0)
 GO
+
+/*****************  Tarea 59  ************************
+	Proyecto: RRHH									
+	Fecha: 05/mar/2021
+	Descripción:  Asignacion de equipos incluye campo
+	asignacion y fecha
+*****************************************************/
+CREATE PROCEDURE AsignarEquiposPorRequerimiento @IdRequerimientoEquipo INT
+AS
+DECLARE @CodigoCatalogoPadre VARCHAR(50) = 'ESTADO-ASIGNACION-EQUIPOS'
+DECLARE @CodigoAsignado VARCHAR(50) = 'ASIGNADO'
+DECLARE @IdPadre INT
+DECLARE @IdEstado INT 
+
+SELECT @IdPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @CodigoCatalogoPadre
+SELECT @IdEstado = IdCatalogo FROM adm.Catalogo WHERE NombreCatalogo = @CodigoAsignado AND IdCatalogoPadre = @IdPadre
+
+UPDATE RequerimientoEquipoUsuario SET Estado = @IdEstado, FechaModificacion = GETDATE() 
+WHERE RequerimientoEquipoID = @IdRequerimientoEquipo
+
+UPDATE RequerimientoEquipoHerramientasAdicionales SET Estado = @IdEstado, FechaModificacion = GETDATE() 
+WHERE RequerimientoEquipoID = @IdRequerimientoEquipo

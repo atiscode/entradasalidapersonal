@@ -263,6 +263,9 @@
           <Property Name="Programa" Type="int" />
           <Property Name="SugerenciaEquiposCargoID" Type="int" />
         </EntityType>
+        <Function Name="AsignarEquiposPorRequerimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdRequerimientoEquipo" Type="int" Mode="In" />
+        </Function>
         <Function Name="ConsultaComentariosRequerimientoEquipo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
@@ -843,7 +846,10 @@
           </FunctionImport>
           <FunctionImport Name="ListadoIngresoUsuarioDesvinculacion" ReturnType="Collection(RRHHModel.IngresoUsuarioDesvinculacionInfo)" />
           <FunctionImport Name="ListadoEquiposAsignadosUsuario" ReturnType="Collection(RRHHModel.ListadoEquiposAsignadosUsuario_Result)">
-            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AsignarEquiposPorRequerimiento">
+            <Parameter Name="IdRequerimientoEquipo" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="IngresosInfo">
@@ -3266,6 +3272,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AsignarEquiposPorRequerimiento" FunctionName="RRHHModel.Store.AsignarEquiposPorRequerimiento" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

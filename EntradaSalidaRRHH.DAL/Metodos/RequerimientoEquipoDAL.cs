@@ -17,9 +17,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             using (var transaction = db.Database.BeginTransaction())
             {
                 try
-                {
-                    if (!equipos.Any())
-                        return new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeEquipoRequerido };
+                {                   
 
                     objeto.FechaSolicitud = DateTime.Now;
 
@@ -150,6 +148,33 @@ namespace EntradaSalidaRRHH.DAL.Metodos
                     db.Entry(entity).CurrentValues.SetValues(objeto);
                     db.SaveChanges();
 
+                    transaction.Commit();
+
+                    return new RespuestaTransaccion { Estado = true, Respuesta = Mensajes.MensajeTransaccionExitosa };
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeTransaccionFallida + " ;" + ex.Message.ToString() };
+                }
+            }
+        }
+
+        public static RespuestaTransaccion AsignarEquiposHerramientasAdicionalesPorRequerimiento(RequerimientoEquipo requerimientoEquipo)
+        {
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+
+                    var entity = db.RequerimientoEquipo.Find(requerimientoEquipo.IDRequerimientoEquipo);
+                    if (entity == null)
+                    {
+                        return new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeTransaccionFallida };
+                    }
+
+                    db.AsignarEquiposPorRequerimiento(requerimientoEquipo.IDRequerimientoEquipo);
+                    
                     transaction.Commit();
 
                     return new RespuestaTransaccion { Estado = true, Respuesta = Mensajes.MensajeTransaccionExitosa };
