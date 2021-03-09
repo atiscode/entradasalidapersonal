@@ -1338,6 +1338,7 @@
     <Compile Include="Controllers\SugerenciaEquipoController.cs" />
     <Compile Include="Controllers\TipoNotificacionController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Enums\CatalogoEnum.cs" />
     <Compile Include="Enums\TipoEquipoEnum.cs" />
     <Compile Include="Helper\BadDateFixingConverter.cs" />
     <Compile Include="Helper\ControlLogeo.cs" />

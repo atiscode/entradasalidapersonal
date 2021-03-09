@@ -1,5 +1,13 @@
 ﻿@model CatalogoInfo
+@using EntradaSalidaRRHH.UI.Enums;
+@{
+    var catalogoPadre = 0;
 
+    if (Model.IdCatalogoPadre == null || Model.IdCatalogoPadre < 1)
+    {
+        catalogoPadre = ViewBag.CatalogoPadre;
+    }
+}
 <link href="~/Content/css/Formulario.css" rel="stylesheet" />
 <script src="~/Content/js/init.js"></script>
 
@@ -12,7 +20,7 @@
     });
 
     $("#guardar-subcatalogo").click(function () {
-        
+
         let flag = validarCamposRequeridosFormularioCompleto("form-Subcatalogo");
         if (flag)
             agregarSubcatalogo();
@@ -21,8 +29,11 @@
     })
 
     function agregarSubcatalogo() {
-        
+
         let formulario = $('#form-Subcatalogo').serializeObject()
+        if ("@ViewBag.CatalogoCargo" == "@CatalogoCargoEnum.CargoPorEmpresa") {
+            urlAccionGuardarSubCatalogo = '@Url.Action("CrearSubCatalogoCargoPorEmpresa")';
+        }
 
         let data_form = JSON.stringify({ "formulario": formulario })
         _GuardarModal(data_form, urlAccionGuardarSubCatalogo)
@@ -39,7 +50,7 @@
 
                 @*@Html.Hidden("IdCatalogo", Model.IdCatalogo)*@
                 @*@Html.Hidden("CodigoCatalogo", Model.CodigoCatalogo)*@
-                @Html.Hidden("IdCatalogoPadre", Model.IdCatalogo)
+                @Html.Hidden("IdCatalogoPadre", catalogoPadre)
 
                 @Html.Hidden("EstadoCatalogo", true)
                 @Html.Hidden("IdEmpresa", 1)

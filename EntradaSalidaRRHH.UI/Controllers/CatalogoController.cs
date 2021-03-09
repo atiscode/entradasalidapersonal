@@ -1,6 +1,7 @@
 ﻿using EntradaSalidaRRHH.DAL.Metodos;
 using EntradaSalidaRRHH.DAL.Modelo;
 using EntradaSalidaRRHH.Repositorios;
+using EntradaSalidaRRHH.UI.Enums;
 using EntradaSalidaRRHH.UI.Helper;
 using NLog;
 using OfficeOpenXml;
@@ -130,6 +131,18 @@ namespace EntradaSalidaRRHH.UI.Controllers
             return Json(new { Resultado }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult CrearSubCatalogoCargoPorEmpresa(Catalogo formulario)
+        {
+            formulario.DescripcionCatalogo = formulario.NombreCatalogo;
+            formulario.NombreCatalogo = formulario.NombreCatalogo;
+            formulario.CodigoCatalogo = "CARGO";
+            formulario.IdCatalogoPadre = formulario.IdCatalogoPadre;
+            Resultado = CatalogoDAL.CrearCatalogo(formulario);
+
+            return Json(new { Resultado }, JsonRequestBehavior.AllowGet);
+        }
+
         [Autenticado]
         // GET: Catalogo/Edit/5
         public ActionResult Edit(int? id)
@@ -209,13 +222,15 @@ namespace EntradaSalidaRRHH.UI.Controllers
             return Json(new { Resultado = resultado }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult _AgregarSubCatalogo(string codigoCatalogo)
+        public ActionResult _AgregarSubCatalogo(string codigoCatalogo, CatalogoCargoEnum? catalogoCargo,   int codigoPadre = 0)
         {
             string titulo = "Agregar nuevo Catálogo a {0}";
             try
             {
                 var catalogo = CatalogoDAL.ConsultarCatalogo(codigoCatalogo);
                 ViewBag.TituloModal = string.Format(titulo, catalogo.NombreCatalogo);
+                ViewBag.CatalogoPadre = codigoPadre;
+                ViewBag.CatalogoCargo = catalogoCargo;
                 return PartialView(catalogo);
             }
             catch (Exception ex)
@@ -223,7 +238,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 ViewBag.TituloModal = string.Format(titulo, ex.Message);
                 return PartialView(new CatalogoInfo());
             }
-        }
+        }        
 
         [Autenticado]
         // GET: Subcatalogo/

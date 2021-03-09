@@ -679,7 +679,7 @@ function _GuardarModal(data, urlAccion) {
 
                 $("#btn-cerrar-modal").trigger("click");
                 toastr.success(result.Respuesta);
-
+                location.reload();
             }
             else {
                 toastr.error(result.Respuesta)

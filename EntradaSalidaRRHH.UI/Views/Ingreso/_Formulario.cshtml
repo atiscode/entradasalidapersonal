@@ -166,6 +166,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="etiqueta-seccion control-label col-md-2">Cargo: <span class="requerido"> *</span></label>
+                                <a title="Agregar nuevo cargo al catálogo." style="cursor: pointer" onclick="AgregarSubCatalogo('CARGO')"><i class="fa fa-plus"></i></a>
                                 <div class="col-md-10">
                                     @Html.DropDownList("Cargo", CatalogoDAL.ListadoCatalogosPorCodigoId("CARGO", (Model.Empresa ?? 0), (Model.Cargo ?? 0).ToString()), new { @class = "form-control campo-requerido js-example-basic-single", required = "" })
                                 </div>

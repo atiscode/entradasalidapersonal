@@ -1,4 +1,5 @@
 ﻿@model Ingreso
+@using EntradaSalidaRRHH.UI.Enums;
 @{
     int cargo = ViewBag.Cargo;
     int empresa = ViewBag.Empresa;
@@ -101,8 +102,11 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="etiqueta-seccion control-label col-md-2">Cargo: <span class="requerido"> *</span></label>
-                                        <div class="col-md-10">
+                                        <div class="col-md-8">
                                             @Html.DropDownList("Cargo", CatalogoDAL.ListadoCatalogosPorCodigoId("CARGO", (Model.Empresa ?? 0), (Model.Cargo ?? 0).ToString()), new { @class = "form-control campo-requerido  js-example-basic-single", required = "" })
+                                        </div>
+                                        <div class="2">
+                                            <a title="Agregar nuevo cargo al catálogo." style="cursor: pointer" onclick="AgregarSubCatalogo('CRG-01', @Model.Empresa)"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -230,9 +234,20 @@
 @section ViewSpecificJavascript {
     <script>
     var urlAccionListado = '@Url.Action("Index")';
-
     var urlAccionGuardar = '@Url.Action("Create")';
     var urlAccionEditar = '@Url.Action("Edit")';
+
+    var urlAccionAgregarSubcatalogo = '@Url.Action("_AgregarSubCatalogo", "Catalogo")';
+
+        function AgregarSubCatalogo(codigo, codigoPadre) {
+            _GetCreate({ codigoCatalogo: codigo, catalogoCargo: "@CatalogoCargoEnum.CargoPorEmpresa", codigoPadre: codigoPadre }, urlAccionAgregarSubcatalogo);
+        $('#contenido-modal').modal({
+            'show': 'true',
+            'backdrop': 'static',
+            'keyboard': false
+        });
+        return;
+    }
 
     $(document).ready(function () {
         $("#seccion-titulo-modal").text('@Html.Raw(ViewBag.TituloModal)');
@@ -242,16 +257,16 @@
 
         $("#TipoIngreso").on("change", VerificarReemplazo);
 
-        function VerificarReemplazo() { 
-            
-            var tipoIngreso = $("#TipoIngreso").find("option:selected").text();            
+        function VerificarReemplazo() {
+
+            var tipoIngreso = $("#TipoIngreso").find("option:selected").text();
 
             if (tipoIngreso === "REEMPLAZO") {
                 $(".reemplazo").show();
             } else {
                 $(".reemplazo").hide();
                 $("#PersonaReemplazante").val("");
-            }            
+            }
         }
 
 
