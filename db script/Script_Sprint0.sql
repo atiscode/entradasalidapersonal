@@ -961,3 +961,615 @@ WHERE RequerimientoEquipoID = @IdRequerimientoEquipo
 
 UPDATE RequerimientoEquipoHerramientasAdicionales SET Estado = @IdEstado, FechaModificacion = GETDATE() 
 WHERE RequerimientoEquipoID = @IdRequerimientoEquipo
+
+GO
+/*****************  Tarea 52  ************************
+	Proyecto: RRHH									
+	Fecha: 05/mar/2021
+	Descripción:  Agregar catalogos por empresa de 
+		Area y Cargo
+*****************************************************/
+DECLARE @IdEmpresaPadre INT 
+DECLARE @IdEmpresa INT
+DECLARE @Empresa VARCHAR(20)
+
+SELECT @IdEmpresaPadre = IdCatalogo 
+FROM adm.Catalogo WHERE CodigoCatalogo = 'EMP-01'
+
+DECLARE @CargosAInsertar TABLE 
+(
+	CodigoCatalogo VARCHAR(50),
+	NombreCatalogo VARCHAR(100),
+	DescripcionCatalogo VARCHAR(100),
+	IdCatalogoPadre INT,
+	IdEstado INT,
+	IdEmpresa INT,
+	Eliminado INT
+)
+DECLARE @Cargos TABLE (Cargo VARCHAR(100), EmpresaPadre INT)
+
+-- RAM
+SET @Empresa  = 'RAM'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Cargos VALUES 
+('ANALISTA DE MEDIOS', @IdEmpresa),
+('ANALISTA CONTABLE', @IdEmpresa),
+('ASISTENTE DE FACTURACION', @IdEmpresa),
+('ASISTENTE DE MEDIOS', @IdEmpresa),
+('COORDINADOR DE TRAFICO', @IdEmpresa),
+('DIRECTOR CREATIVO', @IdEmpresa),
+('DIRECTOR DE CUENTAS MEDIOS', @IdEmpresa),
+('DIRECTOR CREATIVO', @IdEmpresa),
+('EJECUTIVO DE COMPRAS', @IdEmpresa),
+('ESPECIALISTA TACTICO DIGITAL', @IdEmpresa),
+('PLANNER', @IdEmpresa),
+('PLANNER ATL', @IdEmpresa),
+('PLANNER DE MEDIOS', @IdEmpresa),
+('PLANNER DIGITAL', @IdEmpresa),
+('PLANNER ESTRATEGICO', @IdEmpresa),
+('PLANNER SENIOR', @IdEmpresa)
+-- ATISCODE
+SET @Empresa  = 'ATISCODE'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Cargos VALUES 
+('ANALISTA DE PROCESOS', @IdEmpresa),
+('ANALISTA SENIOR DE PROCESOS', @IdEmpresa),
+('COORDINADOR DE PROYECTOS', @IdEmpresa),
+('DESARROLLADOR', @IdEmpresa),
+('DESARROLLADOR JUNIOR', @IdEmpresa),
+('DIRECTOR CORPORACION DE TECNOLOGIA DE LA INFORMACION', @IdEmpresa),
+('SUPERVISOR DE INFRAESTRUCTURA Y HELP DESK', @IdEmpresa),
+('TECNICO DE INFRAESTRUCTURA Y COMUNICACIONES', @IdEmpresa)
+-- ATIS
+SET @Empresa  = 'ATIS'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Cargos VALUES 
+('ANALISTA DE MONITOREO', @IdEmpresa),
+('ANALISTA DE NOMINA', @IdEmpresa),
+('ASESOR/A SENIOR DE RELACIONES PUBLICAS', @IdEmpresa),
+('ASESORA COMERCIAL Y DE RELACIONES PUBLICAS', @IdEmpresa),
+('AUXILIAR DE MONITOREO', @IdEmpresa),
+('CONTADOR SENIOR', @IdEmpresa),
+('COORDINADOR DE MONITOREO Y ANALISIS DE INFORMACION', @IdEmpresa),
+('COORDINADOR UX CONTENT', @IdEmpresa),
+('EJECUTIVA DE CUENTAS', @IdEmpresa),
+('EJECUTIVO DE CUENTA DIGITAL', @IdEmpresa),
+('EJECUTIVO PR', @IdEmpresa),
+('JEFE DE REPORTES E INFORMES DE DIVULGACION', @IdEmpresa),
+('SECRETARIA OFICINISTA', @IdEmpresa)
+
+-- MULLEN
+SET @Empresa  = 'MDL'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Cargos VALUES 
+('ANALISTA CONTABLE', @IdEmpresa),
+('ANALISTA DE COMPRAS Y ADMINISTRACION', @IdEmpresa),
+('ANALISTA DE PLANIFICACION ESTRATEGICA', @IdEmpresa),
+('ANALISTA DE PROCESOS', @IdEmpresa),
+('ASISTENTE ADMINISTRATIVO', @IdEmpresa),
+('ASISTENTE DE PRODUCCION AUDIOVISUAL', @IdEmpresa),
+('ASISTENTE DE RECURSOS HUMANOS', @IdEmpresa),
+('ASISTENTE DE SISTEMAS', @IdEmpresa),
+('AUXILIAR DE CAFETERIA', @IdEmpresa),
+('COMMUNITY MANAGER', @IdEmpresa),
+('CONSULTOR DE RRHH', @IdEmpresa),
+('CONTADOR GENERAL', @IdEmpresa),
+('CONTROLLER', @IdEmpresa),
+('COORDINADOR ADMINISTRATIVO LEGAL', @IdEmpresa),
+('COORDINADOR CORPORATIVO DE TALENTO HUMANO', @IdEmpresa),
+('COORDINADOR DE TRAFICO Y PRESUPUESTOS', @IdEmpresa),
+('CREATIVO DE CONTENIDO', @IdEmpresa),
+('DIRECTOR ADMINISTRATIVO FINANCIERO', @IdEmpresa),
+('DIRECTOR CREATIVO', @IdEmpresa),
+('DIRECTOR CREATIVO ASOCIADO', @IdEmpresa),
+('DIRECTOR CREATIVO GENERAL', @IdEmpresa),
+('DIRECTOR DE ARTE', @IdEmpresa),
+('DIRECTOR DE ARTE DIGITAL', @IdEmpresa),
+('DIRECTOR DE CUENTAS', @IdEmpresa),
+('DIRECTOR DE MEDIOS', @IdEmpresa),
+('DIRECTOR DE OPERACIONES', @IdEmpresa),
+('DIRECTOR DE PLANIFICACION ESTRATEGICA', @IdEmpresa),
+('DIRECTOR DE PRODUCCION', @IdEmpresa),
+('DIRECTOR DE PRODUCCION EXTERNA', @IdEmpresa),
+('DIRECTOR REGIONAL', @IdEmpresa),
+('DIRECTORA AUDIOVISUAL', @IdEmpresa),
+('DIRECTORA CUENTAS DEPORTIVAS', @IdEmpresa),
+('DIRECTORA DE ESTRATEGIA DIGITAL', @IdEmpresa),
+('DIRECTORA DE TRADE MARKETING Y BTL', @IdEmpresa),
+('DIRECTORA GRUPO DINERS', @IdEmpresa),
+('DISEÑADOR GRAFICO', @IdEmpresa),
+('DISEÑADOR JUNIOR', @IdEmpresa),
+('EDITOR', @IdEmpresa),
+('EJECUTIVA DE CUENTAS SENIOR', @IdEmpresa),
+('EJECUTIVA TRADE MARKETING', @IdEmpresa),
+('EJECUTIVO DE CUENTAS', @IdEmpresa),
+('EJECUTIVO DE CUENTAS DEPORTIVAS', @IdEmpresa),
+('HEAD OF ART', @IdEmpresa),
+('JEFE DE MEDIOS', @IdEmpresa),
+('MEDICO OCUPACIONAL', @IdEmpresa),
+('MENSAJERO', @IdEmpresa),
+('PLANNER ATL SENIOR', @IdEmpresa),
+('PLANNER DE MEDIOS Y COMPETENCIA', @IdEmpresa),
+('PLANNER ESTRATEGICO', @IdEmpresa),
+('PRODUCTOR', @IdEmpresa),
+('REALIZADOR AUDIOVISUAL', @IdEmpresa),
+('REDACTOR', @IdEmpresa),
+('REDACTOR SENIOR', @IdEmpresa),
+('SOCIAL MEDIA MANAGER', @IdEmpresa),
+('SUBCONTADOR', @IdEmpresa),
+('SUPERVISOR DE CUENTAS', @IdEmpresa),
+('TRABAJO SOCIAL', @IdEmpresa)
+
+-- FOCUS
+SET @Empresa  = 'FOCUS'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Cargos VALUES 
+('ASESOR COMERCIAL', @IdEmpresa),
+('ASISTENTE AREA CUALITATIVA', @IdEmpresa),
+('ASISTENTE CUANTITATIVO', @IdEmpresa),
+('ASISTENTE DE INVESTIGACION', @IdEmpresa),
+('CONTADOR SENIOR', @IdEmpresa),
+('COORDINADOR DE PROYECTOS JR.', @IdEmpresa),
+('COORDINADOR DE PROYECTOS SR', @IdEmpresa),
+('DIRECTOR CUANTITATIVO Y OPERACIONES', @IdEmpresa),
+('DIRECTOR DE ESTUDIOS CUALITATIVOS', @IdEmpresa),
+('DIRECTORA DE PROYECTOS', @IdEmpresa),
+('GERENCIA GENERAL', @IdEmpresa)
+
+-- GXC
+SET @Empresa  = 'GXC'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Cargos VALUES 
+('ASISTENTE CONTABLE', @IdEmpresa),
+('ANALISTA CONTABLE', @IdEmpresa),
+('ANALISTA DE TALENTO HUMANO', @IdEmpresa),
+('ASISTENTE CONTABLE', @IdEmpresa)
+
+-- KICKOFF
+SET @Empresa  = 'KICKOFF'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Cargos VALUES 
+('ANALISTA DE COMPRAS', @IdEmpresa),
+('ASESOR DE EVENTOS', @IdEmpresa),
+('ASESOR SENIOR DE EVENTOS', @IdEmpresa),
+('COORDINADOR DE COMPRAS', @IdEmpresa),
+('DIRECTOR DE CUENTAS BTL', @IdEmpresa),
+('EJECUTIVO DE CUENTA', @IdEmpresa),
+('SUPERVISOR LOGISTICO', @IdEmpresa)
+
+-- OPINO
+SET @Empresa  = 'OPINO'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Cargos VALUES 
+('ARQUITECTO', @IdEmpresa),
+('CONSULTOR CX', @IdEmpresa),
+('CONSULTOR DE TECNOLOGIA E INNOVACION', @IdEmpresa),
+('CONSULTOR UX', @IdEmpresa),
+('CX CONSULTANT', @IdEmpresa),
+('DIRECTOR COMERCIAL', @IdEmpresa),
+('DISEÑADOR UX/UI', @IdEmpresa),
+('PRODUCT OWNER SENIOR', @IdEmpresa),
+('TECH CONSULTING DIRECTOR', @IdEmpresa),
+('UX', @IdEmpresa),
+('UX JUNIOR', @IdEmpresa),
+('UX RESEARCH', @IdEmpresa),
+('UX RESEARCH / UX LEAD', @IdEmpresa)
+
+-- PPM
+SET @Empresa  = 'PPM'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Cargos VALUES 
+('ANALISTA DE COMUNICACION Y MARKETING', @IdEmpresa),
+('ANALISTA DE CONCILIACION', @IdEmpresa),
+('ANALISTA DE DATOS', @IdEmpresa),
+('ANALISTA DE ESTRATEGIA DIGITAL Y ANALITICA', @IdEmpresa),
+('ANALISTA DE INFRAESTUCTURA', @IdEmpresa),
+('ANALISTA DE MARKETING', @IdEmpresa),
+('ANALISTA DE OPERACIONES', @IdEmpresa),
+('ANALISTA DE PROCESAMIENTO', @IdEmpresa),
+('ANALISTA DE PROCESOS', @IdEmpresa),
+('ANALISTA DE PROYECTOS', @IdEmpresa),
+('ANALISTA DE TESORERIA', @IdEmpresa),
+('ARQUITECTO SR.', @IdEmpresa),
+('ASISTENTE ADMINISTRATIVA', @IdEmpresa),
+('ASISTENTE COMERCIAL', @IdEmpresa),
+('ASISTENTE DE OPERACION', @IdEmpresa),
+('ASISTENTE DE PRESUPUESTOS', @IdEmpresa),
+('ASISTENTE FACTURACION Y COBRANZAS', @IdEmpresa),
+('ASISTENTE TECNICO', @IdEmpresa),
+('AUXILIAR CAFETERIA', @IdEmpresa),
+('CONSULTOR RRHH', @IdEmpresa),
+('CONTADOR SENIOR', @IdEmpresa),
+('CONTROLLER', @IdEmpresa),
+('COORDINADOR DE OPERACIONES', @IdEmpresa),
+('COORDINADOR DE PRODUCTO', @IdEmpresa),
+('COORDINADORA DE COMUNICACION', @IdEmpresa),
+('COORDINADORA DE PROYECTOS INTERNOS, PROCESOS Y CONTROL', @IdEmpresa),
+('CX CONSULTANT', @IdEmpresa),
+('DESAROLLADOR JUNIOR', @IdEmpresa),
+('DESARROLLADOR', @IdEmpresa),
+('DESARROLLADOR JUNIOR', @IdEmpresa),
+('DESARROLLADOR SEMI SENIOR', @IdEmpresa),
+('DESARROLLADOR SENIOR', @IdEmpresa),
+('DIRECTOR (A)', @IdEmpresa),
+('DIRECTOR CONTROL INTERNO Y PLANEACION FINANCIERA', @IdEmpresa),
+('DIRECTOR CORPORATIVO FINANCIERO', @IdEmpresa),
+('DIRECTOR DE ARTE', @IdEmpresa),
+('DIRECTOR DE INVESTIGACION, DESARROLLO E INNOVACION', @IdEmpresa),
+('DIRECTOR DE MEDIOS DIGITALES', @IdEmpresa),
+('DIRECTOR DE NUEVOS NEGOCIOS Y ALIANZAS', @IdEmpresa),
+('DIRECTORA DE DESARROLLO DE PRODUCTO PAGOS DIGITALES', @IdEmpresa),
+('DIRECTORA DE LOYALTY', @IdEmpresa),
+('DISEÑADOR DIGITAL', @IdEmpresa),
+('DISEÑADOR DIGITAL SEMI SENIOR', @IdEmpresa),
+('DISEÑADOR UI', @IdEmpresa),
+('DISEÑADOR UX', @IdEmpresa),
+('DISEÑADOR UX / UI', @IdEmpresa),
+('EJECUTIVO COMERCIAL', @IdEmpresa),
+('EJECUTIVO DE IMPLEMENTACIÓN', @IdEmpresa),
+('ESPECIALISTA DE MARKETING', @IdEmpresa),
+('GESTOR DE PROYECTOS', @IdEmpresa),
+('JEFE DE INFRAESTRUCTURA', @IdEmpresa),
+('JEFE DE INVESTIGACION, DESARROLLO E INNOVACION', @IdEmpresa),
+('JEFE DE MARKETING', @IdEmpresa),
+('JEFE DE OPERACIONES', @IdEmpresa),
+('JEFE DE PRODUCTO', @IdEmpresa),
+('JEFE DE PROYECTO', @IdEmpresa),
+('JEFE INVESTIGACION, DISEÑO E INNOVACION', @IdEmpresa),
+('KAM JUNIOR', @IdEmpresa),
+('KEY ACCOUNT MANAGER', @IdEmpresa),
+('LIDER DE QA', @IdEmpresa),
+('MEDICO OCUPACIONAL', @IdEmpresa),
+('PASANTE', @IdEmpresa),
+('PRODUCT OWNER', @IdEmpresa),
+('PRODUCT OWNER JR', @IdEmpresa),
+('PROYECT LEADER', @IdEmpresa),
+('RECEPCIONISTA', @IdEmpresa),
+('SUPERVISOR/A', @IdEmpresa)
+
+INSERT INTO @CargosAInsertar 
+SELECT 'CARGO', Cargo, Cargo, EmpresaPadre, 1 ,1, 0
+FROM @Cargos
+WHERE Cargo NOT IN (
+					SELECT NombreCatalogo 
+					FROM adm.Catalogo 
+					WHERE Cargo = NombreCatalogo AND 
+					IdCatalogoPadre = EmpresaPadre
+					)
+
+INSERT INTO adm.Catalogo
+SELECT * FROM @CargosAInsertar
+--------------------------------
+------	INSERT AREAS	--------
+--------------------------------
+GO
+DECLARE @IdEmpresaPadre INT 
+DECLARE @IdEmpresa INT
+DECLARE @Empresa VARCHAR(20)
+
+SELECT @IdEmpresaPadre = IdCatalogo 
+FROM adm.Catalogo WHERE CodigoCatalogo = 'EMP-01'
+
+DECLARE @AreasAInsertar TABLE 
+(
+	CodigoCatalogo VARCHAR(50),
+	NombreCatalogo VARCHAR(100),
+	DescripcionCatalogo VARCHAR(100),
+	IdCatalogoPadre INT,
+	IdEstado INT,
+	IdEmpresa INT,
+	Eliminado INT
+)
+DECLARE @Areas TABLE (Area VARCHAR(100), EmpresaPadre INT)
+
+-- RAM
+SET @Empresa  = 'RAM'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('CONTROL INTERNO', @IdEmpresa),
+('CREATIVOS', @IdEmpresa),
+('CUENTAS', @IdEmpresa),
+('FINANCIERO', @IdEmpresa),
+('MEDIOS', @IdEmpresa)
+
+-- ATISCODE
+SET @Empresa  = 'ATISCODE'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('PROYECTOS', @IdEmpresa),
+('DESARROLLO', @IdEmpresa),
+('TECNOLOGIA', @IdEmpresa),
+('INFAESTRUCTURA', @IdEmpresa)
+
+-- ATIS
+SET @Empresa  = 'ATIS'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('MONITOREO', @IdEmpresa),
+('TALENTO HUMANO', @IdEmpresa),
+('ASESORIA', @IdEmpresa),
+('FINANCIERO', @IdEmpresa),
+('GERENCIA GENERAL', @IdEmpresa)
+
+-- MULLEN
+SET @Empresa  = 'MDL'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('CONTROL INTERNO', @IdEmpresa),	
+('FINANCIERO', @IdEmpresa),	
+('PLANIFICACION ESTRATEGICA', @IdEmpresa),	
+('PROCESOS Y COMPRAS', @IdEmpresa),	
+('ADMINISTRACION', @IdEmpresa),	
+('TALENTO HUMANO', @IdEmpresa),	
+('PRODUCCION GENERAL', @IdEmpresa),	
+('TECNOLOGIA', @IdEmpresa),	
+('SERVICIOS GENERALES', @IdEmpresa),	
+('CREATIVOS', @IdEmpresa),	
+('CUENTAS', @IdEmpresa),	
+('MEDIOS', @IdEmpresa),	
+('OPERACIONES', @IdEmpresa),	
+('DIRECCION GENERAL', @IdEmpresa)
+
+-- FOCUS
+SET @Empresa  = 'FOCUS'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('CUALITATIVO', @IdEmpresa),
+('CUANTITATIVO', @IdEmpresa),
+('COMERCIAL', @IdEmpresa),
+('GERENCIA GENERAL', @IdEmpresa),
+('FINANCIERO', @IdEmpresa)
+
+-- GXC
+SET @Empresa  = 'GXC'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('FINANCIERO', @IdEmpresa),
+('TALENTO HUMANO', @IdEmpresa)
+
+-- KICKOFF
+SET @Empresa  = 'KICKOFF'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('EVENTOS', @IdEmpresa),
+('PROCESOS Y COMPRAS', @IdEmpresa),
+('ADMINISTRACION', @IdEmpresa)
+
+-- OPINO
+SET @Empresa  = 'OPINO'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('UX EXPERIENCIA USUARIO', @IdEmpresa)
+
+-- PPM
+SET @Empresa  = 'PPM'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('ADMINISTRACION', @IdEmpresa),
+('ANALITICA', @IdEmpresa),
+('COMERCIAL', @IdEmpresa),
+('COMUNICACIÓN', @IdEmpresa),
+('CONTROL INTERNO', @IdEmpresa),
+('CUENTAS', @IdEmpresa),
+('DESARROLLO', @IdEmpresa),
+('FINANCIERO', @IdEmpresa),
+('LOYALTY', @IdEmpresa),
+('MARKETING', @IdEmpresa),
+('NEGOCIOS ', @IdEmpresa),
+('NEGOCIOS DIGITALES', @IdEmpresa),
+('NUEVOS NEGOCIOS Y ALIANZAS', @IdEmpresa),
+('OPERACIÓN', @IdEmpresa),
+('OPERACIONES', @IdEmpresa),
+('PROCESOS', @IdEmpresa),
+('PROYECTOS', @IdEmpresa),
+('SERVICIOS GENERALES', @IdEmpresa),
+('TALENTO HUMANO', @IdEmpresa),
+('TECNOLOGIA', @IdEmpresa)
+
+INSERT INTO @AreasAInsertar 
+SELECT 'ÁREA', Area, Area, EmpresaPadre, 1 ,1, 0
+FROM @Areas
+WHERE Area NOT IN (
+					SELECT NombreCatalogo 
+					FROM adm.Catalogo 
+					WHERE Area = NombreCatalogo AND 
+					IdCatalogoPadre = EmpresaPadre
+					)
+
+INSERT INTO adm.Catalogo
+SELECT * FROM @AreasAInsertar
+GO
+--------------------------------
+---  INSERT DEPARTAMENTOS  -----
+--------------------------------
+DECLARE @IdEmpresaPadre INT 
+DECLARE @IdEmpresa INT
+DECLARE @Empresa VARCHAR(20)
+
+SELECT @IdEmpresaPadre = IdCatalogo 
+FROM adm.Catalogo WHERE CodigoCatalogo = 'EMP-01'
+
+DECLARE @DepartamentosAInsertar TABLE 
+(
+	CodigoCatalogo VARCHAR(50),
+	NombreCatalogo VARCHAR(100),
+	DescripcionCatalogo VARCHAR(100),
+	IdCatalogoPadre INT,
+	IdEstado INT,
+	IdEmpresa INT,
+	Eliminado INT
+)
+DECLARE @Areas TABLE (Departamento VARCHAR(100), EmpresaPadre INT)
+
+-- RAM
+SET @Empresa  = 'RAM'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('ADMINISTRACION', @IdEmpresa),
+('CREATIVOS', @IdEmpresa),
+('MEDIOS', @IdEmpresa),
+('CUENTAS', @IdEmpresa)
+
+-- ATISCODE
+SET @Empresa  = 'ATISCODE'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('TECNOLOGIA', @IdEmpresa)
+
+-- ATIS
+SET @Empresa  = 'ATIS'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('ADMINISTRACION', @IdEmpresa),
+('COMUNIC. ESTRATEG. Y RRPP', @IdEmpresa),
+('REPORTES E INFORMES DE DIVULGACION', @IdEmpresa)
+
+-- MULLEN
+SET @Empresa  = 'MDL'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('ADMINISTRACION', @IdEmpresa),
+('CREATIVOS', @IdEmpresa),
+('CUENTAS', @IdEmpresa),
+('GUAYAQUIL ADM', @IdEmpresa),
+('GUAYAQUIL CREATIVOS', @IdEmpresa),
+('GUAYAQUIL CUENTAS', @IdEmpresa),
+('GUAYAQUIL DIRECCION REGIONAL', @IdEmpresa),
+('GUAYAQUIL MEDIOS', @IdEmpresa),
+('MEDIOS', @IdEmpresa),
+('OPERACIONES', @IdEmpresa),
+('PLANIFICACION ESTRATEGICA', @IdEmpresa),
+('PRODUCCION GENERAL', @IdEmpresa)
+
+-- FOCUS
+SET @Empresa  = 'FOCUS'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('ADMINISTRACION', @IdEmpresa),
+('COMERCIAL', @IdEmpresa),
+('CUALITATIVO', @IdEmpresa),
+('CUANTITATIVO', @IdEmpresa)
+
+-- GXC
+SET @Empresa  = 'GXC'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('ADMINISTRACION', @IdEmpresa)
+
+-- KICKOFF
+SET @Empresa  = 'KICKOFF'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('EVENTOS', @IdEmpresa),
+('ADMINISTRACION', @IdEmpresa)
+
+-- OPINO
+SET @Empresa  = 'OPINO'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('UX INNOVACION', @IdEmpresa)
+
+-- PPM
+SET @Empresa  = 'PPM'
+SELECT @IdEmpresa = IdCatalogo 
+FROM adm.Catalogo 
+WHERE CodigoCatalogo = @Empresa AND IdCatalogoPadre = @IdEmpresaPadre
+
+INSERT INTO @Areas VALUES 
+('ADMINISTRACION', @IdEmpresa),
+('INVESTIGACION, DESARROLLO E INNOVACION', @IdEmpresa),
+('LOYALTY', @IdEmpresa),
+('NEGOCIOS DIGITALES Y PROYECTOS', @IdEmpresa),
+('NUEVOS NEGOCIOS Y ALIANZAS', @IdEmpresa),
+('PROYECTOS, PROCESOS Y CONTROL INTERNO', @IdEmpresa)
+
+INSERT INTO @DepartamentosAInsertar 
+SELECT 'ÁREA', Departamento, Departamento, EmpresaPadre, 1 ,1, 0
+FROM @Areas
+WHERE Departamento NOT IN (
+					SELECT NombreCatalogo 
+					FROM adm.Catalogo 
+					WHERE Departamento = NombreCatalogo AND 
+					IdCatalogoPadre = EmpresaPadre
+					)
+
+INSERT INTO adm.Catalogo
+SELECT * FROM @DepartamentosAInsertar

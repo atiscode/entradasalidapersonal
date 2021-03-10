@@ -149,8 +149,14 @@
 
             if (flag && !validacionEstudios)
                 guardar();
-            else
-                toastr.error('@Mensajes.MensajeDatosObligatorios')
+            else {
+                if (flag && validacionEstudios) {
+                    toastr.error('Se debe agregar al menos 1 estudio.')
+                } else {
+                    toastr.error('@Mensajes.MensajeDatosObligatorios')
+                }
+            }
+
         })
 
         $("#Pais").change(function () {
