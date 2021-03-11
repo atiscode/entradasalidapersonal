@@ -190,7 +190,9 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             try
             {
                 //Solo listar los usuarios que ya tengan fichas de ingreso
-                ListadoCatalogo.AddRange(db.ListadoIngresoUsuarioDesvinculacion().Where(s => s.TieneFichaIngreso == 1 && s.TieneIngreso == 0).Select(c => new SelectListItem
+                var usuariosConFicha = db.ListadoIngresoUsuarioDesvinculacion().ToList();
+
+                ListadoCatalogo.AddRange(usuariosConFicha.Where(s => s.TieneFichaIngreso == 1 && s.TieneIngreso == 0).Select(c => new SelectListItem
                 {
                     Text = c.NombresApellidos.ToString() + " - " + c.Identificacion,
                     Value = c.IDFichaIngreso.ToString()
@@ -198,6 +200,11 @@ namespace EntradaSalidaRRHH.DAL.Metodos
 
                 if (!string.IsNullOrEmpty(seleccionado))
                 {
+                    var fichaSeleccionada = usuariosConFicha.FirstOrDefault(t=> t.IDFichaIngreso == Convert.ToInt32(seleccionado));
+                    
+                    if(Convert.ToInt32(seleccionado) > 0)
+                        ListadoCatalogo.Add(new SelectListItem { Value = fichaSeleccionada.IDFichaIngreso.ToString(), Text = fichaSeleccionada.NombresApellidos });
+
                     if (ListadoCatalogo.FirstOrDefault(s => s.Value == seleccionado.ToString()) != null)
                         ListadoCatalogo.FirstOrDefault(s => s.Value == seleccionado.ToString()).Selected = true;
                 }

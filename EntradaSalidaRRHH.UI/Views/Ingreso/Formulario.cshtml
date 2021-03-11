@@ -33,7 +33,7 @@
                                     <div class="form-group">
                                         <label class="etiqueta-seccion control-label col-md-2">Ficha de Ingreso:<span class="requerido"> *</span></label>
                                         <div class="col-md-10">
-                                            @Html.DropDownList("FichaIngresoID", FichaIngresoDAL.ObtenerListadoFichasIngreso(Model.FichaIngresoID.ToString()), null, new { @class = "form-control campo-requerido", required = "" })
+                                            @Html.DropDownList("FichaIngresoID", FichaIngresoDAL.ObtenerListadoFichasIngreso(Model.FichaIngresoID.ToString()), null, new { @class = "form-control campo-requerido", required = ""})
                                         </div>
                                     </div>
                                 </div>
@@ -268,8 +268,6 @@
                 $("#PersonaReemplazante").val("");
             }
         }
-
-
     $("#guardar").click(function () {
 
         var flag = validarCamposRequeridosFormularioCompleto("form-ingreso");

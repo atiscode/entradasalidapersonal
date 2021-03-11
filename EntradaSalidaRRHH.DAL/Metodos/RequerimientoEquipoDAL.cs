@@ -17,7 +17,13 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             using (var transaction = db.Database.BeginTransaction())
             {
                 try
-                {                   
+                {
+                    bool hayEquipos = equipos != null && equipos.Count > 0;
+                    bool hayHerramientasAdicionales = herramientasAdicionales != null && herramientasAdicionales.Count > 0;
+                    if (!hayEquipos && !hayHerramientasAdicionales )
+                    {
+                        return new RespuestaTransaccion { Estado = false, Respuesta = "Debe ingresar al menos 1 Equipo o Herramienta Adicional." };
+                    }
 
                     objeto.FechaSolicitud = DateTime.Now;
 
