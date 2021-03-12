@@ -301,10 +301,18 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
                 formulario.UsuarioSolicitanteID = UsuarioLogeadoSession.IdUsuario;
 
-                Resultado = RequerimientoEquipoDAL.CrearRequerimientoEquipo(formulario, equipos, herramientasAdicionales);
+                var usuario = UsuarioDAL.ConsultarUsuario(formulario.UsuarioID);               
 
-                var usuario = UsuarioDAL.ConsultarUsuario(formulario.UsuarioID);
+                Resultado = RequerimientoEquipoDAL.CrearRequerimientoEquipo(formulario, equipos, herramientasAdicionales);
+                
                 var destinatarios = PerfilesDAL.ConsultarCorreoNotificacion(13);
+
+                var equiposAsignados = RequerimientoEquipoDAL.ListadoEquiposAsignadosPorUsuario(usuario.IdUsuario);
+                if (equiposAsignados == null || equiposAsignados.Count == 0)
+                {
+                    destinatarios = destinatarios + ";erika.analuisa@ppm.com.ec";
+                }
+
                 string enlace = GetUrlSitio(Url.Action("Index", "RequerimientoEquipo"));
 
                 string body = GetEmailTemplate("TemplateRequerimientoEquipo");
