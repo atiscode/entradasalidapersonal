@@ -1305,6 +1305,7 @@
     <Content Include="Views\ModificacionEquipo\_Detalles.cshtml" />
     <Content Include="Views\ModificacionEquipo\_InformacionEquipo.cshtml" />
     <Content Include="Views\Base\TemplateReasignacionEquipo.cshtml" />
+    <Content Include="Views\Base\TemplateDevolucionEquipo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

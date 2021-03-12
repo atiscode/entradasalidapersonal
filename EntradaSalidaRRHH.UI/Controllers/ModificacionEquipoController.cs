@@ -128,6 +128,13 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 
                 string body = GetEmailTemplate("TemplateReasignacionEquipo");
 
+                if (estadoDevolucion.HasValue)
+                {
+                    body = GetEmailTemplate("TemplateDevolucionEquipo");
+                    body = body.Replace("@ViewBag.Devolucion", CatalogoDAL.ConsultarCatalogo(estadoDevolucion.Value).NombreCatalogo); 
+                    body = body.Replace("@ViewBag.Observaciones", string.IsNullOrWhiteSpace(observaciones)? "Sin comentarios.":observaciones);
+                }
+
                 string[] roles = { "COORDINADOR RRHH", "COORDINADOR HELP DESK" };
 
                 var usuariosDestinatarios = UsuarioDAL.ObtenerMailCorporativosPorRoles(roles);
