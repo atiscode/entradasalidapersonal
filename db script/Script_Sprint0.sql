@@ -661,6 +661,9 @@ INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo1, @NombreCatalogo1, @IdCa
 
 DECLARE @NombreCatalogo2 VARCHAR(20) = 'COMPRADO'
 INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo2, @NombreCatalogo2, @IdCatalogoPadre, 1,1,0)
+
+DECLARE @NombreCatalogo3 VARCHAR(20) = 'ENTREGADO TI'
+INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo3, @NombreCatalogo3, @IdCatalogoPadre, 1,1,0)
 GO
 ALTER VIEW [dbo].[vwRequerimientoEquipo] AS  
 SELECT RE.[IDRequerimientoEquipo]  
