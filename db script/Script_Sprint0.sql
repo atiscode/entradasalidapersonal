@@ -853,12 +853,15 @@ SELECT
   reu.Estado,  
   c.NombreCatalogo,  
   reu.FechaModificacion,  
-  reu.Observaciones  
+  reu.Observaciones,
+  reu.Devolucion,
+  c1.NombreCatalogo AS DevolucionText
  FROM RequerimientoEquipo re  
  JOIN adm.Usuario u ON re.UsuarioID = u.IdUsuario  
  JOIN RequerimientoEquipoUsuario reu ON re.IDRequerimientoEquipo = reu.RequerimientoEquipoID  
  JOIN Equipo e ON e.IDEquipo = reu.EquipoID  
- LEFT JOIN adm.Catalogo c ON reu.Estado = c.IdCatalogo  
+ LEFT JOIN adm.Catalogo c ON reu.Estado = c.IdCatalogo
+ LEFT JOIN adm.Catalogo c1 ON reu.Devolucion = c1.IdCatalogo 
  WHERE re.FechaAsignacion IS NOT NULL AND u.IdUsuario = @IdUsuario AND re.Asignado = 1  
  UNION ALL  
  SELECT  
@@ -871,12 +874,15 @@ SELECT
   rha.Estado,  
   c.NombreCatalogo,  
   rha.FechaModificacion,  
-  rha.Observaciones  
+  rha.Observaciones,
+  reu.Devolucion,
+  c1.NombreCatalogo AS DevolucionText
  FROM vwRequerimientoEquipoHerramientasAdicionales rh  
  JOIN RequerimientoEquipoUsuario reu ON rh.IDRequerimientoEquipo = reu.RequerimientoEquipoID  
  JOIN RequerimientoEquipoHerramientasAdicionales rha ON rh.IDRequerimientoEquipo = rha.RequerimientoEquipoID  
  JOIN Equipo e ON rha.HerramientaAdicional = e.IDEquipo  
- LEFT JOIN adm.Catalogo c ON rha.Estado = c.IdCatalogo  
+ LEFT JOIN adm.Catalogo c ON rha.Estado = c.IdCatalogo 
+ LEFT JOIN adm.Catalogo c1 ON rha.Devolucion = c1.IdCatalogo 
  WHERE rh.UsuarioID = @IdUsuario AND  
  e.IDEquipo IN (  
  SELECT e.IDEquipo FROM vwRequerimientoEquipoHerramientasAdicionales rhx  
@@ -914,10 +920,10 @@ DECLARE @IdEstado INT
 SELECT @IdPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @CodigoCatalogoPadre
 SELECT @IdEstado = IdCatalogo FROM adm.Catalogo WHERE NombreCatalogo = @CodigoAsignado AND IdCatalogoPadre = @IdPadre
 
-UPDATE RequerimientoEquipoUsuario SET Estado = @IdEstado, FechaModificacion = GETDATE() 
+UPDATE RequerimientoEquipoUsuario SET Estado = @IdEstado, FechaModificacion = GETDATE()
 WHERE RequerimientoEquipoID = @IdRequerimientoEquipo
 
-UPDATE RequerimientoEquipoHerramientasAdicionales SET Estado = @IdEstado, FechaModificacion = GETDATE() 
+UPDATE RequerimientoEquipoHerramientasAdicionales SET Estado = @IdEstado, FechaModificacion = GETDATE()
 WHERE RequerimientoEquipoID = @IdRequerimientoEquipo
 
 GO
@@ -1531,3 +1537,36 @@ WHERE Departamento NOT IN (
 
 INSERT INTO adm.Catalogo
 SELECT * FROM @DepartamentosAInsertar
+GO
+
+/*****************  Tarea 64  ************************
+	Proyecto: RRHH									
+	Fecha: 25/feb/2021
+	Descripción: En reasignación equipo agregar un 
+	nuevo estaado para los equipos devuletos que 
+	contenga: Recibido, recibido con problemas, 
+	no recibido para que TI pueda notificar 
+	observaciones sobre los equipos recibidos
+*****************************************************/
+ALTER TABLE RequerimientoEquipo ADD Tracking INT NULL
+
+DECLARE @CatalogoPadre VARCHAR(100) = 'ESTADO-DEVOLUCION-EQUIPOS'
+DECLARE @IdCatalogoPadre INT
+
+INSERT INTO adm.Catalogo VALUES(@CatalogoPadre, 'ESTADO DEVOLUCION DE EQUIPOS','NOMBRE DEL ESTADO PARA DEVOLUCIONES DE EQUIPOS',NULL,1,1,0)
+
+SELECT @IdCatalogoPadre = IdCatalogo FROM adm.Catalogo WHERE CodigoCatalogo = @CatalogoPadre
+
+
+DECLARE @NombreCatalogo1 VARCHAR(100) = 'RECIBIDO OK'
+INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo1, @NombreCatalogo1, @IdCatalogoPadre, 1,1,0)
+
+DECLARE @NombreCatalogo2 VARCHAR(100) = 'RECIBIDO CON PROBLEMAS'
+INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo2, @NombreCatalogo2, @IdCatalogoPadre, 1,1,0)
+
+DECLARE @NombreCatalogo3 VARCHAR(100) = 'NO RECIBIDO'
+INSERT INTO adm.Catalogo VALUES (NULL, @NombreCatalogo3, @NombreCatalogo3, @IdCatalogoPadre, 1,1,0)
+GO
+
+ALTER TABLE RequerimientoEquipoUsuario ADD Devolucion INT
+ALTER TABLE RequerimientoEquipoHerramientasAdicionales ADD Devolucion INT

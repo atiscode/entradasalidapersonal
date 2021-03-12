@@ -9,6 +9,7 @@ namespace EntradaSalidaRRHH.DAL.Modelo
         public string TipoEquipo { get; set; }          
         public string FechaModificacion { get; set; }
         public string Estado { get; set; }
+        public string Devolucion { get; set; }
         public string Observaciones { get; set; }
     }
 }

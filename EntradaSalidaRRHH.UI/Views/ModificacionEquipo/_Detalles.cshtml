@@ -23,8 +23,10 @@
                                 <th data-override="Equipo">Equipo</th>
                                 <th data-override="TipoEquipo">Tipo de Equipo</th>
                                 <th data-override="FechaModificacion">Fecha de Modificación</th>
-                                <th data-override="Estado">Estado</th>
+                                <th data-override="Estado">Estado Asignación Usuario</th>
+                                <th data-override="Devolucion">Estado Devolución</th>
                                 <th data-override="Observaciones">Observaciones</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,14 +52,23 @@
                                 <td>
                                     <div class="input-group">
                                         <div class="input-group">
-                                            @Html.DropDownList("Estado" + item.IDRequerimientoEquipoUsuario, CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("ESTADO-ASIGNACION-EQUIPOS", (item.Estado ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control tracking-select", onchange = "CambiarEstado(this);", onfocus = "PreCambioEstado(this);", tipo = item.TipoEquipo })
+                                            @Html.DropDownList("Estado_" + item.IDRequerimientoEquipoUsuario, CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("ESTADO-ASIGNACION-EQUIPOS", (item.Estado ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control tracking-select", onfocus = "PreCambioEstado(this);", onchange = "OnChangeEstadoAsignacion(this);", tipo = item.TipoEquipo })
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <div class="input-group">
+                                            @Html.DropDownList("Devolucion_" + item.IDRequerimientoEquipoUsuario, CatalogoDAL.ObtenerListadoCatalogosByCodigoSeleccion("ESTADO-DEVOLUCION-EQUIPOS", (item.Devolucion ?? 0).ToString()), Etiquetas.TituloComboVacio, new { @class = "form-control reasignacion-devolucion", onfocus = "PreCambioDevolucion(this);", tipo = item.TipoEquipo })
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <input id="Observaciones_@item.IDRequerimientoEquipoUsuario" title="@item.Observaciones" type="text" class="form-control" value="@item.Observaciones" name="TipoEquipo[]" maxlength="50" required />
                                 </td>
-
+                                <td>
+                                    <i id="Guardar_@item.IDRequerimientoEquipoUsuario" class="btn btn-warning glyphicon glyphicon-check" onclick="Guardar(this)"></i>
+                                </td>
                             </tr>
                                     contador++;
                             }

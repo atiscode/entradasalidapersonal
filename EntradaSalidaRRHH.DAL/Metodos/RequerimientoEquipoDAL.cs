@@ -436,7 +436,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             }
         }
 
-        public static RespuestaTransaccion ActualizarRequerimientoEquipoUsuario(int idRequerimientoEquipoUsuario, int estado, string observaciones)
+        public static RespuestaTransaccion ActualizarRequerimientoEquipoUsuario(int idRequerimientoEquipoUsuario, int estado, string observaciones, int? devolucion = null)
         {
             using (var transaction = db.Database.BeginTransaction())
             {
@@ -446,6 +446,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
                     entity.FechaModificacion = DateTime.UtcNow;
                     entity.Estado = estado;
                     entity.Observaciones = observaciones;
+                    entity.Devolucion = devolucion;
 
                     db.Entry(entity).CurrentValues.SetValues(entity);
                     db.Entry(entity).State = EntityState.Modified;
@@ -462,7 +463,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
             }
         }
 
-        public static RespuestaTransaccion ActualizarRequerimientoEquipoHerramientaAdicional(int idRequerimientoEquipoHerramientasAdicionales, int estado, string observaciones)
+        public static RespuestaTransaccion ActualizarRequerimientoEquipoHerramientaAdicional(int idRequerimientoEquipoHerramientasAdicionales, int estado, string observaciones, int? devolucion = null)
         {
             using (var transaction = db.Database.BeginTransaction())
             {
@@ -472,6 +473,7 @@ namespace EntradaSalidaRRHH.DAL.Metodos
                     entity.FechaModificacion = DateTime.UtcNow;
                     entity.Estado = estado;
                     entity.Observaciones = observaciones;
+                    entity.Devolucion = devolucion;
                     db.Entry(entity).CurrentValues.SetValues(entity);
                     db.Entry(entity).State = EntityState.Modified;
                     db.SaveChanges();

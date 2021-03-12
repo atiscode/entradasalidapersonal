@@ -231,6 +231,7 @@
           <Property Name="Estado" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
           <Property Name="Observaciones" Type="varchar" MaxLength="100" />
+          <Property Name="Devolucion" Type="int" />
         </EntityType>
         <EntityType Name="RequerimientoEquipoUsuario">
           <Key>
@@ -242,6 +243,7 @@
           <Property Name="Estado" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
           <Property Name="Observaciones" Type="varchar" MaxLength="100" />
+          <Property Name="Devolucion" Type="int" />
         </EntityType>
         <EntityType Name="SugerenciaEquiposCargo">
           <Key>
@@ -648,6 +650,7 @@
           <Property Name="Estado" Type="Int32" />
           <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
           <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Devolucion" Type="Int32" />
         </EntityType>
         <EntityType Name="RequerimientoEquipoUsuario">
           <Key>
@@ -659,6 +662,7 @@
           <Property Name="Estado" Type="Int32" />
           <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
           <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Devolucion" Type="Int32" />
         </EntityType>
         <EntityType Name="SugerenciaEquiposCargo">
           <Key>
@@ -845,11 +849,11 @@
             <Parameter Name="UsuarioID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ListadoIngresoUsuarioDesvinculacion" ReturnType="Collection(RRHHModel.IngresoUsuarioDesvinculacionInfo)" />
-          <FunctionImport Name="ListadoEquiposAsignadosUsuario" ReturnType="Collection(RRHHModel.ListadoEquiposAsignadosUsuario_Result)">
-          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="AsignarEquiposPorRequerimiento">
-            <Parameter Name="IdRequerimientoEquipo" Mode="In" Type="Int32" />
+          <Parameter Name="IdRequerimientoEquipo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ListadoEquiposAsignadosUsuario" ReturnType="Collection(RRHHModel.ListadoEquiposAsignadosUsuario_Result)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="IngresosInfo">
@@ -1863,6 +1867,8 @@
           <Property Type="String" Name="NombreCatalogo" Nullable="true" MaxLength="150" />
           <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
           <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="Devolucion" Nullable="true" />
+          <Property Type="String" Name="DevolucionText" Nullable="true" MaxLength="150" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2042,6 +2048,7 @@
           <EntitySetMapping Name="RequerimientoEquipoHerramientasAdicionales">
             <EntityTypeMapping TypeName="RRHHModel.RequerimientoEquipoHerramientasAdicionales">
               <MappingFragment StoreEntitySet="RequerimientoEquipoHerramientasAdicionales">
+                <ScalarProperty Name="Devolucion" ColumnName="Devolucion" />
                 <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
                 <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
@@ -2054,6 +2061,7 @@
           <EntitySetMapping Name="RequerimientoEquipoUsuario">
             <EntityTypeMapping TypeName="RRHHModel.RequerimientoEquipoUsuario">
               <MappingFragment StoreEntitySet="RequerimientoEquipoUsuario">
+                <ScalarProperty Name="Devolucion" ColumnName="Devolucion" />
                 <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
                 <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
@@ -3256,6 +3264,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AsignarEquiposPorRequerimiento" FunctionName="RRHHModel.Store.AsignarEquiposPorRequerimiento" />
           <FunctionImportMapping FunctionImportName="ListadoEquiposAsignadosUsuario" FunctionName="RRHHModel.Store.ListadoEquiposAsignadosUsuario">
             <ResultMapping>
               <ComplexTypeMapping TypeName="RRHHModel.ListadoEquiposAsignadosUsuario_Result">
@@ -3269,10 +3278,11 @@
                 <ScalarProperty Name="NombreCatalogo" ColumnName="NombreCatalogo" />
                 <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
                 <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Devolucion" ColumnName="Devolucion" />
+                <ScalarProperty Name="DevolucionText" ColumnName="DevolucionText" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="AsignarEquiposPorRequerimiento" FunctionName="RRHHModel.Store.AsignarEquiposPorRequerimiento" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

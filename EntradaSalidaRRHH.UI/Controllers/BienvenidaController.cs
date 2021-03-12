@@ -101,6 +101,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                         CorreoEmisor = correoEmisor,
                         ClaveCorreo = claveEmisor,
                         CorreosDestinarios = formulario.Mail,
+
                         AsuntoCorreo = "BIENVENIDA",
                         NombreArchivoPlantillaCorreo = TemplateNotificaciones,
                         CuerpoCorreo = body,

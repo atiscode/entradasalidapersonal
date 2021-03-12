@@ -107,17 +107,17 @@ namespace EntradaSalidaRRHH.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult _CambiarEstado(int idUsuario, int idEstado, int idRequerimientoEquipo, string tipoEquipo, int idEquipo, string observaciones)
+        public ActionResult _CambiarEstado(int idUsuario, int idEstado, int idRequerimientoEquipo, string tipoEquipo, int idEquipo, string observaciones, int? estadoDevolucion = null)
         {
             var respuesta = new RespuestaTransaccion();
             switch (tipoEquipo)
             {
                 case TipoEquipoEnum.Equipo:
-                    respuesta = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoUsuario(idRequerimientoEquipo, idEstado, observaciones);
+                    respuesta = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoUsuario(idRequerimientoEquipo, idEstado, observaciones, estadoDevolucion);
                     break;
 
                 case TipoEquipoEnum.HerramientaAdicional:
-                    respuesta = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoHerramientaAdicional(idRequerimientoEquipo, idEstado, observaciones);
+                    respuesta = RequerimientoEquipoDAL.ActualizarRequerimientoEquipoHerramientaAdicional(idRequerimientoEquipo, idEstado, observaciones, estadoDevolucion);
                     break;
             }           
 
@@ -159,12 +159,12 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
         #region REPORTES BASICOS
 
-        private List<string> columnasReportesBasicos = new List<string> { "USUARIO", "EQUIPO", "TIPO EQUIPO", "FECHA MODIFICACIÓN", "ESTADO", "OBSERVACIONES" };
+        private List<string> columnasReportesBasicos = new List<string> { "USUARIO", "EQUIPO", "TIPO EQUIPO", "FECHA MODIFICACIÓN", "ESTADO", "DEVOLUCION", "OBSERVACIONES" };
         public ActionResult DescargarReporteFormatoExcel()
         {
             var collection = ObtenerDatosReporte();
             var package = GetEXCEL(columnasReportesBasicos, collection.Cast<object>().ToList());
-            return File(package.GetAsByteArray(), XlsxContentType, "Listado.xlsx");
+            return File(package.GetAsByteArray(), XlsxContentType, "Listado Equipos Asignados Por Usuario.xlsx");
         }
 
         public ActionResult DescargarReporteFormatoPDF()
@@ -172,14 +172,14 @@ namespace EntradaSalidaRRHH.UI.Controllers
             var collection = ObtenerDatosReporte();
             byte[] buffer = GetPDF(columnasReportesBasicos, collection.Cast<object>().ToList(), "Listado de Asignación de equipos");
 
-            return File(buffer, PDFContentType, "ReportePDF.pdf");
+            return File(buffer, PDFContentType, "Listado Equipos Asignados Por Usuario.pdf");
         }
 
         public ActionResult DescargarReporteFormatoCSV()
         {
             var collection = ObtenerDatosReporte();
             byte[] buffer = GetCSV(columnasReportesBasicos, collection.Cast<object>().ToList());
-            return File(buffer, CSVContentType, $"Listado.csv");
+            return File(buffer, CSVContentType, $"Listado Equipos Asignados Por Usuario.csv");
         }
 
         private List<ModificacionEquipoReporteItem> ObtenerDatosReporte()
@@ -195,6 +195,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                     Equipo = item.Equipo ?? "",
                     TipoEquipo = item.TipoEquipo ?? "",
                     Estado = item.NombreCatalogo ?? "",
+                    Devolucion = item.DevolucionText ?? "",
                     FechaModificacion = item.FechaModificacion == null ? "": item.FechaModificacion.Value.ToString("dd/MM/yyyy hh:mm"),
                     Observaciones = item.Observaciones ?? "",                    
                 });

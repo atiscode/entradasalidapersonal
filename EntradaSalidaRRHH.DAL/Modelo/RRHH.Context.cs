@@ -685,15 +685,6 @@ namespace EntradaSalidaRRHH.DAL.Modelo
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IngresoUsuarioDesvinculacionInfo>("ListadoIngresoUsuarioDesvinculacion");
         }
     
-        public virtual ObjectResult<ListadoEquiposAsignadosUsuario_Result> ListadoEquiposAsignadosUsuario(Nullable<int> idUsuario)
-        {
-            var idUsuarioParameter = idUsuario.HasValue ?
-                new ObjectParameter("IdUsuario", idUsuario) :
-                new ObjectParameter("IdUsuario", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ListadoEquiposAsignadosUsuario_Result>("ListadoEquiposAsignadosUsuario", idUsuarioParameter);
-        }
-    
         public virtual int AsignarEquiposPorRequerimiento(Nullable<int> idRequerimientoEquipo)
         {
             var idRequerimientoEquipoParameter = idRequerimientoEquipo.HasValue ?
@@ -701,6 +692,15 @@ namespace EntradaSalidaRRHH.DAL.Modelo
                 new ObjectParameter("IdRequerimientoEquipo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AsignarEquiposPorRequerimiento", idRequerimientoEquipoParameter);
+        }
+    
+        public virtual ObjectResult<ListadoEquiposAsignadosUsuario_Result> ListadoEquiposAsignadosUsuario(Nullable<int> idUsuario)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ListadoEquiposAsignadosUsuario_Result>("ListadoEquiposAsignadosUsuario", idUsuarioParameter);
         }
     }
 }

@@ -86,6 +86,7 @@
         })
 
         $(document).ready(function () {
+            ManejarEstadoDevolucion();
             $('.agregarFila').click(function (e) {
 
                 var template = $(this).closest("tr");
@@ -106,19 +107,60 @@
             });
         })
 
+        function ManejarEstadoDevolucion() {
+            var devoluciones = $(".reasignacion-devolucion").map(function () {
+                return this.id;
+            }).get();
+
+            devoluciones.forEach(function (devolucion) {
+                let idRequerimientoEquipo = devolucion.replace('Devolucion_', '');
+                VerificarEstadoAsignacion(idRequerimientoEquipo);
+            });
+        }
+
         function PreCambioEstado(dropdown) {
             $('#' + dropdown.id).data('estadoAnterior', $('#' + dropdown.id).val());
         }
 
-        function CambiarEstado(dropdown) {
-            var idRequerimientoEquipo = dropdown.id.replace('Estado', '');
+        function PreCambioDevolucion(dropdown) {
+            $('#' + dropdown.id).data('devolucionAnterior', $('#' + dropdown.id).val());
+        }
+
+
+        function OnChangeEstadoAsignacion(dropdown) {
+            var idRequerimientoEquipo = dropdown.id.replace('Estado_', '');
+            VerificarEstadoAsignacion(idRequerimientoEquipo);
+        }
+
+        function VerificarEstadoAsignacion(idRequerimientoEquipo) {
+            var estado = $('#Estado_' + idRequerimientoEquipo).find(":selected").text();
+            if (estado === "DEVUELTO") {
+                $("#Devolucion_" + idRequerimientoEquipo).prop("disabled", false);
+            } else {
+                $("#Devolucion_" + idRequerimientoEquipo).prop("disabled", true);
+                $("#Devolucion_" + idRequerimientoEquipo).val("");
+            }
+        }
+
+        function Guardar(fila) {
+            var idRequerimientoEquipo = fila.id.replace('Guardar_', '');
             var idEquipo = $('#IDEquipo_' + idRequerimientoEquipo).val();
-            var idEstado = $('#' + dropdown.id).find(":selected").val();
-            var tipoEquipo = $('#' + dropdown.id).attr("tipo");
+            var idEstado = $('#Estado_' + idRequerimientoEquipo).find(":selected").val();
+            var tipoEquipo = $('#Estado_' + idRequerimientoEquipo).attr("tipo");
             var observaciones = $('#Observaciones_' + idRequerimientoEquipo).val();
             var idUsuario = $("#IdUsuario").val();
-            var url = '@Url.Action("_CambiarEstado", "ModificacionEquipo")?idUsuario=' + idUsuario + '&idEstado=' + idEstado + '&idRequerimientoEquipo=' + idRequerimientoEquipo + "&tipoEquipo=" + tipoEquipo + "&idEquipo=" + idEquipo + "&observaciones=" + observaciones;
-            var tipoSeleccionado = $('#' + dropdown.id)[0].selectedIndex;
+            var Devolucion = $("#Devolucion_" + idRequerimientoEquipo).find(":selected").val();
+
+            var estado = $('#Estado_' + idRequerimientoEquipo).find(":selected").text();
+            if (estado === "DEVUELTO") {
+                if (!Devolucion.length) {
+                    toastr.error("Se debe indicar el estado de la devolución.");
+                    return;
+                }
+            }
+
+            var url = '@Url.Action("_CambiarEstado", "ModificacionEquipo")?idUsuario=' + idUsuario + '&idEstado=' + idEstado + '&idRequerimientoEquipo=' + idRequerimientoEquipo + "&tipoEquipo=" + tipoEquipo + "&idEquipo=" + idEquipo + "&observaciones=" + observaciones + "&estadoDevolucion=" + Devolucion;
+            var tipoSeleccionado = $('#Estado_' + idRequerimientoEquipo)[0].selectedIndex;
 
             $("#preloader").show();
             if (tipoSeleccionado !== 0) {
@@ -128,7 +170,7 @@
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
                     error: function (error) {
-                        $('#' + dropdown.id)[0].selectedIndex = 0;
+                        $('#Estado_' + idRequerimientoEquipo)[0].selectedIndex = 0;
                         $("#preloader").hide();
                         toastr.error(error.statusText);
                     },
@@ -141,21 +183,14 @@
                 });
             } else {
                 var estadoAnterior = $('#' + dropdown.id).data('estadoAnterior');
-                $('#' + dropdown.id).val(estadoAnterior);
+                $('#Estado_' + idRequerimientoEquipo).val(estadoAnterior);
                 $("#preloader").hide();
                 toastr.error("No se puede dejar vacía la asignación.");
             }
         }
 
-        function guardar() {
+        function GuardarModificacion() {
 
-
-            var cabecera = $('#form-ModificacionEquipo').serializeObject()
-
-            var detalles = GetListadoTablaDinamica("tbl-Detalles", false)
-
-            var data_form = JSON.stringify({ "formulario": cabecera, "detalles": detalles, "archivos": archivosAdjuntos })
-            _Guardar(data_form, urlAccionGuardar, urlAccionListado)
         }
 
         function convertToBase64CodificacionCompleta(element) {
