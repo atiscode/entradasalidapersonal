@@ -110,8 +110,14 @@ namespace EntradaSalidaRRHH.UI.Controllers
 
                 if (requerimiento != null)
                 {
-                    equipos = requerimiento.IDsEquipos.Split(',').Select(s => int.Parse(s)).ToList();
-                    herrmientasAccesorios = requerimiento.IDsHerramientasAdicionales.Split(',').Select(s => int.Parse(s)).ToList();
+                    if (!string.IsNullOrWhiteSpace(requerimiento.IDsEquipos))
+                    {
+                        equipos = requerimiento.IDsEquipos.Split(',').Select(s => int.Parse(s)).ToList();
+                    }
+                    if (!string.IsNullOrWhiteSpace(requerimiento.IDsHerramientasAdicionales))
+                    {
+                        herrmientasAccesorios = requerimiento.IDsHerramientasAdicionales.Split(',').Select(s => int.Parse(s)).ToList();
+                    }
 
                     UsuarioID = requerimiento.UsuarioID;
                 }
@@ -184,25 +190,19 @@ namespace EntradaSalidaRRHH.UI.Controllers
                     return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = Mensajes.MensajeErrorAdjuntosRequeridos } }, JsonRequestBehavior.AllowGet);
 
                 #region Guardar archivos adjuntos
-                string rutaBase = basePathRepositorioDocumentos + "\\RRHH\\FacturasAdjuntosCodificaciones";
-                bool existeRutaDisco = Directory.Exists(rutaBase); // VERIFICAR SI ESA RUTA EXISTE
-
-                if (!existeRutaDisco)
-                    Directory.CreateDirectory(Server.MapPath(rutaBase));
-
+                string rutaBase = basePathRepositorioDocumentos + "\\ENTRADA_SALIDAPERSONAL_RRHH\\FacturasAdjuntosCodificaciones";     
+                
                 int contador = 0;
+
                 foreach (var item in detalles)
                 {
                     string adjuntoDetalle = archivos.ElementAt(contador);
                     string pathFinal = Path.Combine(rutaBase, item.SerieEquipo + ".pdf");
 
-                    bool ok = Auxiliares.Base64Decode(adjuntoDetalle, pathFinal);
+                    System.IO.File.Move(adjuntoDetalle, pathFinal);
 
                     //Solo si el archivo se logra decodificar correctamente
-                    if (ok)
-                        item.Adjunto = pathFinal;
-                    else //Si existen errores al adjuntar el archivo
-                        return Json(new { Resultado = new RespuestaTransaccion { Estado = false, Respuesta = string.Format(Mensajes.MensajeAdjuntoEspecificoFallido, item.SerieEquipo) } }, JsonRequestBehavior.AllowGet);
+                    item.Adjunto = pathFinal;                   
 
                     contador++;
                 }
@@ -255,6 +255,55 @@ namespace EntradaSalidaRRHH.UI.Controllers
         }
 
         [HttpPost]
+        public ActionResult _Cargar ()
+        {
+            var resultado = new RespuestaTransaccion { Estado = true };
+
+            HttpPostedFileBase file = null;
+
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                file = Request.Files[i];
+            }
+
+            if (file != null && file.ContentLength > 0)
+                try
+                {
+                    string rutaBase = basePathRepositorioDocumentos + "\\ENTRADA_SALIDAPERSONAL_RRHH\\FacturasAdjuntosCodificaciones";
+
+                    if (!Directory.Exists(rutaBase))
+                    {
+                        Directory.CreateDirectory(rutaBase);
+                    }                    
+
+                    string ruta = Path.Combine(rutaBase, Path.GetFileName(file.FileName));
+
+                    if (!System.IO.File.Exists(ruta))
+                    {
+                        file.SaveAs(ruta);
+                        resultado.Respuesta = ruta;
+                    }
+                    else
+                    {
+                        resultado.Estado = false;
+                        resultado.Respuesta = "Ya existe un archivo con el nombre seleccionado, escoja otro archivo o cambie el nombre del nuevo.";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    resultado.Estado = false;
+                    resultado.Respuesta = "ERROR:" + ex.Message.ToString();
+                }
+            else
+            {
+                resultado.Estado = false;
+                resultado.Respuesta = "ERROR.";
+            }
+
+            return Json(new { resultado }, JsonRequestBehavior.AllowGet);
+        }
+
+            [HttpPost]
         public ActionResult Edit(CodificacionEquipo formulario, List<DetalleCodificacionEquipo> detalles, List<string> archivos)
         {
             try
@@ -1116,7 +1165,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 }
 
                 string basePath = ConfigurationManager.AppSettings["RepositorioDocumentos"];
-                string rutaArchivos = basePath + "\\ENTRADASALIDAPERSONAL_RRHH\\CODIFICACION_EQUIPO";
+                string rutaArchivos = basePath + "\\ENTRADA_SALIDAPERSONAL_RRHH\\CODIFICACION_EQUIPO";
 
                 string nombreficha = informacionCompleta.Codificacion.NombresApellidos;
 

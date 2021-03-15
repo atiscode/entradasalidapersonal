@@ -95,13 +95,15 @@
         $(window).on('load', function () {
             let inputsFile = $("#tbl-Detalles").find('input[type="file"]');
             inputsFile.each(function (index, value) {
-                archivosAdjuntos.push('')
+                if (value.length > 0) {
+                    archivosAdjuntos.push('')
+                }
             })
         })
 
         $(document).ready(function () {
             $('.agregarFila').click(function (e) {
-                
+
                 var template = $(this).closest("tr");
                 var idTemplate = $(template).attr('id')
 
@@ -121,7 +123,6 @@
         })
 
         function guardar() {
-            
 
             var cabecera = $('#form-CodificacionEquipo').serializeObject()
 
@@ -135,7 +136,7 @@
 
         function convertToBase64CodificacionCompleta(element) {
             //Read File
-            
+
             var id = parseInt($(element).attr('id'));
 
             var selectedFile = document.getElementById(id).files;
@@ -151,7 +152,7 @@
                     base64 = fileLoadedEvent.target.result;
                     // Print data in console
                     //console.log(base64);
-                    archivosAdjuntos[id] = base64
+                    archivosAdjuntos[id] = "abc";
                 };
                 // Convert data to base64
                 fileReader.readAsDataURL(fileToLoad);
@@ -159,35 +160,35 @@
         }
 
         function convertToBase64(element) {
-            
-            var id = parseInt($(element).attr('id'));
-            var f = $(element)[0].files[0]; // FileList object
+            var idCodificacionEquipo = element.id.replace('Adjunto_', '');
 
-            if (f.size > 2097152) {
-                toastr.warning('@Mensajes.MensajeErrorLimiteMaximoArchivo')
-                $(element).val("");
-                return;
-            };
+            var formdata = new FormData(); //FormData object
+            var fileInput = document.getElementById('Adjunto_' + idCodificacionEquipo);
 
-            var reader = new FileReader();
-            // Closure to capture the file information.
-            reader.onload = (function (theFile) {
-                return function (e) {
-                    var binaryData = e.target.result;
-                    //Converting Binary Data to base 64
-                    var base64String = window.btoa(binaryData);
-                    //showing file converted to base64
-                    //document.getElementById('base64').value = base64String;
-                    archivosAdjuntos[id] = base64String
-                    //alert('File converted to base64 successfuly!\nCheck in Textarea');
-                };
-            })(f);
-            // Read in the image file as a data URL.
-            reader.readAsBinaryString(f);
+            for (i = 0; i < fileInput.files.length; i++) {
+                //Appending each file to FormData object
+                formdata.append(fileInput.files[i].name, fileInput.files[i]);
+            }
+            //Creating an XMLHttpRequest and sending
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/CodificacionEquipo/_Cargar');
+            xhr.send(formdata);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var respuesta = JSON.parse(xhr.responseText);
+                    if (respuesta.resultado.Estado === true) {
+                        archivosAdjuntos[idCodificacionEquipo] =respuesta.resultado.Respuesta;
+                    } else {
+                        toastr.error('Error al guardar el archivo. Contacte al adminstrador.');
+                    }
+
+                }
+            }
+            return false;
         }
 
-        $("#guardar").click(function () {
-            
+        $("#guardar").click(function () {            
+
             var flag = validarCamposRequeridosFormularioCompleto("form-CodificacionEquipo");
             let validacion = TablaDinamicaVacia("tbl-Detalles");
 
@@ -198,7 +199,7 @@
         })
 
         $(".informacion-equipo").click(function (e) {
-            
+
             let elemento = $(e.currentTarget);
 
             var fila = elemento.closest("tr"); // fila

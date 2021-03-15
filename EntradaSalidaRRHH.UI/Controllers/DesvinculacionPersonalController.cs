@@ -1300,7 +1300,7 @@ namespace EntradaSalidaRRHH.UI.Controllers
                 }
 
                 string basePath = ConfigurationManager.AppSettings["RepositorioDocumentos"];
-                string rutaArchivos = basePath + "\\ENTRADASALIDAPERSONAL_RRHH\\DESVINCULACIÓN-EQUIPO";
+                string rutaArchivos = basePath + "\\ENTRADA_SALIDAPERSONAL_RRHH\\DESVINCULACIÓN-EQUIPO";
 
                 string nombreficha = informacionCompleta.Desvinculacion.UsuarioDesvinculado;
 

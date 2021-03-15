@@ -68,10 +68,11 @@
                                     </td>
 
                                     <td style="text-align: center;">
-                                        <input style="display: none;" type="text"  value="@(string.IsNullOrEmpty(item.Adjunto) ? "0" : item.Adjunto)" name="Adjunto[]" class="form-control"/>
+                                        <input style="display: none;" type="file"  value="@(string.IsNullOrEmpty(item.Adjunto) ? "0" : item.Adjunto)" name="Adjunto[]" class="form-control"/>
                                         <div class="upload-btn-wrapper">
                                             <button class="btn-adjuntos"><i class="fa fa-cloud-upload" aria-hidden="true"></i></button>
-                                            <input type="file" id="@contador" @*value="@item.Adjunto"*@ class="form-control adjuntos-archivo" onchange="convertToBase64(this);" accept="application/pdf" />
+                                            <input type="file" id="Adjunto_@contador" class="form-control adjuntos-archivo" onchange="convertToBase64(this);" accept="application/pdf" />
+                                            <input type="text" id="RutaAdjunto_@contador" style="visibility:hidden;"/>
                                         </div>
                                     </td>
 
